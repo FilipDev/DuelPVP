@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: cat.gay.spherret.plugins.OvO
+Main-Class: cat.gay.spherret.plugins.Test.Star
+

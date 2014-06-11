@@ -1,0 +1,8 @@
+match-main-delay: 20
+request-timeout-delay: 15
+allowedcommands:
+  - msg
+  - end
+  - p
+  - r
+  - m
