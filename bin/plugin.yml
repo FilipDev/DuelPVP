@@ -1,0 +1,17 @@
+main: org.thespherret.plugins.duelpvp.Main
+name: DuelPVP
+version: 1.0
+author: Spherret.
+description: DuelPVP.
+commands:
+ duel:
+    description: DuelPVP commands.
+    usage: /duel setup <arena> <spawn_number> or /duel accept or /duel deny or /duel <arena> <player>
+ arenas:
+ create:
+ duelpvp:
+ end:
+permissions:
+  DuelPvP.admin:
+    default: op
+    description: Allows players to create arenas.
