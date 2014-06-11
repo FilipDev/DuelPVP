@@ -40,6 +40,8 @@ public class Main extends JavaPlugin {
 		getCommand("end").setExecutor(cm);
 		getCommand("duelpvp").setExecutor(cm);
 
+		int a = 0;
+
 		this.saveDefaultConfig();
 		Bukkit.getConsoleSender().sendMessage(Main.prefix + Message.INITIALIZING.get());
 		this.arenas = (this.arenas1 = new NewYAML(new File(getDataFolder() + File.separator + "arenas.dat"))).newYaml();
