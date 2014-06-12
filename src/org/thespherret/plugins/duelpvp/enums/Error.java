@@ -19,6 +19,7 @@ public enum Error {
 	NO_COMMAND_PERMISSION("You do not have permission to run this command."),
 	CANNOT_MODIFY_BLOCKS("You cannot modify blocks while in match."),
 	NOT_IN_STARTED_ARENA("You are not in a started match."),
+	CANNOT_FIND_PLAYER("Cannot find player."),
 	ARENA_OCCUPIED("All arenas are currently occupied.");
 
 	private String s;

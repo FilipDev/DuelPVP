@@ -116,6 +116,8 @@ public class DuelCommand implements Command {
 				else
 					p.sendMessage(Error.CANNOT_DUEL_YOURSELF.get());
 			}
+			else
+				p.sendMessage(Error.CANNOT_FIND_PLAYER.get());
 		}
 		return true;
 	}
