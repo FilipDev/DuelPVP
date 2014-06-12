@@ -13,10 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.enums.Message;
@@ -25,6 +22,7 @@ import org.thespherret.plugins.duelpvp.utils.UUIDFetcher;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class Events implements Listener {
 
@@ -36,8 +34,12 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerChat(AsyncPlayerChatEvent e){
-		e.setMessage(e.getMessage().replaceAll("&", "§"));
+	public void onCommandPreprocess(PlayerCommandPreprocessEvent e){
+		if (main.getAM().getArena(e.getPlayer()) != null){
+			List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
+			if (!(allowedCommands.contains(e.getMessage().split(" ")[0])))
+				e.setCancelled(true);
+		}
 	}
 
 	@EventHandler
