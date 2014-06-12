@@ -39,17 +39,20 @@ public class Main extends JavaPlugin {
 		getCommand("duel").setExecutor(cm);
 		getCommand("end").setExecutor(cm);
 		getCommand("duelpvp").setExecutor(cm);
+		getCommand("arenatp").setExecutor(cm);
 
 		this.saveDefaultConfig();
-		Bukkit.getConsoleSender().sendMessage(Main.prefix + Message.INITIALIZING.get());
+		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.get());
 		this.arenas = (this.arenas1 = new NewYAML(new File(getDataFolder() + File.separator + "arenas.dat"))).newYaml();
 		this.kits = (this.kits1 = new NewYAML(new File(getDataFolder() + File.separator + "kits.dat"))).newYaml();
 		this.playerData = (this.playerData1 = new NewYAML(new File(getDataFolder() + File.separator + "players.dat"))).newYaml();
+		this.am.initArenas();
 		getServer().getPluginManager().registerEvents(events, this);
 	}
 	
 	public void onDisable(){
 		this.saveConfig();
+		this.getAM().saveArenas();
 		try {
 			this.playerData.save(this.playerData1.getFile());
 		} catch (IOException e) {

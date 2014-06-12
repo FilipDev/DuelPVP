@@ -20,7 +20,7 @@ public class InfoCommand implements Command {
 		if (args.length < 1)
 			player.sendMessage(ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + " is a plugin developed by a member of QubeCraft's community! It was made with the community's expectations in mind to provide the best experience to everyone that's either into pvp or not so much.");
 		else if (args[0].equalsIgnoreCase("reload") && player.hasPermission("duelpvp.admin")){
-			player.sendMessage(Main.prefix + ChatColor.GREEN + " Reloading config.");
+			player.sendMessage( ChatColor.GREEN + " Reloading config.");
 			cm.getMain().reloadConfig();
 		}
 		return true;

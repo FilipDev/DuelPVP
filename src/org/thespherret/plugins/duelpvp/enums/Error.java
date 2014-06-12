@@ -20,6 +20,8 @@ public enum Error {
 	CANNOT_MODIFY_BLOCKS("You cannot modify blocks while in match."),
 	NOT_IN_STARTED_ARENA("You are not in a started match."),
 	CANNOT_FIND_PLAYER("Cannot find player."),
+	INCORRECT_USAGE("Incorrect usage."),
+	SPAWN_POINT_NOT_SET("Spawn point not set."),
 	ARENA_OCCUPIED("All arenas are currently occupied.");
 
 	private String s;

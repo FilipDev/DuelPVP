@@ -10,9 +10,6 @@ import org.thespherret.plugins.duelpvp.Request;
 
 import java.util.ArrayList;
 
-/**
- * Created by Administrator on 6/11/14.
- */
 public class RequestManager {
 
 	public ArrayList<Request> pendingRequests = new ArrayList<>();

@@ -14,7 +14,7 @@ public enum Message {
 	END_MATCH(ChatColor.YELLOW + "Both players have agreed to end the game."),
 	END_MATCH_DEATH("You have %v the duel against %v."),
 	SET_LOBBY_POS(ChatColor.GRAY + "Set lobby position " + ChatColor.RED + "%v."),
-	SET_ARENA_POS(ChatColor.GRAY + "Set spawn position " + ChatColor.RED + "%v" + ChatColor.GRAY + " in arena " + ChatColor.GOLD + "%v"),
+	SET_ARENA_POS(ChatColor.GRAY + "Set spawn position " + ChatColor.RED + "%v" + ChatColor.GRAY + " in arena " + ChatColor.GOLD + "%v."),
 	PARTNER_DISCONNECTED(ChatColor.RED + "Duel partner has disconnected."),
 	SAVED_KIT(ChatColor.GOLD + "Saved kit %v."),
 	LOADED_KIT(ChatColor.GOLD + "Loaded kit %v."),

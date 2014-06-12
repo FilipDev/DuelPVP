@@ -105,7 +105,7 @@ public class Events implements Listener {
 						if (lastClicked == null || System.currentTimeMillis() - lastClicked > 1000){
 							if (b == 1){
 								if (saveKit(p.getName(), Integer.parseInt(sign.getLine(1))))
-									p.sendMessage(Main.prefix + Message.SAVED_KIT.getF(sign.getLine(1)));
+									p.sendMessage(Message.SAVED_KIT.getF(sign.getLine(1)));
 								else
 									p.sendMessage(Error.COULD_NOT_SAVE_KIT.get());
 							}

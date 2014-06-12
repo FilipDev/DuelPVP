@@ -20,13 +20,13 @@ public class ArenaManager {
 	Main main;
 	private int matchDelay;
 
-
 	public HashMap<String, Arena> activeArenas = new HashMap<>();
 
 	public HashMap<String, String> playersInArenas = new HashMap<>();
 
 	public ArenaManager(Main main){
 		this.main = main;
+		this.matchDelay = main.getConfig().getInt("match-start-delay");
 	}
 
 	public Arena getArena(String arenaName){
@@ -44,7 +44,7 @@ public class ArenaManager {
 	public void initArenas(){
 		try{
 			for (String arenaString : main.arenas.getConfigurationSection("arenas").getKeys(false)){
-				Bukkit.getConsoleSender().sendMessage("Activating arena " + arenaString);
+				Bukkit.getConsoleSender().sendMessage("Initializing arena " + arenaString + ".");
 				addArena(new Arena(this, arenaString));
 			}
 		}catch (NullPointerException e){
@@ -56,8 +56,9 @@ public class ArenaManager {
 		return Bukkit.getWorld(main.arenas.getString("arenas." + arenaName + ".1.world"));
 	}
 
-	public Location getSpawnPoint(World world, String arenaName, Integer label){
-		return new Location(world, main.arenas.getInt("arenas." + arenaName + "." + label + ".x"), main.arenas.getInt("arenas." + arenaName + "." + label + ".y"), main.arenas.getInt("arenas." + arenaName + "." + label + ".z"));
+	public Location getSpawnPoint(String arenaName, Integer label){
+		label++;
+		return new Location(getWorld(arenaName), main.arenas.getInt("arenas." + arenaName + "." + label + ".x"), main.arenas.getInt("arenas." + arenaName + "." + label + ".y"), main.arenas.getInt("arenas." + arenaName + "." + label + ".z"));
 	}
 
 	public void createArenaPoint(String arenaName, Integer locNumber, Location location){
@@ -72,6 +73,7 @@ public class ArenaManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		initArenas();
 	}
 
 	public void saveArenas(){

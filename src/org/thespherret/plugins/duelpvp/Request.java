@@ -32,7 +32,7 @@ public class Request {
 
 	public void cancel(){
 		rm.pendingRequests.remove(this);
-		Bukkit.getPlayer(defenderString).sendMessage(Main.prefix + ChatColor.BLUE + " Duel request timed out.");
-		Bukkit.getPlayer(attackerString).sendMessage(Main.prefix + ChatColor.BLUE + " Duel request timed out.");
+		Bukkit.getPlayer(defenderString).sendMessage( ChatColor.BLUE + " Duel request timed out.");
+		Bukkit.getPlayer(attackerString).sendMessage( ChatColor.BLUE + " Duel request timed out.");
 	}
 }

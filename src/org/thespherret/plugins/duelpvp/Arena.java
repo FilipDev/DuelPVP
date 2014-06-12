@@ -36,8 +36,8 @@ public class Arena implements Runnable {
 		this.arenaName = arenaName;
 		this.secondsLeft = am.getMatchStartDelay();
 		this.world = am.getWorld(arenaName);
-		this.spawns[0] = am.getSpawnPoint(this.world, arenaName, 0);
-		this.spawns[1] = am.getSpawnPoint(this.world, arenaName, 1);
+		this.spawns[0] = am.getSpawnPoint(arenaName, 0);
+		this.spawns[1] = am.getSpawnPoint(arenaName, 1);
 		this.am = am;
 	}
 
@@ -100,11 +100,11 @@ public class Arena implements Runnable {
 			return;
 		}
 		if (this.requestsToEnd.get(player)){
-			Bukkit.getPlayer(players[0]).sendMessage(Main.prefix + ChatColor.DARK_GRAY + " " + player + " requests to end the match. Type /end to end it.");
-			Bukkit.getPlayer(players[1]).sendMessage(Main.prefix + ChatColor.DARK_GRAY + " " + player + " requests to end the match. Type /end to end it.");
+			Bukkit.getPlayer(players[0]).sendMessage( ChatColor.DARK_GRAY + " " + player + " requests to end the match. Type /end to end it.");
+			Bukkit.getPlayer(players[1]).sendMessage( ChatColor.DARK_GRAY + " " + player + " requests to end the match. Type /end to end it.");
 		}else{
-			Bukkit.getPlayer(players[0]).sendMessage(Main.prefix + ChatColor.DARK_GRAY + " " + player + " revoked their request to end the match.");
-			Bukkit.getPlayer(players[1]).sendMessage(Main.prefix + ChatColor.DARK_GRAY + " " + player + " revoked their request to end the match.");
+			Bukkit.getPlayer(players[0]).sendMessage( ChatColor.DARK_GRAY + " " + player + " revoked their request to end the match.");
+			Bukkit.getPlayer(players[1]).sendMessage( ChatColor.DARK_GRAY + " " + player + " revoked their request to end the match.");
 		}
 	}
 
@@ -141,7 +141,7 @@ public class Arena implements Runnable {
 					}
 				}
 				else
-					player.sendMessage(Main.prefix + ChatColor.LIGHT_PURPLE + " Game is starting in " + secondsLeft + " seconds.");
+					player.sendMessage( ChatColor.LIGHT_PURPLE + " Game is starting in " + secondsLeft + " seconds.");
 			}
 		}
 		setSecondsLeft(getSecondsLeft() - 1);
@@ -189,13 +189,13 @@ public class Arena implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Bukkit.broadcastMessage(Main.prefix + ChatColor.LIGHT_PURPLE + " Game started with " + players[0] + " and " + players[1] + "!");
+		Bukkit.broadcastMessage( ChatColor.LIGHT_PURPLE + " Game started with " + players[0] + " and " + players[1] + "!");
 	}
 
 	public void broadcastWon(){
 		for (Player player : Bukkit.getOnlinePlayers())
 			if (!player.getName().equals(players[0]) && !player.getName().equals(players[1]))
-				player.sendMessage(Main.prefix + ChatColor.LIGHT_PURPLE + " " + this.getWinner() + " has won a duel against " + this.getLoser() + "!");
+				player.sendMessage( ChatColor.LIGHT_PURPLE + " " + this.getWinner() + " has won a duel against " + this.getLoser() + "!");
 	}
 
 	public boolean hasStarted(){
@@ -204,6 +204,10 @@ public class Arena implements Runnable {
 
 	public boolean isOccupied(){
 		return this.occupied;
+	}
+
+	public Location getSpawnPoint(Integer i){
+		return spawns[i];
 	}
 
 }

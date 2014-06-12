@@ -32,16 +32,16 @@ public class DuelCommand implements Command {
 					Player attacker = Bukkit.getPlayer(request.getAttackerString());
 					if (attacker.isOnline())
 					{
-						p.sendMessage(Main.prefix + Message.REQUEST_ACCEPTED.getF(attacker.getName()));
-						attacker.sendMessage(Main.prefix + Message.REQUEST_ACCEPT.get());
+						p.sendMessage(Message.REQUEST_ACCEPTED.getF(attacker.getName()));
+						attacker.sendMessage( Message.REQUEST_ACCEPT.get());
 						request.getArena().addPlayers(p.getName(), attacker.getName());
 					}
 					else
-						p.sendMessage(Main.prefix + Message.PARTNER_DISCONNECTED.get());
+						p.sendMessage(Message.PARTNER_DISCONNECTED.get());
 					cm.getMain().getRM().pendingRequests.remove(request);
 					return true;
 				}
-				p.sendMessage(Main.prefix + Error.NO_PENDING_DUEL_REQUEST.get());
+				p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.get());
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("deny"))
@@ -59,13 +59,13 @@ public class DuelCommand implements Command {
 					Player attacker = Bukkit.getPlayer(request.getAttackerString());
 					if (attacker.isOnline())
 					{
-						p.sendMessage(Main.prefix + Message.REQUEST_DENIED.getF(attacker.getName()));
-						attacker.sendMessage(Main.prefix + Message.REQUEST_DENY.get());
+						p.sendMessage(Message.REQUEST_DENIED.getF(attacker.getName()));
+						attacker.sendMessage( Message.REQUEST_DENY.get());
 					}
 					cm.getMain().getRM().pendingRequests.remove(request);
 					return true;
 				}
-				p.sendMessage(Main.prefix + Error.NO_PENDING_DUEL_REQUEST.get());
+				p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.get());
 				return true;
 			}
 			Player dueled;
@@ -93,10 +93,10 @@ public class DuelCommand implements Command {
 							int rtd = cm.getMain().getRM().getRequestTimeoutDelay();
 							final Request request = new Request(cm.getMain().getRM(), arena, dueled.getName(), p.getName());
 							cm.getMain().getRM().pendingRequests.add(request);
-							dueled.sendMessage(Main.prefix + Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
-							p.sendMessage(Main.prefix + Message.REQUEST_SENT.getF(dueled.getName()));
-							p.sendMessage(Main.prefix + Message.REQUEST_TIMEOUT.getF(rtd + ""));
-							dueled.sendMessage(Main.prefix + Message.REQUEST_TIMEOUT.getF(rtd + ""));
+							dueled.sendMessage( Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
+							p.sendMessage(Message.REQUEST_SENT.getF(dueled.getName()));
+							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
+							dueled.sendMessage( Message.REQUEST_TIMEOUT.getF(rtd + ""));
 							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable()
 							{
 								public void run()
