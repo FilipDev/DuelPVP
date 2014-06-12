@@ -34,13 +34,8 @@ public class Main extends JavaPlugin {
 		this.pm = new PlayerManager(this);
 		this.rm = new RequestManager(this);
 
-		getCommand("arenas").setExecutor(cm);
-		getCommand("create").setExecutor(cm);
-		getCommand("duel").setExecutor(cm);
-		getCommand("end").setExecutor(cm);
-		getCommand("duelpvp").setExecutor(cm);
-		getCommand("arenatp").setExecutor(cm);
-		getCommand("forcestart").setExecutor(cm);
+		for (String command : getDescription().getCommands().keySet())
+			getCommand(command).setExecutor(cm);
 
 		this.saveDefaultConfig();
 		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.get());
