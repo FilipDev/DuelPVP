@@ -4,24 +4,29 @@
 
 package org.thespherret.plugins.duelpvp.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
-import org.thespherret.plugins.duelpvp.enums.Error;
+import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
 /**
- * Created by Administrator on 6/10/14.
+ * Created by Administrator on 6/11/14.
  */
-public class EndCommand implements Command {
+public class ForceStartCommand implements Command {
+
 	@Override
 	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
-		Player p = (Player) sender;
-		Arena arena;
-		if (((arena = cm.getMain().getAM().getArena(p)) != null) && (arena.hasStarted()))
-			arena.toggleRequestEnd(sender.getName());
-		else
-			sender.sendMessage(Error.NOT_IN_STARTED_ARENA.get());
+		if (sender.hasPermission("DuelPVP.force")){
+			Arena a;
+			if ((a = cm.getMain().getAM().getArena((Player) sender)) != null)
+				if (!a.hasStarted()){
+					a.gameStart();
+					Bukkit.getScheduler().cancelTask(a.getScheduledTask());
+					sender.sendMessage(Message.FORCE_STARTED_MATCH.get());
+				}
+		}
 		return true;
 	}
 }

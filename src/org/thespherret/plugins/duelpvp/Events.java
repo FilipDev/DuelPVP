@@ -13,6 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -35,16 +36,21 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
+	public void onPlayerChat(AsyncPlayerChatEvent e){
+		e.setMessage(e.getMessage().replaceAll("&", "§"));
+	}
+
+	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent e){
 		final Player p = e.getPlayer();
-		Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
-			@Override
-			public void run() {
-				Arena a;
-				if ((a = main.getAM().getArena(p)) != null)
+		Arena a;
+		if ((a = main.getAM().getArena(p)) != null)
+			Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
+				@Override
+				public void run() {
 					main.getPM().revertPlayer(p.getName());
-			}
-		}, 20L);
+				}
+			}, 20L);
 	}
 
 	@EventHandler

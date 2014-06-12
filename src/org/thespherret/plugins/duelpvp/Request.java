@@ -3,6 +3,7 @@ package org.thespherret.plugins.duelpvp;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.RequestManager;
 
 public class Request {
@@ -32,7 +33,7 @@ public class Request {
 
 	public void cancel(){
 		rm.pendingRequests.remove(this);
-		Bukkit.getPlayer(defenderString).sendMessage( ChatColor.BLUE + " Duel request timed out.");
-		Bukkit.getPlayer(attackerString).sendMessage( ChatColor.BLUE + " Duel request timed out.");
+		Bukkit.getPlayer(defenderString).sendMessage(Message.REQUEST_TIMEDOUT.get());
+		Bukkit.getPlayer(attackerString).sendMessage(Message.REQUEST_TIMEDOUT.get());
 	}
 }

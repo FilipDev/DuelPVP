@@ -36,8 +36,8 @@ public class PlayerManager {
 		}
 		if (!(invMain == null || invArmor == null)){
 			try {
-				Bukkit.getPlayer((UUIDFetcher.getUUIDOf(player))).getInventory().setContents(invMain);
-				Bukkit.getPlayer((UUIDFetcher.getUUIDOf(player))).getInventory().setArmorContents(invArmor);
+				Bukkit.getPlayer(player).getInventory().setContents(invMain);
+				Bukkit.getPlayer(player).getInventory().setArmorContents(invArmor);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -55,7 +55,12 @@ public class PlayerManager {
 
 	public void revertPlayer(String player){
 		Player player1 = Bukkit.getPlayer(player);
-		ConfigurationSection data = main.playerData.getConfigurationSection(player);
+		ConfigurationSection data = null;
+		try {
+			data = main.playerData.getConfigurationSection(UUIDFetcher.getUUIDOf(player).toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		Location location = new Location(Bukkit.getWorld(data.getString("world")), data.getInt("x"), data.getInt("y"), data.getInt("z"), data.getInt("pitch"), data.getInt("yaw"));
 		loadInventory(player);
 		try {

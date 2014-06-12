@@ -40,6 +40,7 @@ public class Main extends JavaPlugin {
 		getCommand("end").setExecutor(cm);
 		getCommand("duelpvp").setExecutor(cm);
 		getCommand("arenatp").setExecutor(cm);
+		getCommand("forcestart").setExecutor(cm);
 
 		this.saveDefaultConfig();
 		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.get());

@@ -46,6 +46,10 @@ public class Arena implements Runnable {
 	}
 
 	public void startGame(){
+		for (int x = 0; x <= 1; x++){
+			am.getMain().getPM().saveInventory(players[x]);
+			Bukkit.getPlayer(players[x]).getInventory().clear();
+		}
 		id = Bukkit.getScheduler().scheduleSyncRepeatingTask(am.getMain(), this, 20, 20);
 	}
 
@@ -93,6 +97,18 @@ public class Arena implements Runnable {
 		}
 	}
 
+	public String getOtherPlayer(String player){
+		String player1 = getPlayers()[0], player2 = getPlayers()[1];
+		if (player1.equals(player)){
+			return player2;
+		}else if (player2.equals(player)){
+			return player1;
+		}else{
+			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + ChatColor.DARK_RED + " Cannot find player in arena " + getArenaName());
+			return null;
+		}
+	}
+
 	public void toggleRequestEnd(String player){
 		this.requestsToEnd.put(player, !this.requestsToEnd.get(player));
 		if (this.requestsToEnd.get(players[0]) && this.requestsToEnd.get(players[1])){
@@ -100,12 +116,17 @@ public class Arena implements Runnable {
 			return;
 		}
 		if (this.requestsToEnd.get(player)){
-			Bukkit.getPlayer(players[0]).sendMessage( ChatColor.DARK_GRAY + " " + player + " requests to end the match. Type /end to end it.");
-			Bukkit.getPlayer(players[1]).sendMessage( ChatColor.DARK_GRAY + " " + player + " requests to end the match. Type /end to end it.");
+			Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH_REQUEST.getF(player));
+			Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH_REQUEST.getF(player));
+			Bukkit.getPlayer(getOtherPlayer(player)).sendMessage(Message.END_MATCH_TIP.get());
 		}else{
-			Bukkit.getPlayer(players[0]).sendMessage( ChatColor.DARK_GRAY + " " + player + " revoked their request to end the match.");
-			Bukkit.getPlayer(players[1]).sendMessage( ChatColor.DARK_GRAY + " " + player + " revoked their request to end the match.");
+			Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH_REVOCATION.getF(player));
+			Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH_REVOCATION.getF(player));
 		}
+	}
+
+	public Integer getScheduledTask(){
+		return this.id;
 	}
 
 	public String getWinner(){
@@ -141,7 +162,7 @@ public class Arena implements Runnable {
 					}
 				}
 				else
-					player.sendMessage( ChatColor.LIGHT_PURPLE + " Game is starting in " + secondsLeft + " seconds.");
+					player.sendMessage(ChatColor.LIGHT_PURPLE + "Game is starting in " + secondsLeft + " seconds.");
 			}
 		}
 		setSecondsLeft(getSecondsLeft() - 1);
@@ -149,15 +170,15 @@ public class Arena implements Runnable {
 
 	public void endGame(EndReason endReason){
 		if (endReason == EndReason.END){
-			am.getMain().getPM().revertPlayer(this.winner);
-			am.getMain().getPM().revertPlayer(this.loser);
+			am.getMain().getPM().revertPlayer(players[0]);
+			am.getMain().getPM().revertPlayer(players[1]);
 			Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH.get());
 			Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH.get());
 		}
 		if (endReason == EndReason.DEATH){
 			am.getMain().getPM().revertPlayer(this.winner);
 			Bukkit.getPlayer(winner).sendMessage(Message.END_MATCH_DEATH.getF("won", loser));
-			Bukkit.getPlayer(loser).sendRawMessage(Message.END_MATCH_DEATH.getF("loser", winner));
+			Bukkit.getPlayer(loser).sendMessage(Message.END_MATCH_DEATH.getF("lost", winner));
 			broadcastWon();
 		}
 		if (endReason == EndReason.DISCONNECT){
@@ -177,19 +198,16 @@ public class Arena implements Runnable {
 		return players;
 	}
 
-	private void gameStart(){
+	public void gameStart(){
 		this.started = true;
-		for (int x = 0; x <= 1; x++){
+		for (int x = 0; x <= 1; x++)
 			Bukkit.getPlayer(players[x]).teleport(spawns[x]);
-			am.getMain().getPM().saveInventory(players[x]);
-			Bukkit.getPlayer(players[x]).getInventory().clear();
-		}
 		try {
 			am.getMain().playerData.save(am.getMain().playerData1.getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Bukkit.broadcastMessage( ChatColor.LIGHT_PURPLE + " Game started with " + players[0] + " and " + players[1] + "!");
+		Bukkit.broadcastMessage(Message.BROADCAST_MATCH_START.getF(players[0], players[1]));
 	}
 
 	public void broadcastWon(){

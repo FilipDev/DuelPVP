@@ -16,6 +16,7 @@ import org.thespherret.plugins.duelpvp.Main;
 import org.thespherret.plugins.duelpvp.Request;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 public class DuelCommand implements Command {
@@ -32,8 +33,8 @@ public class DuelCommand implements Command {
 					Player attacker = Bukkit.getPlayer(request.getAttackerString());
 					if (attacker.isOnline())
 					{
-						p.sendMessage(Message.REQUEST_ACCEPTED.getF(attacker.getName()));
-						attacker.sendMessage( Message.REQUEST_ACCEPT.get());
+						p.sendMessage(Message.REQUEST_ACCEPT.getF(attacker.getName()));
+						attacker.sendMessage(Message.REQUEST_ACCEPTED.getF(p.getName()));
 						request.getArena().addPlayers(p.getName(), attacker.getName());
 					}
 					else
@@ -59,8 +60,8 @@ public class DuelCommand implements Command {
 					Player attacker = Bukkit.getPlayer(request.getAttackerString());
 					if (attacker.isOnline())
 					{
-						p.sendMessage(Message.REQUEST_DENIED.getF(attacker.getName()));
-						attacker.sendMessage( Message.REQUEST_DENY.get());
+						p.sendMessage(Message.REQUEST_DENY.getF(attacker.getName()));
+						attacker.sendMessage(Message.REQUEST_DENIED.getF(p.getName()));
 					}
 					cm.getMain().getRM().pendingRequests.remove(request);
 					return true;
@@ -96,16 +97,20 @@ public class DuelCommand implements Command {
 							dueled.sendMessage( Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
 							p.sendMessage(Message.REQUEST_SENT.getF(dueled.getName()));
 							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
-							dueled.sendMessage( Message.REQUEST_TIMEOUT.getF(rtd + ""));
-							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable()
-							{
-								public void run()
+							dueled.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
+							try{
+								Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable()
 								{
-									for (Request r : cm.getMain().getRM().pendingRequests)
-										if (r.equals(request))
-											request.cancel();
-								}
-							}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
+									public void run()
+									{
+										for (Request r : cm.getMain().getRM().pendingRequests)
+											if (r.equals(request))
+												request.cancel();
+									}
+								}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
+							}catch (ConcurrentModificationException e){
+								//WILL CATCH UNTIL CAUSE IS FOUND
+							}
 						}
 						else
 							p.sendMessage(Error.ARENA_OCCUPIED.get());
