@@ -11,6 +11,7 @@ commands:
  end:
  arenatp:
  forcestart:
+ arenatoggle:
 permissions:
   DuelPvP.admin:
     default: op

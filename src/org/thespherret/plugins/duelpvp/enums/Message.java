@@ -30,7 +30,8 @@ public enum Message {
 	REQUEST_ACCEPTED(ChatColor.AQUA + "%v has accepted your duel request!"),
 	REQUEST_DENY(ChatColor.RED + "Denied the duel request from %v"),
 	REQUEST_DENIED(ChatColor.RED + "%v has denied your duel request!"),
-	REQUEST_TIMEDOUT(ChatColor.BLUE + "Duel request timed out.");
+	REQUEST_TIMEDOUT(ChatColor.BLUE + "Duel request timed out."),
+	;
 
 	private String s;
 

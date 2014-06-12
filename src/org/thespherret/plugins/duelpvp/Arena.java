@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.enums.Message;
+import org.thespherret.plugins.duelpvp.enums.Error;
 import org.thespherret.plugins.duelpvp.managers.ArenaManager;
 
 import java.io.IOException;
@@ -103,7 +104,7 @@ public class Arena implements Runnable {
 		}else if (player2.equals(player)){
 			return player1;
 		}else{
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + ChatColor.DARK_RED + " Cannot find player in arena " + getArenaName());
+			Bukkit.getConsoleSender().sendMessage(Error.CANNOT_FIND_PLAYER.getF(arenaName));
 			return null;
 		}
 	}
@@ -161,7 +162,7 @@ public class Arena implements Runnable {
 					}
 				}
 				else
-					player.sendMessage(ChatColor.LIGHT_PURPLE + "Game is starting in " + secondsLeft + " seconds.");
+					player.sendMessage(Message.MATCH_STARTING.getF(getSecondsLeft() + ""));
 			}
 		}
 		setSecondsLeft(getSecondsLeft() - 1);
@@ -174,6 +175,10 @@ public class Arena implements Runnable {
 			Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH.get());
 			Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH.get());
 		}
+		if (endReason == EndReason.DISABLE){
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[1]));
+		}
 		if (endReason == EndReason.DEATH){
 			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
 			Bukkit.getPlayer(winner).sendMessage(Message.END_MATCH_DEATH.getF("won", loser));
@@ -182,7 +187,7 @@ public class Arena implements Runnable {
 		}
 		if (endReason == EndReason.DISCONNECT){
 			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.loser));
 			Bukkit.getPlayer(this.getWinner()).sendMessage(Message.PARTNER_DISCONNECTED.get());
 		}
 		this.winner = null;

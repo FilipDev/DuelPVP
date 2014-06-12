@@ -43,6 +43,8 @@ public class CreateCommand implements Command {
 				{
 					p.sendMessage(Message.SET_ARENA_POS.getF(position, arena));
 					cm.getMain().getAM().createArenaPoint(arena, Integer.valueOf(pos), p.getLocation());
+					if (cm.getMain().arenas.get("arenas." + arena + ".disabled") == null)
+						cm.getMain().arenas.set("arenas." + arena + ".disabled", false);
 				}
 			}
 			else
