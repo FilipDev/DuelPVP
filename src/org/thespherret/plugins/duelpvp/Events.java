@@ -107,7 +107,7 @@ public class Events implements Listener {
 				String line = sign.getLine(0);
 				Player p = e.getPlayer();
 				if (line != null){
-					Byte b = line.equals(ChatColor.BLUE + "Save ֗Kit") ? 1 : line.equals(ChatColor.BLUE + "Load ֗Kit") ? 2 : (byte) 0;
+					Byte b = line.equals(ChatColor.BLUE + "Save Kit§f") ? 1 : line.equals(ChatColor.BLUE + "Load Kit§f") ? 2 : (byte) 0;
 					if (b == 1 || b == 2 && sign.getLine(1) != null){
 						Long lastClicked = clickedSign.get(p.getName());
 						if (lastClicked == null || System.currentTimeMillis() - lastClicked > 1000){
@@ -144,7 +144,7 @@ public class Events implements Listener {
 			if (e.getPlayer().hasPermission("DuelPvP.admin")){
 				try{
 					Integer.parseInt(e.getLine(1));
-					e.setLine(0, ChatColor.BLUE + line.split(" ")[0] + " ֗" + line.split(" ")[1]);
+					e.setLine(0, ChatColor.BLUE + line + "§f");
 				}catch (NumberFormatException ex){
 					e.getPlayer().sendMessage(Error.KIT_NUMBER_MUST_BE_SPECIFIED.get());
 				}

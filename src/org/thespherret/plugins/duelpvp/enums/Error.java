@@ -19,8 +19,10 @@ public enum Error {
 	NO_COMMAND_PERMISSION("You do not have permission to run this command."),
 	CANNOT_MODIFY_BLOCKS("You cannot modify blocks while in match."),
 	NOT_IN_STARTED_ARENA("You are not in a started match."),
+	NOT_IN_ARENA("You are not in an arena."),
 	CANNOT_FIND_PLAYER("Cannot find player."),
 	INCORRECT_USAGE("Incorrect usage."),
+	ARENA_NOT_STARTED("Arena not started."),
 	SPAWN_POINT_NOT_SET("Spawn point not set."),
 	ARENA_OCCUPIED("All arenas are currently occupied.");
 
