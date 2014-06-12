@@ -33,6 +33,16 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
+	public void onPlayerTeleport(PlayerTeleportEvent e){
+		Arena a;
+		if ((a = main.getAM().getArena(e.getPlayer())) != null)
+			if (a.hasStarted()){
+				e.setCancelled(true);
+				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.get());
+			}
+	}
+
+	@EventHandler
 	public void onCommandPreprocess(PlayerCommandPreprocessEvent e){
 		if (main.getAM().getArena(e.getPlayer()) != null){
 			List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
@@ -49,7 +59,7 @@ public class Events implements Listener {
 			Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
 				@Override
 				public void run() {
-					main.getPM().revertPlayer(p.getName());
+					main.getPM().revertPlayer(p);
 				}
 			}, 20L);
 	}

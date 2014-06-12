@@ -25,7 +25,8 @@ public enum Error {
 	ARENA_NOT_STARTED("Arena not started."),
 	SPAWN_POINT_NOT_SET("Spawn point not set."),
 	ARENA_OCCUPIED("All arenas are currently occupied."),
-	UNABLE_TO_SAVE_KIT("Could not save kit.");
+	CANNOT_TELEPORT_IN_ARENA("You cannot teleport when inside a started arena."),
+	;
 
 	private String s;
 
