@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.enums.Error;
-import org.thespherret.plugins.duelpvp.utils.UUIDFetcher;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -112,14 +111,14 @@ public class Events implements Listener {
 						Long lastClicked = clickedSign.get(p.getName());
 						if (lastClicked == null || System.currentTimeMillis() - lastClicked > 1000){
 							if (b == 1){
-								if (saveKit(p.getName(), Integer.parseInt(sign.getLine(1))))
+								if (saveKit(p, Integer.parseInt(sign.getLine(1))))
 									p.sendMessage(Message.SAVED_KIT.getF(sign.getLine(1)));
 								else
 									p.sendMessage(Error.COULD_NOT_SAVE_KIT.get());
 							}
 							if (b == 2){
 								if (main.getAM().getArena(p) != null){
-									loadKit(p.getName(), Integer.parseInt(sign.getLine(1)));
+									loadKit(p, Integer.parseInt(sign.getLine(1)));
 									p.sendMessage(Message.LOADED_KIT.getF(sign.getLine(1)));
 								}else{
 									e.setCancelled(true);
@@ -152,27 +151,27 @@ public class Events implements Listener {
 		}
 	}
 
-	public boolean saveKit(String player, Integer kitNumber) {
+	public boolean saveKit(Player p, Integer kitNumber) {
 		try {
 			try {
-				main.kits.set(UUIDFetcher.getUUIDOf(player) + "." + kitNumber + ".main", Bukkit.getPlayer(player).getInventory().getContents());
-				main.kits.set(UUIDFetcher.getUUIDOf(player) + "." + kitNumber + ".armor", Bukkit.getPlayer(player).getInventory().getArmorContents());
+				main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents());
+				main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".armor", p.getInventory().getArmorContents());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			main.kits.save(main.kits1.getFile());
 			return true;
 		} catch (IOException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + ChatColor.DARK_RED + "Could not save kit " + kitNumber + " for player " + player);
+			Bukkit.getConsoleSender().sendMessage(Error.COULD_NOT_SAVE_KIT.get());
 			return false;
 		}
 	}
 
-	public void loadKit(String player, Integer kitNumber){
-		Bukkit.getPlayer(player).getInventory().clear();
+	public void loadKit(Player p, Integer kitNumber){
+		p.getInventory().clear();
 		try {
-			Bukkit.getPlayer(player).getInventory().setContents((ItemStack[]) main.kits.get(UUIDFetcher.getUUIDOf(player) + "." + kitNumber + ".main"));
-			Bukkit.getPlayer(player).getInventory().setArmorContents((ItemStack[]) main.kits.get(UUIDFetcher.getUUIDOf(player) + "." + kitNumber + ".armor"));
+			p.getInventory().setContents((ItemStack[]) main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main"));
+			p.getInventory().setArmorContents((ItemStack[]) main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

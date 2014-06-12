@@ -10,7 +10,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.thespherret.plugins.duelpvp.Main;
-import org.thespherret.plugins.duelpvp.utils.UUIDFetcher;
 
 import java.io.IOException;
 
@@ -25,55 +24,53 @@ public class PlayerManager {
 		this.main = main;
 	}
 
-	public void loadInventory(String player){
-		ItemStack[] invMain = new ItemStack[0];
-		ItemStack[] invArmor = new ItemStack[0];
+	public void loadInventory(Player p){
+		ItemStack[] invMain = new ItemStack[0], invArmor = new ItemStack[0];
 		try {
-			invMain = (ItemStack[]) main.playerData.get((UUIDFetcher.getUUIDOf(player) + ".inventoryMain"));
-			invArmor = (ItemStack[]) main.playerData.get((UUIDFetcher.getUUIDOf(player) + ".inventoryArmor"));
+			invMain = (ItemStack[]) main.playerData.get(p.getUniqueId().toString() + ".inventoryMain");
+			invArmor = (ItemStack[]) main.playerData.get(p.getUniqueId().toString() + ".inventoryArmor");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		if (!(invMain == null || invArmor == null)){
 			try {
-				Bukkit.getPlayer(player).getInventory().setContents(invMain);
-				Bukkit.getPlayer(player).getInventory().setArmorContents(invArmor);
+				p.getInventory().setContents(invMain);
+				p.getInventory().setArmorContents(invArmor);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void saveInventory(String player){
+	public void saveInventory(Player p){
 		try {
-			main.playerData.set((UUIDFetcher.getUUIDOf(player)) + ".inventoryMain", Bukkit.getPlayer(player).getInventory().getContents());
-			main.playerData.set((UUIDFetcher.getUUIDOf(player)) + ".inventoryArmor", Bukkit.getPlayer(player).getInventory().getArmorContents());
+			main.playerData.set(p.getUniqueId().toString() + ".inventoryMain", p.getInventory().getContents());
+			main.playerData.set(p.getUniqueId().toString() + ".inventoryArmor", p.getInventory().getArmorContents());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void revertPlayer(String player){
-		Player player1 = Bukkit.getPlayer(player);
+	public void revertPlayer(Player p){
 		ConfigurationSection data = null;
 		try {
-			data = main.playerData.getConfigurationSection(UUIDFetcher.getUUIDOf(player).toString());
+			data = main.playerData.getConfigurationSection(p.getUniqueId().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Location location = new Location(Bukkit.getWorld(data.getString("world")), data.getInt("x"), data.getInt("y"), data.getInt("z"), data.getInt("pitch"), data.getInt("yaw"));
-		loadInventory(player);
+		loadInventory(p);
 		try {
-			data.set(UUIDFetcher.getUUIDOf(player) + ".inventoryMain", null);
-			data.set(UUIDFetcher.getUUIDOf(player) + ".inventoryArmor", null);
+			data.set(p.getUniqueId().toString() + ".inventoryMain", null);
+			data.set(p.getUniqueId().toString() + ".inventoryArmor", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
 			main.playerData.save(main.playerData1.getFile());
 		} catch (IOException e) {}
-		player1.teleport(location);
-		main.getAM().playersInArenas.remove(player);
+		p.teleport(location);
+		main.getAM().playersInArenas.remove(p.getName());
 	}
 
 }

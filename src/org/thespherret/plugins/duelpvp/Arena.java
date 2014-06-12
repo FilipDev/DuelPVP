@@ -9,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.enums.Message;
-import org.thespherret.plugins.duelpvp.utils.UUIDFetcher;
 import org.thespherret.plugins.duelpvp.managers.ArenaManager;
 
 import java.io.IOException;
@@ -47,7 +46,7 @@ public class Arena implements Runnable {
 
 	public void startGame(){
 		for (int x = 0; x <= 1; x++){
-			am.getMain().getPM().saveInventory(players[x]);
+			am.getMain().getPM().saveInventory(Bukkit.getPlayer(players[x]));
 			Bukkit.getPlayer(players[x]).getInventory().clear();
 		}
 		id = Bukkit.getScheduler().scheduleSyncRepeatingTask(am.getMain(), this, 20, 20);
@@ -64,12 +63,12 @@ public class Arena implements Runnable {
 			Player p = Bukkit.getPlayer(playerS);
 			am.playersInArenas.put(playerS, getArenaName());
 			try {
-				main.playerData.set(UUIDFetcher.getUUIDOf(p.getName()) + ".world", p.getLocation().getWorld().getName());
-				main.playerData.set(UUIDFetcher.getUUIDOf(p.getName()) + ".x", p.getLocation().getBlockX());
-				main.playerData.set(UUIDFetcher.getUUIDOf(p.getName()) + ".y", p.getLocation().getBlockY());
-				main.playerData.set(UUIDFetcher.getUUIDOf(p.getName()) + ".z", p.getLocation().getBlockZ());
-				main.playerData.set(UUIDFetcher.getUUIDOf(p.getName()) + ".pitch", p.getLocation().getPitch());
-				main.playerData.set(UUIDFetcher.getUUIDOf(p.getName()) + ".yaw", p.getLocation().getYaw());
+				main.playerData.set(p.getUniqueId().toString() + ".world", p.getLocation().getWorld().getName());
+				main.playerData.set(p.getUniqueId().toString() + ".x", p.getLocation().getBlockX());
+				main.playerData.set(p.getUniqueId().toString() + ".y", p.getLocation().getBlockY());
+				main.playerData.set(p.getUniqueId().toString() + ".z", p.getLocation().getBlockZ());
+				main.playerData.set(p.getUniqueId().toString() + ".pitch", p.getLocation().getPitch());
+				main.playerData.set(p.getUniqueId().toString() + ".yaw", p.getLocation().getYaw());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -170,20 +169,20 @@ public class Arena implements Runnable {
 
 	public void endGame(EndReason endReason){
 		if (endReason == EndReason.END){
-			am.getMain().getPM().revertPlayer(players[0]);
-			am.getMain().getPM().revertPlayer(players[1]);
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[1]));
 			Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH.get());
 			Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH.get());
 		}
 		if (endReason == EndReason.DEATH){
-			am.getMain().getPM().revertPlayer(this.winner);
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
 			Bukkit.getPlayer(winner).sendMessage(Message.END_MATCH_DEATH.getF("won", loser));
 			Bukkit.getPlayer(loser).sendMessage(Message.END_MATCH_DEATH.getF("lost", winner));
 			broadcastWon();
 		}
 		if (endReason == EndReason.DISCONNECT){
-			am.getMain().getPM().revertPlayer(this.winner);
-			am.getMain().getPM().revertPlayer(this.loser);
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
 			Bukkit.getPlayer(this.getWinner()).sendMessage(Message.PARTNER_DISCONNECTED.get());
 		}
 		this.winner = null;
