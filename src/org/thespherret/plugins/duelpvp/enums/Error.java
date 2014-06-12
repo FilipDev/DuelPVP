@@ -29,8 +29,7 @@ public enum Error {
 	}
 
 	public String get(){
-		this.s = ChatColor.RED + "Error: " + ChatColor.DARK_RED + this.s;
-		return this.s;
+		return ChatColor.RED + "Error: " + ChatColor.DARK_RED + this.s;
 	}
 
 }
