@@ -28,8 +28,9 @@ public class CommandManager implements CommandExecutor {
 		commandMap.put("end", new EndCommand());
 		commandMap.put("duelpvp", new InfoCommand());
 		commandMap.put("arenatp", new ArenaTPCommand());
+		commandMap.put("lobbytp", new LobbyTPCommand());
 		commandMap.put("forcestart", new ForceStartCommand());
-		commandMap.put("arenatoggle", new DisableCommand());
+		commandMap.put("arenatoggle", new ArenaToggleCommand());
 	}
 
 	@Override

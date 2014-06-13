@@ -20,7 +20,7 @@ public enum Error {
 	CANNOT_MODIFY_BLOCKS("You cannot modify blocks while in match."),
 	NOT_IN_STARTED_ARENA("You are not in a started match."),
 	NOT_IN_ARENA("You are not in an arena."),
-	CANNOT_FIND_PLAYER("Cannot find player in arena %v."),
+	CANNOT_FIND_PLAYER("Cannot find player %v."),
 	INCORRECT_USAGE("Incorrect usage."),
 	ARENA_NOT_STARTED("Arena not started."),
 	SPAWN_POINT_NOT_SET("Spawn point not set."),
@@ -41,7 +41,7 @@ public enum Error {
 	public String getF(String... strings){
 		String s1 = get();
 		for (String s2 : strings)
-			s1 = s1.replaceFirst("%v", s2);
+			s1 = s1.replaceFirst("%v", ChatColor.RED + s2 + ChatColor.DARK_RED);
 		return s1;
 	}
 }

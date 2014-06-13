@@ -84,11 +84,7 @@ public class DuelCommand implements Command {
 					}
 					if ((request0 == null) && (cm.getMain().getAM().getArena(dueled) == null))
 					{
-						ArrayList<String> unoccupiedArenas = new ArrayList();
-						for (Arena arena : cm.getMain().getAM().activeArenas.values()) 
-							if (!arena.isOccupied())
-								unoccupiedArenas.add(arena.getArenaName());
-						Arena arena = cm.getMain().getAM().getArena(unoccupiedArenas.get(new Random().nextInt(unoccupiedArenas.size())));
+						Arena arena = cm.getMain().getAM().getRandomArena();
 						if (arena != null)
 						{
 							int rtd = cm.getMain().getRM().getRequestTimeoutDelay();
@@ -122,7 +118,7 @@ public class DuelCommand implements Command {
 					p.sendMessage(Error.CANNOT_DUEL_YOURSELF.get());
 			}
 			else
-				p.sendMessage(Error.CANNOT_FIND_PLAYER.get());
+				p.sendMessage(Error.CANNOT_FIND_PLAYER.getF(args[0]));
 		}
 		return true;
 	}

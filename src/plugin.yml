@@ -10,6 +10,7 @@ commands:
  duelpvp:
  end:
  arenatp:
+ lobbytp:
  forcestart:
  arenatoggle:
 permissions:

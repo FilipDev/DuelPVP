@@ -9,14 +9,13 @@ import org.bukkit.command.CommandSender;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 import org.thespherret.plugins.duelpvp.enums.Error;
 
-public class DisableCommand implements Command {
+public class ArenaToggleCommand implements Command {
 	@Override
 	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
 		if (sender.hasPermission("DuelPVP.admin")){
 			if (args.length == 1){
-				boolean disabled = cm.getMain().arenas.getBoolean("arenas." + args[0] + ".disabled");
-				cm.getMain().arenas.set("arenas." + args[0] + ".disabled", !disabled);
-				sender.sendMessage(ChatColor.GRAY + "Arena " + ChatColor.RED + "%v" + ChatColor.GRAY + " has been: " + (disabled ? ChatColor.RED + "Disabled" : ChatColor.GREEN + "Enabled") + ".");
+				boolean enabled = cm.getMain().getAM().getArena(args[0]).toggleEnabled();
+				sender.sendMessage(ChatColor.GRAY + "Arena " + ChatColor.RED + args[0] + ChatColor.GRAY + " has been: " + (enabled ? ChatColor.RED + "Disabled" : ChatColor.GREEN + "Enabled") + ".");
 			}else
 				sender.sendMessage(Error.INCORRECT_USAGE.get());
 		}else

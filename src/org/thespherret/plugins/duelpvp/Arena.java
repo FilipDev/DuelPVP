@@ -25,6 +25,7 @@ public class Arena implements Runnable {
 	private String[] players = new String[2];
 	private HashMap<String, Boolean> requestsToEnd = new HashMap<>();
 	private int id;
+	private boolean enabled;
 
 	private String winner, loser;
 
@@ -217,7 +218,7 @@ public class Arena implements Runnable {
 	public void broadcastWon(){
 		for (Player player : Bukkit.getOnlinePlayers())
 			if (!player.getName().equals(players[0]) && !player.getName().equals(players[1]))
-				player.sendMessage( ChatColor.LIGHT_PURPLE + " " + this.getWinner() + " has won a duel against " + this.getLoser() + "!");
+				player.sendMessage(ChatColor.LIGHT_PURPLE + " " + this.getWinner() + " has won a duel against " + this.getLoser() + "!");
 	}
 
 	public boolean hasStarted(){
@@ -226,6 +227,24 @@ public class Arena implements Runnable {
 
 	public boolean isOccupied(){
 		return this.occupied;
+	}
+
+	public boolean isEnabled(){
+		return this.enabled;
+	}
+
+	public boolean setEnabled(boolean b){
+		am.getMain().arenas.set("arenas." + arenaName + ".enabled", b);
+		try {
+			am.getMain().arenas.save(am.getMain().arenas1.getFile());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return !(this.enabled = b);
+	}
+
+	public boolean toggleEnabled(){
+		return setEnabled(!am.getMain().arenas.getBoolean("arenas." + arenaName + ".enabled"));
 	}
 
 	public Location getSpawnPoint(Integer i){

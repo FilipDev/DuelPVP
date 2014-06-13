@@ -15,40 +15,37 @@ public class CreateCommand implements Command {
 	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
 		Player p = (Player) sender;
 
-		if (p.hasPermission("DuelPvP.admin") && args.length == 2){
+		if (p.hasPermission("DuelPvP.admin")){
 			String arena;
-			String position;
 			try
 			{
 				arena = args[0];
-				position = args[1];
 			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
 				return false;
 			}
-			int pos;
-			if ((pos = Integer.parseInt(position)) <= 2)
+			if (arena.equalsIgnoreCase("lobby"))
 			{
-				if (arena.equalsIgnoreCase("lobby"))
-				{
-					cm.getMain().getConfig().set("lobby..world", p.getLocation().getWorld().getName());
-					cm.getMain().getConfig().set("lobby." + pos + ".x", Integer.valueOf(p.getLocation().getBlockX()));
-					cm.getMain().getConfig().set("lobby." + pos + ".y", Integer.valueOf(p.getLocation().getBlockY()));
-					cm.getMain().getConfig().set("lobby." + pos + ".z", Integer.valueOf(p.getLocation().getBlockZ()));
-					p.sendMessage(Message.SET_LOBBY_POS.getF(position));
-				}
-				else
-				{
-					p.sendMessage(Message.SET_ARENA_POS.getF(position, arena));
-					cm.getMain().getAM().createArenaPoint(arena, Integer.valueOf(pos), p.getLocation());
-					if (cm.getMain().arenas.get("arenas." + arena + ".disabled") == null)
-						cm.getMain().arenas.set("arenas." + arena + ".disabled", false);
-				}
+				cm.getMain().getConfig().set("lobby.world", p.getLocation().getWorld().getName());
+				cm.getMain().getConfig().set("lobby.x", Integer.valueOf(p.getLocation().getBlockX()));
+				cm.getMain().getConfig().set("lobby.y", Integer.valueOf(p.getLocation().getBlockY()));
+				cm.getMain().getConfig().set("lobby.z", Integer.valueOf(p.getLocation().getBlockZ()));
+				p.sendMessage(Message.SET_LOBBY_POS.get());
+			}else{
+				if (args.length == 2){
+					int pos;
+					if ((pos = Integer.parseInt(args[1])) <= 2){
+						p.sendMessage(Message.SET_ARENA_POS.getF(pos + "", arena));
+						cm.getMain().getAM().createArenaPoint(arena, Integer.valueOf(pos), p.getLocation());
+						if (cm.getMain().arenas.get("arenas." + arena + ".enabled") == null)
+							cm.getMain().arenas.set("arenas." + arena + ".enabled", true);
+					}else
+						p.sendMessage(Error.TOO_MANY_SPAWN_POINTS.get());
+				}else
+					p.sendMessage(Error.INCORRECT_USAGE.get());
 			}
-			else
-				p.sendMessage(Error.TOO_MANY_SPAWN_POINTS.get());
 		}else
 			p.sendMessage(Error.NO_COMMAND_PERMISSION.get());
 		return true;
