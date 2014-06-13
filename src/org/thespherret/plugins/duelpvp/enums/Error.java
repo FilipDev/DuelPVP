@@ -26,6 +26,7 @@ public enum Error {
 	SPAWN_POINT_NOT_SET("Spawn point not set."),
 	ARENA_OCCUPIED("All arenas are currently occupied."),
 	CANNOT_TELEPORT_IN_ARENA("You cannot teleport when inside a started arena."),
+	CANNOT_USE_COMMAND_IN_MATCH("You cannot use this command while in a match."),
 	;
 
 	private String s;

@@ -94,19 +94,17 @@ public class DuelCommand implements Command {
 							p.sendMessage(Message.REQUEST_SENT.getF(dueled.getName()));
 							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
 							dueled.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
-							try{
-								Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable()
+							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable()
+							{
+								public void run()
 								{
-									public void run()
-									{
+									try{
 										for (Request r : cm.getMain().getRM().pendingRequests)
 											if (r.equals(request))
 												request.cancel();
-									}
-								}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
-							}catch (ConcurrentModificationException e){
-								//WILL CATCH UNTIL CAUSE IS FOUND
-							}
+									}catch (ConcurrentModificationException e){}
+								}
+							}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
 						}
 						else
 							p.sendMessage(Error.ARENA_OCCUPIED.get());

@@ -18,8 +18,9 @@ public class EndCommand implements Command {
 	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
 		Player p = (Player) sender;
 		Arena arena;
-		if (((arena = cm.getMain().getAM().getArena(p)) != null) && (arena.hasStarted()))
+		if (((arena = cm.getMain().getAM().getArena(p)) != null) && (arena.hasStarted())){
 			arena.toggleRequestEnd(sender.getName());
+		}
 		else
 			sender.sendMessage(Error.NOT_IN_STARTED_ARENA.get());
 		return true;

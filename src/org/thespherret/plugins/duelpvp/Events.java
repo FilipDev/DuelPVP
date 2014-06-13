@@ -44,11 +44,14 @@ public class Events implements Listener {
 
 	@EventHandler
 	public void onCommandPreprocess(PlayerCommandPreprocessEvent e){
-		if (main.getAM().getArena(e.getPlayer()) != null){
-			List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
-			if (!(allowedCommands.contains(e.getMessage().split(" ")[0])))
-				e.setCancelled(true);
-		}
+		if (!e.getPlayer().hasPermission("DuelPVP.admin"))
+			if (main.getAM().getArena(e.getPlayer()) != null){
+				List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
+				if (!(allowedCommands.contains(e.getMessage().split(" ")[0].replaceFirst("/", "")))){
+					e.setCancelled(true);
+					e.getPlayer().sendMessage(Error.CANNOT_USE_COMMAND_IN_MATCH.get());
+				}
+			}
 	}
 
 	@EventHandler

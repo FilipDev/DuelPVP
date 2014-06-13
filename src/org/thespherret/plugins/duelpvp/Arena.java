@@ -34,6 +34,7 @@ public class Arena implements Runnable {
 	private int secondsLeft;
 
 	public Arena(ArenaManager am, String arenaName){
+		this.enabled = am.getMain().arenas.getBoolean("arenas." + arenaName + ".enabled");
 		this.arenaName = arenaName;
 		this.secondsLeft = am.getMatchStartDelay();
 		this.world = am.getWorld(arenaName);
@@ -79,8 +80,8 @@ public class Arena implements Runnable {
 		for (String player : players)
 			Bukkit.getPlayer(player).sendMessage(Message.MATCH_STARTING.getF(am.getMatchStartDelay() + ""));
 		try{
-			Bukkit.getPlayer(players[0]).teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getInt("lobby." + ".1.x"), main.getConfig().getInt("lobby.1.y"), main.getConfig().getInt("lobby..1.z")));
-			Bukkit.getPlayer(players[1]).teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getInt("lobby." + ".2.x"), main.getConfig().getInt("lobby.2.y"), main.getConfig().getInt("lobby..2.z")));
+			Bukkit.getPlayer(players[0]).teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getInt("lobby.x"), main.getConfig().getInt("lobby.y"), main.getConfig().getInt("lobby.z")));
+			Bukkit.getPlayer(players[1]).teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getInt("lobby.x"), main.getConfig().getInt("lobby.y"), main.getConfig().getInt("lobby.z")));
 		}catch (NullPointerException e){}
 		startGame();
 	}
@@ -170,11 +171,16 @@ public class Arena implements Runnable {
 	}
 
 	public void endGame(EndReason endReason){
+		this.started = false;
 		if (endReason == EndReason.END){
 			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
 			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[1]));
 			Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH.get());
 			Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH.get());
+		}
+		if (endReason == EndReason.SERVER_CLOSE){
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
+			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[1]));
 		}
 		if (endReason == EndReason.DISABLE){
 			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
@@ -193,7 +199,6 @@ public class Arena implements Runnable {
 		}
 		this.winner = null;
 		this.loser = null;
-		this.started = false;
 		this.players = new String[2];
 		this.occupied = false;
 		this.requestsToEnd.clear();
@@ -204,7 +209,6 @@ public class Arena implements Runnable {
 	}
 
 	public void gameStart(){
-		this.started = true;
 		for (int x = 0; x <= 1; x++)
 			Bukkit.getPlayer(players[x]).teleport(spawns[x]);
 		try {
@@ -213,6 +217,7 @@ public class Arena implements Runnable {
 			e.printStackTrace();
 		}
 		Bukkit.broadcastMessage(Message.BROADCAST_MATCH_START.getF(players[0], players[1]));
+		this.started = true;
 	}
 
 	public void broadcastWon(){

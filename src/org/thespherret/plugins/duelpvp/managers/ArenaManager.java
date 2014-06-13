@@ -100,7 +100,7 @@ public class ArenaManager {
 	public Arena getRandomArena(){
 		ArrayList<String> unoccupiedArenas = new ArrayList();
 		for (Arena arena : activeArenas.values())
-			if (!arena.isOccupied() && arena.isEnabled())
+			if (!arena.isOccupied()/* && arena.isEnabled()*/)
 				unoccupiedArenas.add(arena.getArenaName());
 		return getArena(unoccupiedArenas.get(new Random().nextInt(unoccupiedArenas.size())));
 	}
