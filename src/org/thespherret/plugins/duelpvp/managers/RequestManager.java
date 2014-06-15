@@ -17,12 +17,14 @@ public class RequestManager {
 
 	Main main;
 
-	public RequestManager(Main main){
+	public RequestManager(Main main)
+	{
 		this.main = main;
 		this.requestTimeoutDelay = main.getConfig().getInt("request-timeout-delay");
 	}
 
-	public Request getRequest(Player player){
+	public Request getRequest(Player player)
+	{
 		Request request = null;
 		for (Request request0 : pendingRequests)
 			if (request0.getDefenderString().equals(player.getName())){
@@ -32,7 +34,8 @@ public class RequestManager {
 		return request;
 	}
 
-	public int getRequestTimeoutDelay() {
+	public int getRequestTimeoutDelay()
+	{
 		return requestTimeoutDelay;
 	}
 }

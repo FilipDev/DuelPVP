@@ -31,15 +31,18 @@ public enum Error {
 
 	private String s;
 
-	Error(String s){
+	Error(String s)
+	{
 		this.s = s;
 	}
 
-	public String get(){
+	public String get()
+	{
 		return ChatColor.RED + "Error: " + ChatColor.DARK_RED + this.s;
 	}
 
-	public String getF(String... strings){
+	public String getF(String... strings)
+	{
 		String s1 = get();
 		for (String s2 : strings)
 			s1 = s1.replaceFirst("%v", ChatColor.RED + s2 + ChatColor.DARK_RED);

@@ -11,11 +11,13 @@ public class NewYAML {
 	private YamlConfiguration yamlFile;
 	private File file;
 
-	public NewYAML(File f){
+	public NewYAML(File f)
+	{
 		this.file = f;
 	}
 
-	public YamlConfiguration newYaml(){
+	public YamlConfiguration newYaml()
+	{
 		if (!file.exists()){
 			try{
 				file.createNewFile();
@@ -28,10 +30,12 @@ public class NewYAML {
 		return yamlFile;
 	}
 
-	public File getFile(){
+	public File getFile()
+	{
 		return this.file;
 	}
-	public boolean exists(ConfigurationSection cs){
+	public boolean exists(ConfigurationSection cs)
+	{
 		if (cs.isConfigurationSection(cs.getCurrentPath())){
 			return true;
 		}else{

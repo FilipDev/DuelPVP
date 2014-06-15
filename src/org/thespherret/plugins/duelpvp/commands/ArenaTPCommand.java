@@ -17,7 +17,8 @@ import org.thespherret.plugins.duelpvp.enums.Error;
  */
 public class ArenaTPCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
+	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	{
 		if (sender.hasPermission("DuelPVP.admin")){
 			if (args.length == 2){
 				ArenaManager am = cm.getMain().getAM();

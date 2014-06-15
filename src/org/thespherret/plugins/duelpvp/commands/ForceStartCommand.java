@@ -15,7 +15,8 @@ import org.thespherret.plugins.duelpvp.managers.CommandManager;
 public class ForceStartCommand implements Command {
 
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
+	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	{
 		if (sender.hasPermission("DuelPVP.force")){
 			Arena a;
 			if ((a = cm.getMain().getAM().getArena((Player) sender)) != null){

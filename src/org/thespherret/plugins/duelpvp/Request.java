@@ -12,26 +12,31 @@ public class Request {
 	private Arena arena;
 	private RequestManager rm;
 
-	public Request(RequestManager rm, Arena arena, String defenderString, String attackerString){
+	public Request(RequestManager rm, Arena arena, String defenderString, String attackerString)
+	{
 		this.rm = rm;
 		this.arena = arena;
 		this.attackerString = attackerString;
 		this.defenderString = defenderString;
 	}
 
-	public Arena getArena() {
+	public Arena getArena()
+	{
 		return arena;
 	}
 
-	public String getDefenderString() {
+	public String getDefenderString()
+	{
 		return defenderString;
 	}
 
-	public String getAttackerString() {
+	public String getAttackerString()
+	{
 		return attackerString;
 	}
 
-	public void cancel(){
+	public void cancel()
+	{
 		rm.pendingRequests.remove(this);
 		Bukkit.getPlayer(defenderString).sendMessage(Message.REQUEST_TIMEDOUT.get());
 		Bukkit.getPlayer(attackerString).sendMessage(Message.REQUEST_TIMEDOUT.get());

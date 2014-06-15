@@ -28,12 +28,14 @@ public class Events implements Listener {
 	private Main main;
 	private HashMap<String, Long> clickedSign = new HashMap<>();
 
-    public Events(Main main){
+    public Events(Main main)
+    {
 		this.main = main;
 	}
 
 	@EventHandler
-	public void onPlayerTeleport(PlayerTeleportEvent e){
+	public void onPlayerTeleport(PlayerTeleportEvent e)
+	{
 		Arena a;
 		if ((a = main.getAM().getArena(e.getPlayer())) != null)
 			if (a.hasStarted()){
@@ -43,7 +45,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onCommandPreprocess(PlayerCommandPreprocessEvent e){
+	public void onCommandPreprocess(PlayerCommandPreprocessEvent e)
+	{
 		if (!e.getPlayer().hasPermission("DuelPVP.admin"))
 			if (main.getAM().getArena(e.getPlayer()) != null){
 				List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
@@ -55,7 +58,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerRespawn(PlayerRespawnEvent e){
+	public void onPlayerRespawn(PlayerRespawnEvent e)
+	{
 		final Player p = e.getPlayer();
 		Arena a;
 		if ((a = main.getAM().getArena(p)) != null)
@@ -68,7 +72,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent e){
+	public void onPlayerDeath(PlayerDeathEvent e)
+	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getEntity().getPlayer())) != null){
 			arena.setLoser(e.getEntity().getName());
@@ -78,7 +83,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onBlockBreak(BlockBreakEvent e){
+	public void onBlockBreak(BlockBreakEvent e)
+	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null && arena.hasStarted()){
 			if (arena.hasStarted()){
@@ -89,7 +95,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onBlockPlace(BlockPlaceEvent e){
+	public void onBlockPlace(BlockPlaceEvent e)
+	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null && arena.hasStarted()){
 			if (arena.hasStarted()){
@@ -100,7 +107,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent e){
+	public void onPlayerQuit(PlayerQuitEvent e)
+	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
 			if (arena.hasStarted()){
@@ -111,7 +119,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent e){
+	public void onPlayerInteract(PlayerInteractEvent e)
+	{
 		Block block;
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
 			if ((block = e.getClickedBlock()).getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN){
@@ -147,10 +156,15 @@ public class Events implements Listener {
 				}
 			}
 		}
+		Arena a;
+		if ((a = main.getAM().getArena(e.getPlayer())) != null)
+			if (a.hasStarted())
+				e.setCancelled(true);
 	}
 
 	@EventHandler
-	public void onPlayerSignEdit(SignChangeEvent e){
+	public void onPlayerSignEdit(SignChangeEvent e)
+	{
 		String line = e.getLine(0);
 		if (line.equals("Load Kit") || line.equals("Save Kit")){
 			if (e.getPlayer().hasPermission("DuelPvP.admin")){
@@ -164,7 +178,8 @@ public class Events implements Listener {
 		}
 	}
 
-	public boolean saveKit(Player p, Integer kitNumber) {
+	public boolean saveKit(Player p, Integer kitNumber)
+	{
 		try {
 			try {
 				main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents());
@@ -180,7 +195,8 @@ public class Events implements Listener {
 		}
 	}
 
-	public void loadKit(Player p, Integer kitNumber){
+	public void loadKit(Player p, Integer kitNumber)
+	{
 		p.getInventory().clear();
 		try {
 			p.getInventory().setContents((ItemStack[]) main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main"));

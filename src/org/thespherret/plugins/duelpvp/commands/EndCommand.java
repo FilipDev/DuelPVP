@@ -15,7 +15,8 @@ import org.thespherret.plugins.duelpvp.managers.CommandManager;
  */
 public class EndCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
+	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	{
 		Player p = (Player) sender;
 		Arena arena;
 		if (((arena = cm.getMain().getAM().getArena(p)) != null) && (arena.hasStarted())){

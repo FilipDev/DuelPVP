@@ -11,7 +11,8 @@ import org.thespherret.plugins.duelpvp.enums.Error;
 
 public class ArenaToggleCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args) {
+	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	{
 		if (sender.hasPermission("DuelPVP.admin")){
 			if (args.length == 1){
 				boolean enabled = cm.getMain().getAM().getArena(args[0]).toggleEnabled();

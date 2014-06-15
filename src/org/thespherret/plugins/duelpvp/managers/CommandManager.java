@@ -21,7 +21,8 @@ public class CommandManager implements CommandExecutor {
 	Main main;
 	HashMap<String, org.thespherret.plugins.duelpvp.commands.Command> commandMap = new HashMap<>();
 
-	public CommandManager(Main main){
+	public CommandManager(Main main)
+	{
 		this.main = main;
 		commandMap.put("arenas", new ArenasCommand());
 		commandMap.put("create", new CreateCommand());
@@ -37,14 +38,16 @@ public class CommandManager implements CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings)
+	{
 		if (commandSender instanceof Player)
 			return commandMap.get(command.getName()).execute(this, commandSender, strings);
 		else
 			return false;
 	}
 
-	public Main getMain(){
+	public Main getMain()
+	{
 		return this.main;
 	}
 }

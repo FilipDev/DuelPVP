@@ -26,24 +26,29 @@ public class ArenaManager {
 
 	public HashMap<String, String> playersInArenas = new HashMap<>();
 
-	public ArenaManager(Main main){
+	public ArenaManager(Main main)
+	{
 		this.main = main;
 		this.matchDelay = main.getConfig().getInt("match-start-delay");
 	}
 
-	public Arena getArena(String arenaName){
+	public Arena getArena(String arenaName)
+	{
 		return activeArenas.get(arenaName);
 	}
 
-	public Arena getArena(Player player){
+	public Arena getArena(Player player)
+	{
 		return activeArenas.get(playersInArenas.get(player.getName()));
 	}
 
-	public void addArena(Arena arena){
+	public void addArena(Arena arena)
+	{
 		activeArenas.put(arena.getArenaName(), arena);
 	}
 
-	public void initArenas(){
+	public void initArenas()
+	{
 		try{
 			for (String arenaString : main.arenas.getConfigurationSection("arenas").getKeys(false)){
 				Bukkit.getConsoleSender().sendMessage("Initializing arena " + arenaString + ".");
@@ -54,16 +59,19 @@ public class ArenaManager {
 		}
 	}
 
-	public World getWorld(String arenaName){
+	public World getWorld(String arenaName)
+	{
 		return Bukkit.getWorld(main.arenas.getString("arenas." + arenaName + ".1.world"));
 	}
 
-	public Location getSpawnPoint(String arenaName, Integer label){
+	public Location getSpawnPoint(String arenaName, Integer label)
+	{
 		label++;
 		return new Location(getWorld(arenaName), main.arenas.getInt("arenas." + arenaName + "." + label + ".x"), main.arenas.getInt("arenas." + arenaName + "." + label + ".y"), main.arenas.getInt("arenas." + arenaName + "." + label + ".z"));
 	}
 
-	public void createArenaPoint(String arenaName, Integer locNumber, Location location){
+	public void createArenaPoint(String arenaName, Integer locNumber, Location location)
+	{
 		main.arenas.set("arenas." + arenaName + "." + locNumber + ".world", location.getWorld().getName());
 		main.arenas.set("arenas." + arenaName + "." + locNumber + ".x", location.getBlockX());
 		main.arenas.set("arenas." + arenaName + "." + locNumber + ".y", location.getBlockY());
@@ -78,7 +86,8 @@ public class ArenaManager {
 		initArenas();
 	}
 
-	public void saveArenas(){
+	public void saveArenas()
+	{
 		try {
 			for (Arena arena : activeArenas.values())
 				if (arena.hasStarted())
@@ -89,15 +98,18 @@ public class ArenaManager {
 		}
 	}
 
-	public Main getMain(){
+	public Main getMain()
+	{
 		return this.main;
 	}
 
-	public Integer getMatchStartDelay(){
+	public Integer getMatchStartDelay()
+	{
 		return this.matchDelay;
 	}
 
-	public Arena getRandomArena(){
+	public Arena getRandomArena()
+	{
 		ArrayList<String> unoccupiedArenas = new ArrayList();
 		for (Arena arena : activeArenas.values())
 			if (!arena.isOccupied() && arena.isEnabled())

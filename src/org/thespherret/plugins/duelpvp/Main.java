@@ -28,7 +28,8 @@ public class Main extends JavaPlugin {
 
 	public static String prefix = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
 	
-	public void onEnable(){
+	public void onEnable()
+	{
 		this.cm = new CommandManager(this);
 		this.am = new ArenaManager(this);
 		this.pm = new PlayerManager(this);
@@ -46,7 +47,8 @@ public class Main extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(events, this);
 	}
 	
-	public void onDisable(){
+	public void onDisable()
+	{
 		this.saveConfig();
 		this.getAM().saveArenas();
 		try {
@@ -56,19 +58,23 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	public CommandManager getCM(){
+	public CommandManager getCM()
+	{
 		return this.cm;
 	}
 
-	public ArenaManager getAM(){
+	public ArenaManager getAM()
+	{
 		return this.am;
 	}
 
-	public PlayerManager getPM(){
+	public PlayerManager getPM()
+	{
 		return this.pm;
 	}
 
-	public RequestManager getRM(){
+	public RequestManager getRM()
+	{
 		return this.rm;
 	}
 }

@@ -21,7 +21,8 @@ import java.util.Random;
 
 public class DuelCommand implements Command {
 	@Override
-	public boolean execute(final CommandManager cm, CommandSender sender, String[] args) {
+	public boolean execute(final CommandManager cm, CommandSender sender, String[] args)
+	{
 		Player p = (Player) sender;
 		if (args.length == 1)
 		{

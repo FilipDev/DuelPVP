@@ -20,11 +20,13 @@ public class PlayerManager {
 
 	Main main;
 
-	public PlayerManager(Main main){
+	public PlayerManager(Main main)
+	{
 		this.main = main;
 	}
 
-	public void loadInventory(Player p){
+	public void loadInventory(Player p)
+	{
 		ItemStack[] invMain = new ItemStack[0], invArmor = new ItemStack[0];
 		try {
 			invMain = (ItemStack[]) main.playerData.get(p.getUniqueId().toString() + ".inventoryMain");
@@ -42,7 +44,8 @@ public class PlayerManager {
 		}
 	}
 
-	public void saveInventory(Player p){
+	public void saveInventory(Player p)
+	{
 		try {
 			main.playerData.set(p.getUniqueId().toString() + ".inventoryMain", p.getInventory().getContents());
 			main.playerData.set(p.getUniqueId().toString() + ".inventoryArmor", p.getInventory().getArmorContents());
@@ -51,7 +54,8 @@ public class PlayerManager {
 		}
 	}
 
-	public void revertPlayer(Player p){
+	public void revertPlayer(Player p)
+	{
 		ConfigurationSection data = null;
 		try {
 			data = main.playerData.getConfigurationSection(p.getUniqueId().toString());

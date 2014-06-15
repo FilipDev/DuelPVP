@@ -35,15 +35,18 @@ public enum Message {
 
 	private String s;
 
-	Message(String s) {
+	Message(String s)
+	{
 		this.s = s;
 	}
 
-	public String get(){
+	public String get()
+	{
 		return Main.prefix + s;
 	}
 
-	public String getF(String... strings){
+	public String getF(String... strings)
+	{
 		String s1 = get();
 		for (String s2 : strings)
 			s1 = s1.replaceFirst("%v", s2);
