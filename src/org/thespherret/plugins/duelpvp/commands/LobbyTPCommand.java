@@ -13,14 +13,13 @@ import org.thespherret.plugins.duelpvp.enums.Error;
 
 public class LobbyTPCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		Player p = (Player) sender;
-		if (sender.hasPermission("DuelPVP.admin")){
+		if (p.hasPermission("DuelPVP.admin")){
 			Location loc = new Location(Bukkit.getWorld(cm.getMain().getConfig().getString("lobby.world")), cm.getMain().getConfig().getInt("lobby.x"), cm.getMain().getConfig().getInt("lobby.y"), cm.getMain().getConfig().getInt("lobby.z"));
 			p.teleport(loc);
 		}else
-			sender.sendMessage(Error.NO_COMMAND_PERMISSION.get());
+			p.sendMessage(Error.NO_COMMAND_PERMISSION.get());
 		return true;
 	}
 }

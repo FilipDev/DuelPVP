@@ -15,13 +15,12 @@ import org.thespherret.plugins.duelpvp.Main;
  */
 public class InfoCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		Player player = (Player) sender;
 		if (args.length < 1)
-			player.sendMessage(ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + " is a plugin developed by a member of QubeCraft's community! It was made with the community's expectations in mind to provide the best experience to everyone that's either into pvp or not so much.");
-		else if (args[0].equalsIgnoreCase("reload") && player.hasPermission("duelpvp.admin")){
-			player.sendMessage( ChatColor.GREEN + " Reloading config.");
+			p.sendMessage(ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + " is a plugin developed by a member of QubeCraft's community! It was made with the community's expectations in mind to provide the best experience to everyone that's either into pvp or not so much.");
+		else if (args[0].equalsIgnoreCase("reload") && p.hasPermission("duelpvp.admin")){
+			p.sendMessage( ChatColor.GREEN + " Reloading config.");
 			cm.getMain().reloadConfig();
 		}
 		return true;

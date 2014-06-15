@@ -17,15 +17,11 @@ import org.thespherret.plugins.duelpvp.managers.CommandManager;
  */
 public class AcceptCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
-	{
-		Player p = (Player) sender;
+	public boolean execute(CommandManager cm, Player p, String[] args){
 		Request request = cm.getMain().getRM().getRequest(p);
-		if (request != null)
-		{
+		if (request != null){
 			Player attacker = Bukkit.getPlayer(request.getAttackerString());
-			if (attacker.isOnline())
-			{
+			if (attacker.isOnline()){
 				p.sendMessage(Message.REQUEST_ACCEPT.getF(attacker.getName()));
 				attacker.sendMessage(Message.REQUEST_ACCEPTED.getF(p.getName()));
 				request.getArena().addPlayers(p.getName(), attacker.getName());

@@ -17,25 +17,24 @@ import org.thespherret.plugins.duelpvp.enums.Error;
  */
 public class ArenaTPCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		if (sender.hasPermission("DuelPVP.admin")){
+		if (p.hasPermission("DuelPVP.admin")){
 			if (args.length == 2){
 				ArenaManager am = cm.getMain().getAM();
 				Arena a;
 				if ((a = am.getArena(args[0])) != null){
-					Player p = (Player) sender;
 					try{
 						Location loc = am.getSpawnPoint(a.getArenaName(), Integer.parseInt(args[1]) - 1);
 						p.teleport(loc);
 					}catch (NullPointerException e){
-						sender.sendMessage(Error.SPAWN_POINT_NOT_SET.get());
+						p.sendMessage(Error.SPAWN_POINT_NOT_SET.get());
 					}
 				}
 			}else
-				sender.sendMessage(Error.INCORRECT_USAGE.get());
+				p.sendMessage(Error.INCORRECT_USAGE.get());
 		}else
-			sender.sendMessage(Error.NO_COMMAND_PERMISSION.get());
+			p.sendMessage(Error.NO_COMMAND_PERMISSION.get());
 		return true;
 	}
 }

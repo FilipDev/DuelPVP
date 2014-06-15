@@ -41,7 +41,7 @@ public class CommandManager implements CommandExecutor {
 	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings)
 	{
 		if (commandSender instanceof Player)
-			return commandMap.get(command.getName()).execute(this, commandSender, strings);
+			return commandMap.get(command.getName()).execute(this, (Player) commandSender, strings);
 		else
 			return false;
 	}

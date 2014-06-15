@@ -12,10 +12,8 @@ import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
 public class CreateCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		Player p = (Player) sender;
-
 		if (p.hasPermission("DuelPvP.admin")){
 			String arena;
 			try

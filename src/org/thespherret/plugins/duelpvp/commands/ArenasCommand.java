@@ -15,9 +15,8 @@ import java.util.HashMap;
 
 public class ArenasCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		Player p = (Player) sender;
 		p.sendMessage(ChatColor.DARK_GRAY + "===" + ChatColor.AQUA + "Duel Arenas" + ChatColor.DARK_GRAY + "===");
 		HashMap<Integer, String> stringGroups = new HashMap<>();
 		int arenasPerLine = 1, line = 0, displayNumber = 1;

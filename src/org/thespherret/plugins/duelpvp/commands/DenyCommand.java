@@ -17,9 +17,8 @@ import org.thespherret.plugins.duelpvp.managers.CommandManager;
  */
 public class DenyCommand implements Command {
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		Player p = (Player) sender;
 		Request request = cm.getMain().getRM().getRequest(p);
 		if (request != null)
 		{

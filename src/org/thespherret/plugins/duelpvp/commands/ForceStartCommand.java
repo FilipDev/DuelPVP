@@ -15,19 +15,19 @@ import org.thespherret.plugins.duelpvp.managers.CommandManager;
 public class ForceStartCommand implements Command {
 
 	@Override
-	public boolean execute(CommandManager cm, CommandSender sender, String[] args)
+	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		if (sender.hasPermission("DuelPVP.force")){
+		if (p.hasPermission("DuelPVP.force")){
 			Arena a;
-			if ((a = cm.getMain().getAM().getArena((Player) sender)) != null){
+			if ((a = cm.getMain().getAM().getArena((Player) p)) != null){
 				if (!a.hasStarted()){
 					a.gameStart();
 					Bukkit.getScheduler().cancelTask(a.getScheduledTask());
-					sender.sendMessage(Message.FORCE_STARTED_MATCH.get());
+					p.sendMessage(Message.FORCE_STARTED_MATCH.get());
 				}else
-					sender.sendMessage(Error.ARENA_NOT_STARTED.get());
+					p.sendMessage(Error.ARENA_NOT_STARTED.get());
 			}else
-				sender.sendMessage(Error.NOT_IN_ARENA.get());
+				p.sendMessage(Error.NOT_IN_ARENA.get());
 		}
 		return true;
 	}
