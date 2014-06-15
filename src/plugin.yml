@@ -5,6 +5,8 @@ author: Spherret.
 description: DuelPVP.
 commands:
  duel:
+ accept:
+ deny:
  arenas:
  create:
  duelpvp:

@@ -25,63 +25,12 @@ public class DuelCommand implements Command {
 		Player p = (Player) sender;
 		if (args.length == 1)
 		{
-			if (args[0].equalsIgnoreCase("accept"))
-			{
-				Request request = cm.getMain().getRM().getRequest(p);
-				if (request != null)
-				{
-					Player attacker = Bukkit.getPlayer(request.getAttackerString());
-					if (attacker.isOnline())
-					{
-						p.sendMessage(Message.REQUEST_ACCEPT.getF(attacker.getName()));
-						attacker.sendMessage(Message.REQUEST_ACCEPTED.getF(p.getName()));
-						request.getArena().addPlayers(p.getName(), attacker.getName());
-					}
-					else
-						p.sendMessage(Message.PARTNER_DISCONNECTED.get());
-					cm.getMain().getRM().pendingRequests.remove(request);
-					return true;
-				}
-				p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.get());
-				return true;
-			}
-			if (args[0].equalsIgnoreCase("deny"))
-			{
-				Request request = null;
-				for (Request request0 : cm.getMain().getRM().pendingRequests) {
-					if (request0.getDefenderString().equals(p.getName()))
-					{
-						request = request0;
-						break;
-					}
-				}
-				if (request != null)
-				{
-					Player attacker = Bukkit.getPlayer(request.getAttackerString());
-					if (attacker.isOnline())
-					{
-						p.sendMessage(Message.REQUEST_DENY.getF(attacker.getName()));
-						attacker.sendMessage(Message.REQUEST_DENIED.getF(p.getName()));
-					}
-					cm.getMain().getRM().pendingRequests.remove(request);
-					return true;
-				}
-				p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.get());
-				return true;
-			}
 			Player dueled;
 			if ((dueled = Bukkit.getPlayer(args[0])) != null)
 			{
 				if (!dueled.getName().equals(p.getName()))
 				{
-					Request request0 = null;
-					for (Request request1 : cm.getMain().getRM().pendingRequests) {
-						if (request1.getDefenderString().equals(dueled.getName()))
-						{
-							request0 = request1;
-							break;
-						}
-					}
+					Request request0 = cm.getMain().getRM().getRequest(p);
 					if ((request0 == null) && (cm.getMain().getAM().getArena(dueled) == null))
 					{
 						Arena arena = cm.getMain().getAM().getRandomArena();
@@ -118,6 +67,8 @@ public class DuelCommand implements Command {
 			else
 				p.sendMessage(Error.CANNOT_FIND_PLAYER.getF(args[0]));
 		}
+		else
+			p.sendMessage(Error.INCORRECT_USAGE.get());
 		return true;
 	}
 }

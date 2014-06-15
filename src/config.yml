@@ -5,7 +5,6 @@ lobby:
   x: -121
   y: 75
   z: 54
-
 allowedcommands:
   - msg
   - end

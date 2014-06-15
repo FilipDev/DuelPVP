@@ -23,9 +23,9 @@ public class ArenasCommand implements Command {
 		for (Arena arena : cm.getMain().getAM().activeArenas.values()) {
 			String curSt = stringGroups.get(line);
 			if (curSt == null){
-				stringGroups.put(line, displayNumber + ". " + (arena.isOccupied() ? ChatColor.RED : ChatColor.GREEN) + arena.getArenaName());
+				stringGroups.put(line, displayNumber + ". " + (arena.isOccupied() ? ChatColor.RED : arena.isEnabled() ? ChatColor.GREEN : ChatColor.DARK_GRAY) + arena.getArenaName());
 			}else
-				stringGroups.put(line, curSt + ChatColor.RESET + ", " + displayNumber + ". " + (arena.isOccupied() ? ChatColor.RED : ChatColor.GREEN) + arena.getArenaName());
+				stringGroups.put(line, curSt + ChatColor.RESET + ", " + displayNumber + ". " + (arena.isOccupied() ? ChatColor.RED : arena.isEnabled() ? ChatColor.GREEN : ChatColor.DARK_GRAY) + arena.getArenaName());
 			if (arenasPerLine == 3){
 				line++;
 				arenasPerLine = 0;

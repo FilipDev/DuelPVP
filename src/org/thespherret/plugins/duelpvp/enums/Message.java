@@ -24,12 +24,12 @@ public enum Message {
 	SAVED_KIT(ChatColor.GOLD + "Saved kit %v."),
 	LOADED_KIT(ChatColor.GOLD + "Loaded kit %v."),
 	REQUEST_TIMEOUT(ChatColor.BLUE + "Duel request times out in %v seconds."),
-	REQUEST_SENT(ChatColor.BLUE + "Duel request sent to %v"),
-	RECIEVED_DUEL_REQUEST(ChatColor.BLUE + "%v wants to duel you! Type /duel accept or /duel deny!"),
-	REQUEST_ACCEPT(ChatColor.AQUA + "Accepted the duel request from %v."),
-	REQUEST_ACCEPTED(ChatColor.AQUA + "%v has accepted your duel request!"),
-	REQUEST_DENY(ChatColor.RED + "Denied the duel request from %v"),
-	REQUEST_DENIED(ChatColor.RED + "%v has denied your duel request!"),
+	REQUEST_SENT(ChatColor.GREEN + "Duel request sent to %v"),
+	RECIEVED_DUEL_REQUEST(ChatColor.BLUE + "%v challenges you to a duel! Type /accept or /deny!"),
+	REQUEST_ACCEPT(ChatColor.AQUA + "Accepted duel request from %v."),
+	REQUEST_ACCEPTED(ChatColor.AQUA + "%v has accepted the duel request!"),
+	REQUEST_DENY(ChatColor.RED + "Denied duel request from %v"),
+	REQUEST_DENIED(ChatColor.RED + "%v denied your duel request!"),
 	REQUEST_TIMEDOUT(ChatColor.BLUE + "Duel request timed out."),
 	;
 

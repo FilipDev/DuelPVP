@@ -7,6 +7,7 @@ package org.thespherret.plugins.duelpvp.managers;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Main;
 import org.thespherret.plugins.duelpvp.commands.*;
 
@@ -26,6 +27,8 @@ public class CommandManager implements CommandExecutor {
 		commandMap.put("create", new CreateCommand());
 		commandMap.put("duel", new DuelCommand());
 		commandMap.put("end", new EndCommand());
+		commandMap.put("accept", new AcceptCommand());
+		commandMap.put("deny", new DenyCommand());
 		commandMap.put("duelpvp", new InfoCommand());
 		commandMap.put("arenatp", new ArenaTPCommand());
 		commandMap.put("lobbytp", new LobbyTPCommand());
@@ -35,7 +38,10 @@ public class CommandManager implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-		return commandMap.get(command.getName()).execute(this, commandSender, strings);
+		if (commandSender instanceof Player)
+			return commandMap.get(command.getName()).execute(this, commandSender, strings);
+		else
+			return false;
 	}
 
 	public Main getMain(){
