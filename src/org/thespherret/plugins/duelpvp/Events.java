@@ -19,7 +19,6 @@ import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.enums.Error;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,10 +37,10 @@ public class Events implements Listener {
 	{
 		Arena a;
 		if ((a = main.getAM().getArena(e.getPlayer())) != null)
-			if (a.hasStarted()){
+			//if (a.hasStarted()){
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.get());
-			}
+			//}
 	}
 
 	@EventHandler
@@ -86,11 +85,11 @@ public class Events implements Listener {
 	public void onBlockBreak(BlockBreakEvent e)
 	{
 		Arena arena;
-		if ((arena = main.getAM().getArena(e.getPlayer())) != null && arena.hasStarted()){
-			if (arena.hasStarted()){
+		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
+			//if (arena.hasStarted()){
 				e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
 				e.setCancelled(true);
-			}
+			//}
 		}
 	}
 
@@ -98,11 +97,22 @@ public class Events implements Listener {
 	public void onBlockPlace(BlockPlaceEvent e)
 	{
 		Arena arena;
-		if ((arena = main.getAM().getArena(e.getPlayer())) != null && arena.hasStarted()){
-			if (arena.hasStarted()){
+		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
+			//if (arena.hasStarted()){
 				e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
 				e.setCancelled(true);
-			}
+			//}
+		}
+	}
+
+	@EventHandler
+	public void onDropItem(PlayerDropItemEvent e){
+		Arena a;
+		if ((a = main.getAM().getArena(e.getPlayer())) != null){
+			if (a.isOccupied() && !a.hasStarted())
+				e.setCancelled(true);
+			else
+				e.getItemDrop().setItemStack(new ItemStack(Material.AIR));
 		}
 	}
 
@@ -111,10 +121,8 @@ public class Events implements Listener {
 	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
-			if (arena.hasStarted()){
-				arena.setLoser(e.getPlayer().getName());
-				arena.endGame(EndReason.DISCONNECT);
-			}
+			arena.setLoser(e.getPlayer().getName());
+			arena.endGame(EndReason.DISCONNECT);
 		}
 	}
 
@@ -138,10 +146,15 @@ public class Events implements Listener {
 								else
 									p.sendMessage(Error.COULD_NOT_SAVE_KIT.get());
 							}
-							if (b == 2){
-								if (main.getAM().getArena(p) != null){
-									loadKit(p, Integer.parseInt(sign.getLine(1)));
-									p.sendMessage(Message.LOADED_KIT.getF(sign.getLine(1)));
+							else{
+								if (main.getAM().getArena(p) != null || p.isOp()){
+									try {
+										loadKit(p, Integer.parseInt(sign.getLine(1)));
+										p.sendMessage(Message.LOADED_KIT.getF(sign.getLine(1)));
+									} catch (Exception e1) {
+										e1.printStackTrace();
+										p.sendMessage(Error.DO_NOT_HAVE_KIT.get());
+									}
 								}else{
 									e.setCancelled(true);
 									p.sendMessage(Error.LOAD_KIT_NOT_IN_MATCH.get());
@@ -181,29 +194,41 @@ public class Events implements Listener {
 	public boolean saveKit(Player p, Integer kitNumber)
 	{
 		try {
-			try {
-				main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents());
-				main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".armor", p.getInventory().getArmorContents());
-			} catch (Exception e) {
-				e.printStackTrace();
+			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents().clone());
+			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".armor", p.getInventory().getArmorContents().clone());
+
+			for (ItemStack i : (ItemStack[]) main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main")){
+				if (!(i == null))
+					p.sendMessage(i.getType() + "");
 			}
 			main.kits.save(main.kits1.getFile());
 			return true;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			Bukkit.getConsoleSender().sendMessage(Error.COULD_NOT_SAVE_KIT.get());
 			return false;
 		}
 	}
 
 	public void loadKit(Player p, Integer kitNumber)
+		throws Exception
 	{
-		p.getInventory().clear();
-		try {
-			p.getInventory().setContents((ItemStack[]) main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main"));
-			p.getInventory().setArmorContents((ItemStack[]) main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		ItemStack[] invContents;
+		ItemStack[] armContents;
+		Object oInv = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main");
+		Object oArm = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor");
+		if (oInv instanceof ItemStack[])
+			invContents = (ItemStack[]) oInv;
+		else
+			invContents = (ItemStack[]) ((List) oInv).toArray(new ItemStack[36]);
+		if (oArm instanceof ItemStack[])
+			armContents = (ItemStack[]) oArm;
+		else
+			armContents = (ItemStack[]) ((List) oArm).toArray(new ItemStack[4]);
+
+		p.getInventory().setContents(invContents);
+		p.getInventory().setArmorContents(armContents);
+		p.updateInventory();
 	}
 
 }

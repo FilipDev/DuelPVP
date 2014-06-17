@@ -10,6 +10,7 @@ public enum Error {
 
 	CANNOT_DUEL_YOURSELF("Cannot duel yourself."),
 	KIT_NUMBER_MUST_BE_SPECIFIED("Kit number must be specified on the second line."),
+	DO_NOT_HAVE_KIT("You do not have this kit."),
 	WAIT_BETWEEN_SIGN_CLICK("Wait one second before clicking the sign again."),
 	COULD_NOT_SAVE_KIT("Could not save kit."),
 	LOAD_KIT_NOT_IN_MATCH("Must be in match to use kit signs!"),

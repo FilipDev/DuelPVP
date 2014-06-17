@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.enums.Message;
@@ -23,6 +24,7 @@ public class Arena implements Runnable {
 	private String arenaName;
 	private Location[] spawns = new Location[2];
 	private String[] players = new String[2];
+	public HashMap<String, Integer> kitSelected = new HashMap<>();
 	private HashMap<String, Boolean> requestsToEnd = new HashMap<>();
 	private int id;
 	private boolean enabled;
@@ -106,6 +108,14 @@ public class Arena implements Runnable {
 		}
 	}
 
+	public Integer toInt(String player)
+	{
+		if (getPlayers()[0].equals(player))
+			return 0;
+		else
+			return 1;
+	}
+
 	public void toggleRequestEnd(String player)
 	{
 		this.requestsToEnd.put(player, !this.requestsToEnd.get(player));
@@ -154,7 +164,7 @@ public class Arena implements Runnable {
 		Player player;
 		for (int x = 0; x < players.length; x++){
 			player = Bukkit.getPlayer(players[x]);
-			if (!player.isOnline()){
+			if (player == null){
 				this.setLoser(player.getName());
 				endGame(EndReason.DISCONNECT);
 			}
@@ -199,6 +209,7 @@ public class Arena implements Runnable {
 			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.loser));
 			Bukkit.getPlayer(this.getWinner()).sendMessage(Message.PARTNER_DISCONNECTED.get());
 		}
+		Bukkit.getScheduler().cancelTask(id);
 		this.winner = null;
 		this.loser = null;
 		this.players = new String[2];

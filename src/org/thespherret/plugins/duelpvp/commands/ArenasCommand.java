@@ -17,7 +17,7 @@ public class ArenasCommand implements Command {
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		p.sendMessage(ChatColor.DARK_GRAY + "===" + ChatColor.AQUA + "Duel Arenas" + ChatColor.DARK_GRAY + "===");
+		p.sendMessage(ChatColor.DARK_GRAY + "===" + ChatColor.AQUA + "1v1 Arenas" + ChatColor.DARK_GRAY + "===");
 		HashMap<Integer, String> stringGroups = new HashMap<>();
 		int arenasPerLine = 1, line = 0, displayNumber = 1;
 		for (Arena arena : cm.getMain().getAM().activeArenas.values()) {

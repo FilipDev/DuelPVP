@@ -29,7 +29,7 @@ public class ArenaManager {
 	public ArenaManager(Main main)
 	{
 		this.main = main;
-		this.matchDelay = main.getConfig().getInt("match-start-delay");
+		this.matchDelay = main.getConfig().getInt("match-start-delay", 30);
 	}
 
 	public Arena getArena(String arenaName)

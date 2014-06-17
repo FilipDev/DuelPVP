@@ -22,7 +22,6 @@ public class CreateCommand implements Command {
 			}
 			catch (Exception e)
 			{
-				e.printStackTrace();
 				return false;
 			}
 			if (arena.equalsIgnoreCase("lobby"))
