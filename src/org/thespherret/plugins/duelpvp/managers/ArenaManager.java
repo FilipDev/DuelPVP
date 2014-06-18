@@ -67,15 +67,17 @@ public class ArenaManager {
 	public Location getSpawnPoint(String arenaName, Integer label)
 	{
 		label++;
-		return new Location(getWorld(arenaName), main.arenas.getInt("arenas." + arenaName + "." + label + ".x"), main.arenas.getInt("arenas." + arenaName + "." + label + ".y"), main.arenas.getInt("arenas." + arenaName + "." + label + ".z"));
+		return new Location(getWorld(arenaName), main.arenas.getDouble("arenas." + arenaName + "." + label + ".x"), main.arenas.getDouble("arenas." + arenaName + "." + label + ".y"), main.arenas.getDouble("arenas." + arenaName + "." + label + ".z"), main.arenas.getInt("arenas." + arenaName + "." + label + ".yaw"), main.arenas.getInt("arenas." + arenaName + "." + label + ".pitch"));
 	}
 
 	public void createArenaPoint(String arenaName, Integer locNumber, Location location)
 	{
 		main.arenas.set("arenas." + arenaName + "." + locNumber + ".world", location.getWorld().getName());
-		main.arenas.set("arenas." + arenaName + "." + locNumber + ".x", location.getBlockX());
-		main.arenas.set("arenas." + arenaName + "." + locNumber + ".y", location.getBlockY());
-		main.arenas.set("arenas." + arenaName + "." + locNumber + ".z", location.getBlockZ());
+		main.arenas.set("arenas." + arenaName + "." + locNumber + ".x", location.getX());
+		main.arenas.set("arenas." + arenaName + "." + locNumber + ".y", location.getY());
+		main.arenas.set("arenas." + arenaName + "." + locNumber + ".z", location.getZ());
+		main.arenas.set("arenas." + arenaName + "." + locNumber + ".yaw", location.getYaw());
+		main.arenas.set("arenas." + arenaName + "." + locNumber + ".pitch", location.getPitch());
 		try {
 			if (!main.arenas1.getFile().exists())
 				main.arenas1.getFile().createNewFile();

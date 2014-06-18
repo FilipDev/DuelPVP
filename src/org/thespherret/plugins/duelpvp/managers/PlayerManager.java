@@ -62,7 +62,7 @@ public class PlayerManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Location location = new Location(Bukkit.getWorld(data.getString("world")), data.getInt("x"), data.getInt("y"), data.getInt("z"), data.getInt("pitch"), data.getInt("yaw"));
+		Location location = new Location(Bukkit.getWorld(data.getString("world")), data.getDouble("x"), data.getDouble("y"), data.getDouble("z"), data.getInt("pitch"), data.getInt("yaw"));
 		loadInventory(p);
 		try {
 			data.set(p.getUniqueId().toString() + ".inventoryMain", null);

@@ -24,15 +24,13 @@ public class Arena implements Runnable {
 	private String arenaName;
 	private Location[] spawns = new Location[2];
 	private String[] players = new String[2];
-	public HashMap<String, Integer> kitSelected = new HashMap<>();
 	private HashMap<String, Boolean> requestsToEnd = new HashMap<>();
 	private int id;
 	private boolean enabled;
 
 	private String winner, loser;
 
-	private boolean started = false;
-	private boolean occupied = false;
+	private boolean started = false, occupied = false;
 	private int secondsLeft;
 
 	public Arena(ArenaManager am, String arenaName)
@@ -72,12 +70,12 @@ public class Arena implements Runnable {
 			am.playersInArenas.put(playerS, getArenaName());
 			try {
 				main.playerData.set(p.getUniqueId().toString() + ".world", p.getLocation().getWorld().getName());
-				main.playerData.set(p.getUniqueId().toString() + ".x", p.getLocation().getBlockX());
-				main.playerData.set(p.getUniqueId().toString() + ".y", p.getLocation().getBlockY());
-				main.playerData.set(p.getUniqueId().toString() + ".z", p.getLocation().getBlockZ());
+				main.playerData.set(p.getUniqueId().toString() + ".x", p.getLocation().getX());
+				main.playerData.set(p.getUniqueId().toString() + ".y", p.getLocation().getY());
+				main.playerData.set(p.getUniqueId().toString() + ".z", p.getLocation().getZ());
 				main.playerData.set(p.getUniqueId().toString() + ".pitch", p.getLocation().getPitch());
 				main.playerData.set(p.getUniqueId().toString() + ".yaw", p.getLocation().getYaw());
-				p.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getInt("lobby.x"), main.getConfig().getInt("lobby.y"), main.getConfig().getInt("lobby.z")));
+				p.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getDouble("lobby.x"), main.getConfig().getDouble("lobby.y"), main.getConfig().getDouble("lobby.z"), main.getConfig().getInt("lobby.yaw"), main.getConfig().getInt("lobby.pitch")));
 				for (PotionEffect pe : p.getActivePotionEffects())
 					p.removePotionEffect(pe.getType());
 			} catch (Exception e) {
@@ -184,30 +182,27 @@ public class Arena implements Runnable {
 	public void endGame(EndReason endReason)
 	{
 		this.started = false;
-		if (endReason == EndReason.END){
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[1]));
-			Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH.get());
-			Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH.get());
-		}
-		if (endReason == EndReason.SERVER_CLOSE){
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[1]));
-		}
-		if (endReason == EndReason.DISABLE){
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[0]));
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(players[1]));
-		}
-		if (endReason == EndReason.DEATH){
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
-			Bukkit.getPlayer(winner).sendMessage(Message.END_MATCH_DEATH.getF("won", loser));
-			Bukkit.getPlayer(loser).sendMessage(Message.END_MATCH_DEATH.getF("lost", winner));
-			broadcastWon();
-		}
-		if (endReason == EndReason.DISCONNECT){
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.winner));
-			am.getMain().getPM().revertPlayer(Bukkit.getPlayer(this.loser));
-			Bukkit.getPlayer(this.getWinner()).sendMessage(Message.PARTNER_DISCONNECTED.get());
+		switch (endReason){
+			case END:
+				revertPlayer(Bukkit.getPlayer(players[0]));
+				revertPlayer(Bukkit.getPlayer(players[1]));
+				Bukkit.getPlayer(players[0]).sendMessage(Message.END_MATCH.get());
+				Bukkit.getPlayer(players[1]).sendMessage(Message.END_MATCH.get());
+			case SERVER_CLOSE:
+				revertPlayer(Bukkit.getPlayer(players[0]));
+				revertPlayer(Bukkit.getPlayer(players[1]));
+			case DISABLE:
+				revertPlayer(Bukkit.getPlayer(players[0]));
+				revertPlayer(Bukkit.getPlayer(players[1]));
+			case DEATH:
+				revertPlayer(Bukkit.getPlayer(this.winner));
+				Bukkit.getPlayer(winner).sendMessage(Message.END_MATCH_DEATH.getF("won", loser));
+				Bukkit.getPlayer(loser).sendMessage(Message.END_MATCH_DEATH.getF("lost", winner));
+				broadcastWon();
+			case DISCONNECT:
+				revertPlayer(Bukkit.getPlayer(this.winner));
+				revertPlayer(Bukkit.getPlayer(this.loser));
+				Bukkit.getPlayer(this.getWinner()).sendMessage(Message.PARTNER_DISCONNECTED.get());
 		}
 		Bukkit.getScheduler().cancelTask(id);
 		this.winner = null;
@@ -220,6 +215,11 @@ public class Arena implements Runnable {
 	public String[] getPlayers()
 	{
 		return players;
+	}
+
+	public void revertPlayer(Player p)
+	{
+		am.getMain().getPM().revertPlayer(p);
 	}
 
 	public void gameStart()

@@ -16,7 +16,7 @@ public class LobbyTPCommand implements Command {
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
 		if (p.hasPermission("DuelPVP.admin")){
-			Location loc = new Location(Bukkit.getWorld(cm.getMain().getConfig().getString("lobby.world")), cm.getMain().getConfig().getInt("lobby.x"), cm.getMain().getConfig().getInt("lobby.y"), cm.getMain().getConfig().getInt("lobby.z"));
+			Location loc = new Location(Bukkit.getWorld(cm.getMain().getConfig().getString("lobby.world")), cm.getMain().getConfig().getDouble("lobby.x"), cm.getMain().getConfig().getDouble("lobby.y"), cm.getMain().getConfig().getDouble("lobby.z"), cm.getMain().getConfig().getInt("lobby.yaw"), cm.getMain().getConfig().getInt("lobby.pitch"));
 			p.teleport(loc);
 		}else
 			p.sendMessage(Error.NO_COMMAND_PERMISSION.get());

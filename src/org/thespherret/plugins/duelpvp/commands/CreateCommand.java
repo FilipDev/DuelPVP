@@ -27,9 +27,11 @@ public class CreateCommand implements Command {
 			if (arena.equalsIgnoreCase("lobby"))
 			{
 				cm.getMain().getConfig().set("lobby.world", p.getLocation().getWorld().getName());
-				cm.getMain().getConfig().set("lobby.x", Integer.valueOf(p.getLocation().getBlockX()));
-				cm.getMain().getConfig().set("lobby.y", Integer.valueOf(p.getLocation().getBlockY()));
-				cm.getMain().getConfig().set("lobby.z", Integer.valueOf(p.getLocation().getBlockZ()));
+				cm.getMain().getConfig().set("lobby.x", p.getLocation().getX());
+				cm.getMain().getConfig().set("lobby.y", p.getLocation().getY());
+				cm.getMain().getConfig().set("lobby.z", p.getLocation().getZ());
+				cm.getMain().getConfig().set("lobby.yaw", p.getLocation().getYaw());
+				cm.getMain().getConfig().set("lobby.pitch", p.getLocation().getPitch());
 				p.sendMessage(Message.SET_LOBBY_POS.get());
 			}else{
 				if (args.length == 2){
@@ -38,7 +40,7 @@ public class CreateCommand implements Command {
 						p.sendMessage(Message.SET_ARENA_POS.getF(pos + "", arena));
 						cm.getMain().getAM().createArenaPoint(arena, Integer.valueOf(pos), p.getLocation());
 						if (cm.getMain().arenas.get("arenas." + arena + ".enabled") == null)
-							cm.getMain().arenas.set("arenas." + arena + ".enabled", true);
+							cm.getMain().arenas.set("arenas." + arena + ".enabled", false);
 					}else
 						p.sendMessage(Error.TOO_MANY_SPAWN_POINTS.get());
 				}else

@@ -36,11 +36,12 @@ public class Events implements Listener {
 	public void onPlayerTeleport(PlayerTeleportEvent e)
 	{
 		Arena a;
-		if ((a = main.getAM().getArena(e.getPlayer())) != null)
+		if ((a = main.getAM().getArena(e.getPlayer())) != null){
 			//if (a.hasStarted()){
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.get());
 			//}
+		}
 	}
 
 	@EventHandler
@@ -86,10 +87,8 @@ public class Events implements Listener {
 	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
-			//if (arena.hasStarted()){
-				e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
-				e.setCancelled(true);
-			//}
+			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
+			e.setCancelled(true);
 		}
 	}
 
@@ -98,10 +97,8 @@ public class Events implements Listener {
 	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
-			//if (arena.hasStarted()){
-				e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
-				e.setCancelled(true);
-			//}
+			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
+			e.setCancelled(true);
 		}
 	}
 
@@ -196,11 +193,6 @@ public class Events implements Listener {
 		try {
 			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents().clone());
 			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".armor", p.getInventory().getArmorContents().clone());
-
-			for (ItemStack i : (ItemStack[]) main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main")){
-				if (!(i == null))
-					p.sendMessage(i.getType() + "");
-			}
 			main.kits.save(main.kits1.getFile());
 			return true;
 		} catch (Exception e) {
@@ -212,11 +204,8 @@ public class Events implements Listener {
 	public void loadKit(Player p, Integer kitNumber)
 		throws Exception
 	{
-
-		ItemStack[] invContents;
-		ItemStack[] armContents;
-		Object oInv = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main");
-		Object oArm = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor");
+		ItemStack[] invContents, armContents;
+		Object oInv = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main"), oArm = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor");
 		if (oInv instanceof ItemStack[])
 			invContents = (ItemStack[]) oInv;
 		else
