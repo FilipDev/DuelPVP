@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.thespherret.plugins.duelpvp.Main;
 
@@ -73,7 +74,7 @@ public class PlayerManager {
 		try {
 			main.playerData.save(main.playerData1.getFile());
 		} catch (IOException e) {}
-		p.teleport(location);
+		p.teleport(location, PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
 		main.getAM().playersInArenas.remove(p.getName());
 	}
 

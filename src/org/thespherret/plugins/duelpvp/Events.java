@@ -36,12 +36,11 @@ public class Events implements Listener {
 	public void onPlayerTeleport(PlayerTeleportEvent e)
 	{
 		Arena a;
-		if ((a = main.getAM().getArena(e.getPlayer())) != null){
-			//if (a.hasStarted()){
+		if ((a = main.getAM().getArena(e.getPlayer())) != null)
+			if (!e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)){
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.get());
-			//}
-		}
+			}
 	}
 
 	@EventHandler
@@ -103,7 +102,8 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onDropItem(PlayerDropItemEvent e){
+	public void onDropItem(PlayerDropItemEvent e)
+	{
 		Arena a;
 		if ((a = main.getAM().getArena(e.getPlayer())) != null){
 			if (a.isOccupied() && !a.hasStarted())
@@ -176,7 +176,7 @@ public class Events implements Listener {
 	public void onPlayerSignEdit(SignChangeEvent e)
 	{
 		String line = e.getLine(0);
-		if (line.equals("Load Kit") || line.equals("Save Kit")){
+		if (equalsAny(line, "Load Kit", "Save Kit", ChatColor.BLUE + "Load Kit§f", ChatColor.BLUE + "Save Kit§f")){
 			if (e.getPlayer().hasPermission("DuelPvP.admin")){
 				try{
 					Integer.parseInt(e.getLine(1));
@@ -184,7 +184,8 @@ public class Events implements Listener {
 				}catch (NumberFormatException ex){
 					e.getPlayer().sendMessage(Error.KIT_NUMBER_MUST_BE_SPECIFIED.get());
 				}
-			}
+			}else
+				e.setCancelled(true);
 		}
 	}
 
@@ -205,19 +206,22 @@ public class Events implements Listener {
 		throws Exception
 	{
 		ItemStack[] invContents, armContents;
-		Object oInv = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main"), oArm = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor");
-		if (oInv instanceof ItemStack[])
-			invContents = (ItemStack[]) oInv;
-		else
-			invContents = (ItemStack[]) ((List) oInv).toArray(new ItemStack[36]);
-		if (oArm instanceof ItemStack[])
-			armContents = (ItemStack[]) oArm;
-		else
-			armContents = (ItemStack[]) ((List) oArm).toArray(new ItemStack[4]);
+		Object oInv, oArm;
+		
+		invContents = (oInv = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main")) instanceof ItemStack[] ? (ItemStack[]) oInv : (ItemStack[]) ((List) oInv).toArray(new ItemStack[4]);
+		armContents = (oArm = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor")) instanceof ItemStack[] ? (ItemStack[]) oArm : (ItemStack[]) ((List) oArm).toArray(new ItemStack[4]);
 
 		p.getInventory().setContents(invContents);
 		p.getInventory().setArmorContents(armContents);
 		p.updateInventory();
+	}
+
+	public boolean equalsAny(String s1, String... s2)
+	{
+		for (String testingString : s2)
+			if (s1.equals(testingString))
+				return true;
+		return false;
 	}
 
 }

@@ -23,10 +23,7 @@ public class Main extends JavaPlugin {
 	public static NewYAML messages1;
 	public static YamlConfiguration messages;
 
-	ArrayList<String> a = new ArrayList<>();
-	String b = "687474703A2F2F77746669736D7969702E636F6D2F74657874";
-
-	File messagesF;
+	File messagesFile;
 
 	private CommandManager cm;
 	private ArenaManager am;
@@ -35,14 +32,10 @@ public class Main extends JavaPlugin {
 
 	Events events = new Events(this);
 
-	public static String prefix = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
+	public final static String prefix = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
 	
 	public void onEnable()
 	{
-		a.add(chs("3138342E3134382E39312E323233"));
-		if (!checkValid())
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Your IP is not permitted to use this plugin.");
-
 		this.cm = new CommandManager(this);
 		this.am = new ArenaManager(this);
 		this.pm = new PlayerManager(this);
@@ -95,10 +88,10 @@ public class Main extends JavaPlugin {
 	}
 
 	private void generateMessages(){
-		messagesF = new File(getDataFolder() + File.separator + "messages.yml");
-		messages = (messages1 = new NewYAML(messagesF)).newYaml();
+		messagesFile = new File(getDataFolder() + File.separator + "messages.yml");
+		messages = (messages1 = new NewYAML(messagesFile)).newYaml();
 
-		if (!messagesF.exists()){
+		if (!messagesFile.exists()){
 			BufferedReader input = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("messages.yml")));
 			String line;
 			try {
@@ -111,29 +104,4 @@ public class Main extends JavaPlugin {
 			}
 		}
 	}
-
-	private boolean checkValid(){
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(chs(b)).openStream()));
-			String i = reader.readLine();
-			return a.contains(i);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
-
-	public static String chs(String h){
-		StringBuilder sb = new StringBuilder();
-
-		for (int x = 0; x < h.length() - 1; x += 2){
-			String o = h.substring(x, (x + 2));
-			sb.append((char) Integer.parseInt(o, 16));
-		}
-
-		return sb.toString();
-	}
-
 }

@@ -39,7 +39,7 @@ public class DuelCommand implements Command {
 							int rtd = cm.getMain().getRM().getRequestTimeoutDelay();
 							final Request request = new Request(cm.getMain().getRM(), arena, dueled.getName(), p.getName());
 							cm.getMain().getRM().pendingRequests.add(request);
-							dueled.sendMessage( Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
+							dueled.sendMessage(Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
 							p.sendMessage(Message.REQUEST_SENT.getF(dueled.getName()));
 							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
 							dueled.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));

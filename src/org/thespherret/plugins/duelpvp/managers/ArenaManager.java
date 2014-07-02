@@ -116,6 +116,8 @@ public class ArenaManager {
 		for (Arena arena : activeArenas.values())
 			if (!arena.isOccupied() && arena.isEnabled())
 				unoccupiedArenas.add(arena.getArenaName());
+		if (unoccupiedArenas.isEmpty())
+			return null;
 		return getArena(unoccupiedArenas.get(new Random().nextInt(unoccupiedArenas.size())));
 	}
 

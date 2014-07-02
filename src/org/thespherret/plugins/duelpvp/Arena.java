@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
@@ -75,7 +76,7 @@ public class Arena implements Runnable {
 				main.playerData.set(p.getUniqueId().toString() + ".z", p.getLocation().getZ());
 				main.playerData.set(p.getUniqueId().toString() + ".pitch", p.getLocation().getPitch());
 				main.playerData.set(p.getUniqueId().toString() + ".yaw", p.getLocation().getYaw());
-				p.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getDouble("lobby.x"), main.getConfig().getDouble("lobby.y"), main.getConfig().getDouble("lobby.z"), main.getConfig().getInt("lobby.yaw"), main.getConfig().getInt("lobby.pitch")));
+				p.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getDouble("lobby.x"), main.getConfig().getDouble("lobby.y"), main.getConfig().getDouble("lobby.z"), main.getConfig().getInt("lobby.yaw"), main.getConfig().getInt("lobby.pitch")), PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
 				for (PotionEffect pe : p.getActivePotionEffects())
 					p.removePotionEffect(pe.getType());
 			} catch (Exception e) {
@@ -225,7 +226,7 @@ public class Arena implements Runnable {
 	public void gameStart()
 	{
 		for (int x = 0; x <= 1; x++)
-			Bukkit.getPlayer(players[x]).teleport(spawns[x]);
+			Bukkit.getPlayer(players[x]).teleport(spawns[x], PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
 		try {
 			am.getMain().playerData.save(am.getMain().playerData1.getFile());
 		} catch (IOException e) {

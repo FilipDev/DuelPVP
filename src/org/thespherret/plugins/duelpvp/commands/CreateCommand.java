@@ -15,15 +15,9 @@ public class CreateCommand implements Command {
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
 		if (p.hasPermission("DuelPvP.admin")){
-			String arena;
-			try
-			{
-				arena = args[0];
-			}
-			catch (Exception e)
-			{
+			if (args.length < 1)
 				return false;
-			}
+			String arena = args[0];
 			if (arena.equalsIgnoreCase("lobby"))
 			{
 				cm.getMain().getConfig().set("lobby.world", p.getLocation().getWorld().getName());
