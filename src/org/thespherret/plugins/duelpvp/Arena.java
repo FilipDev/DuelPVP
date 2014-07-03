@@ -168,12 +168,12 @@ public class Arena implements Runnable {
 				endGame(EndReason.DISCONNECT);
 			}
 			if (getSecondsLeft() == 15 || getSecondsLeft() == 10 || getSecondsLeft() <= 5){
-				if (getSecondsLeft() == 0)
+				if (getSecondsLeft() == 0){
 					if (!this.started){
 						gameStart();
 						Bukkit.getScheduler().cancelTask(id);
 					}
-				else
+				}else
 					player.sendMessage(Message.MATCH_STARTING.getF(getSecondsLeft() + ""));
 			}
 		}
@@ -240,7 +240,7 @@ public class Arena implements Runnable {
 	{
 		for (Player player : Bukkit.getOnlinePlayers())
 			if (!player.getName().equals(players[0]) && !player.getName().equals(players[1]))
-				player.sendMessage(ChatColor.LIGHT_PURPLE + " " + this.getWinner() + " won a duel against " + this.getLoser() + "!");
+				player.sendMessage(Main.PREFIX + ChatColor.LIGHT_PURPLE + this.getWinner() + " won a duel against " + this.getLoser() + "!");
 	}
 
 	public boolean hasStarted()

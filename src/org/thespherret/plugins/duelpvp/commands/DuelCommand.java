@@ -31,7 +31,8 @@ public class DuelCommand implements Command {
 				if (!dueled.getName().equals(p.getName()))
 				{
 					Request request0 = cm.getMain().getRM().getRequest(p);
-					if ((request0 == null) && (cm.getMain().getAM().getArena(dueled) == null))
+					Request request01 = cm.getMain().getRM().getRequest(dueled);
+					if ((request0 == null) && (request01 == null) && (cm.getMain().getAM().getArena(dueled) == null))
 					{
 						Arena arena = cm.getMain().getAM().getRandomArena();
 						if (arena != null)

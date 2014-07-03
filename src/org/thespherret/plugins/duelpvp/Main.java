@@ -32,7 +32,7 @@ public class Main extends JavaPlugin {
 
 	Events events = new Events(this);
 
-	public final static String prefix = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
+	public final static String PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
 	
 	public void onEnable()
 	{

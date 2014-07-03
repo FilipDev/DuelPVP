@@ -161,6 +161,7 @@ public class Events implements Listener {
 							e.setCancelled(true);
 							p.sendMessage(Error.WAIT_BETWEEN_SIGN_CLICK.get());
 						}
+						e.setCancelled(true);
 						clickedSign.put(p.getName(), System.currentTimeMillis());
 					}
 				}
