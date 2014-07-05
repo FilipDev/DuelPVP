@@ -14,9 +14,6 @@ import org.thespherret.plugins.duelpvp.Main;
 
 import java.io.IOException;
 
-/**
- * Created by Administrator on 6/10/14.
- */
 public class PlayerManager {
 
 	Main main;
@@ -63,7 +60,7 @@ public class PlayerManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Location location = new Location(Bukkit.getWorld(data.getString("world")), data.getDouble("x"), data.getDouble("y"), data.getDouble("z"), data.getInt("pitch"), data.getInt("yaw"));
+		Location location = new Location(Bukkit.getWorld(data.getString("world", "world")), data.getDouble("x"), data.getDouble("y"), data.getDouble("z"), data.getInt("pitch"), data.getInt("yaw"));
 		loadInventory(p);
 		try {
 			data.set(p.getUniqueId().toString() + ".inventoryMain", null);
@@ -73,7 +70,9 @@ public class PlayerManager {
 		}
 		try {
 			main.playerData.save(main.playerData1.getFile());
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		p.teleport(location, PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
 		main.getAM().playersInArenas.remove(p.getName());
 	}

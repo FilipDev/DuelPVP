@@ -42,8 +42,8 @@ public class DuelCommand implements Command {
 							cm.getMain().getRM().pendingRequests.add(request);
 							dueled.sendMessage(Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
 							p.sendMessage(Message.REQUEST_SENT.getF(dueled.getName()));
-							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
-							dueled.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd + ""));
+							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd));
+							dueled.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd));
 							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable()
 							{
 								public void run()

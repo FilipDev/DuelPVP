@@ -4,7 +4,6 @@
 
 package org.thespherret.plugins.duelpvp.enums;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.thespherret.plugins.duelpvp.Main;
 
@@ -39,11 +38,11 @@ public enum Message {
 		return ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.messages.getString(this.name()));
 	}
 
-	public String getF(String... strings)
+	public String getF(Object... strings)
 	{
 		String s1 = get();
-		for (String s2 : strings)
-			s1 = s1.replaceFirst("%v", s2);
+		for (Object s2 : strings)
+			s1 = s1.replaceFirst("%v", s2.toString());
 		return s1;
 	}
 

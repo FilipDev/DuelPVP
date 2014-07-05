@@ -5,17 +5,14 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
 import org.thespherret.plugins.duelpvp.managers.ArenaManager;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 import org.thespherret.plugins.duelpvp.enums.Error;
 
-/**
- * Created by Administrator on 6/11/14.
- */
 public class ArenaTPCommand implements Command {
+
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{

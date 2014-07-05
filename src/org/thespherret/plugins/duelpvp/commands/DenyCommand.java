@@ -11,10 +11,8 @@ import org.thespherret.plugins.duelpvp.enums.Error;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
-/**
- * Created by Administrator on 6/14/14.
- */
 public class DenyCommand implements Command {
+
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args) {
 		Request request = cm.getMain().getRM().getRequest(p);

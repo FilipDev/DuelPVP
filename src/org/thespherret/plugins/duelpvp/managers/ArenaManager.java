@@ -80,8 +80,8 @@ public class ArenaManager {
 		main.arenas.set("arenas." + arenaName + "." + locNumber + ".pitch", location.getPitch());
 		try {
 			if (!main.arenas1.getFile().exists())
-				main.arenas1.getFile().createNewFile();
-			main.arenas.save(main.arenas1.getFile());
+				if (main.arenas1.getFile().createNewFile())
+					main.arenas.save(main.arenas1.getFile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +112,7 @@ public class ArenaManager {
 
 	public Arena getRandomArena()
 	{
-		ArrayList<String> unoccupiedArenas = new ArrayList();
+		ArrayList<String> unoccupiedArenas = new ArrayList<>();
 		for (Arena arena : activeArenas.values())
 			if (!arena.isOccupied() && arena.isEnabled())
 				unoccupiedArenas.add(arena.getArenaName());

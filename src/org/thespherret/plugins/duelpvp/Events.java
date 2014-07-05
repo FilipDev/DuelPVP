@@ -35,8 +35,7 @@ public class Events implements Listener {
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent e)
 	{
-		Arena a;
-		if ((a = main.getAM().getArena(e.getPlayer())) != null)
+		if (main.getAM().getArena(e.getPlayer()) != null)
 			if (!e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)){
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.get());
@@ -60,8 +59,7 @@ public class Events implements Listener {
 	public void onPlayerRespawn(PlayerRespawnEvent e)
 	{
 		final Player p = e.getPlayer();
-		Arena a;
-		if ((a = main.getAM().getArena(p)) != null)
+		if (main.getAM().getArena(p) != null)
 			Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
 				@Override
 				public void run() {
@@ -75,7 +73,7 @@ public class Events implements Listener {
 	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getEntity().getPlayer())) != null){
-			arena.setLoser(e.getEntity().getName());
+			arena.setLoser(e.getEntity());
 			arena.endGame(EndReason.DEATH);
 			e.getDrops().clear();
 		}
@@ -84,8 +82,7 @@ public class Events implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e)
 	{
-		Arena arena;
-		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
+		if (main.getAM().getArena(e.getPlayer()) != null){
 			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
 			e.setCancelled(true);
 		}
@@ -94,8 +91,7 @@ public class Events implements Listener {
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e)
 	{
-		Arena arena;
-		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
+		if (main.getAM().getArena(e.getPlayer()) != null){
 			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
 			e.setCancelled(true);
 		}
@@ -118,7 +114,7 @@ public class Events implements Listener {
 	{
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
-			arena.setLoser(e.getPlayer().getName());
+			arena.setLoser(e.getPlayer());
 			arena.endGame(EndReason.DISCONNECT);
 		}
 	}
@@ -177,17 +173,14 @@ public class Events implements Listener {
 	public void onPlayerSignEdit(SignChangeEvent e)
 	{
 		String line = e.getLine(0);
-		if (equalsAny(line, "Load Kit", "Save Kit", ChatColor.BLUE + "Load Kit§f", ChatColor.BLUE + "Save Kit§f")){
-			if (e.getPlayer().hasPermission("DuelPvP.admin")){
-				try{
-					Integer.parseInt(e.getLine(1));
+		if (equalsAny(line, "Load Kit", "Save Kit", ChatColor.BLUE + "Load Kit§f", ChatColor.BLUE + "Save Kit§f"))
+			if (e.getPlayer().hasPermission("DuelPvP.admin"))
+				if (e.getLine(1).equals("\\d+"))
 					e.setLine(0, ChatColor.BLUE + line + "§f");
-				}catch (NumberFormatException ex){
+				else
 					e.getPlayer().sendMessage(Error.KIT_NUMBER_MUST_BE_SPECIFIED.get());
-				}
-			}else
+			else
 				e.setCancelled(true);
-		}
 	}
 
 	public boolean saveKit(Player p, Integer kitNumber)

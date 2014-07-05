@@ -5,12 +5,12 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 import org.thespherret.plugins.duelpvp.enums.Error;
 
 public class ArenaToggleCommand implements Command {
+
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{

@@ -13,9 +13,6 @@ import org.thespherret.plugins.duelpvp.commands.*;
 
 import java.util.HashMap;
 
-/**
- * Created by Administrator on 6/10/14.
- */
 public class CommandManager implements CommandExecutor {
 
 	Main main;
@@ -40,10 +37,7 @@ public class CommandManager implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings)
 	{
-		if (commandSender instanceof Player)
-			return commandMap.get(command.getName()).execute(this, (Player) commandSender, strings);
-		else
-			return false;
+		return commandSender instanceof Player && commandMap.get(command.getName()).execute(this, (Player) commandSender, strings);
 	}
 
 	public Main getMain()

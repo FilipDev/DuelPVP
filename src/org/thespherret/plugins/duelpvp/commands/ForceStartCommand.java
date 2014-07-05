@@ -5,7 +5,6 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
 import org.thespherret.plugins.duelpvp.enums.Message;
@@ -19,7 +18,7 @@ public class ForceStartCommand implements Command {
 	{
 		if (p.hasPermission("DuelPVP.force")){
 			Arena a;
-			if ((a = cm.getMain().getAM().getArena((Player) p)) != null){
+			if ((a = cm.getMain().getAM().getArena(p)) != null){
 				if (!a.hasStarted()){
 					a.gameStart();
 					Bukkit.getScheduler().cancelTask(a.getScheduledTask());

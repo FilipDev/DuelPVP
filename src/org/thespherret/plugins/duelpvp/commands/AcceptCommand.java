@@ -16,6 +16,7 @@ import org.thespherret.plugins.duelpvp.managers.CommandManager;
  * Created by Administrator on 6/14/14.
  */
 public class AcceptCommand implements Command {
+
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args){
 		Request request = cm.getMain().getRM().getRequest(p);
@@ -24,7 +25,7 @@ public class AcceptCommand implements Command {
 			if (attacker.isOnline()){
 				p.sendMessage(Message.REQUEST_ACCEPT.getF(attacker.getName()));
 				attacker.sendMessage(Message.REQUEST_ACCEPTED.getF(p.getName()));
-				request.getArena().addPlayers(p.getName(), attacker.getName());
+				request.getArena().addPlayers(p, attacker);
 			}
 			else
 				p.sendMessage(Message.PARTNER_DISCONNECTED.get());
