@@ -1,21 +1,17 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.enums.Error;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
-import org.thespherret.plugins.duelpvp.Main;
 import org.thespherret.plugins.duelpvp.Request;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
-import java.util.Random;
 
 public class DuelCommand implements Command {
+
 	@Override
 	public boolean execute(final CommandManager cm, Player p, String[] args)
 	{
@@ -34,21 +30,19 @@ public class DuelCommand implements Command {
 						if (arena != null)
 						{
 							int rtd = cm.getMain().getRM().getRequestTimeoutDelay();
-							final Request request = new Request(cm.getMain().getRM(), arena, dueled.getName(), p.getName());
+							final Request request = new Request(cm.getMain().getRM(), arena, dueled.getUniqueId(), p.getUniqueId());
 							cm.getMain().getRM().pendingRequests.add(request);
 							dueled.sendMessage(Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
 							p.sendMessage(Message.REQUEST_SENT.getF(dueled.getName()));
 							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd));
 							dueled.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd));
-							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable()
-							{
-								public void run()
-								{
-									try{
+							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable() {
+								public void run() {
+									try {
 										for (Request r : cm.getMain().getRM().pendingRequests)
 											if (r.equals(request))
 												request.cancel();
-									}catch (ConcurrentModificationException e){}
+									} catch (ConcurrentModificationException ignored) {}
 								}
 							}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
 						}

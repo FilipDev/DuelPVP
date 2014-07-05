@@ -13,7 +13,7 @@ public class DenyCommand implements Command {
 	public boolean execute(CommandManager cm, Player p, String[] args) {
 		Request request = cm.getMain().getRM().getRequest(p);
 		if (request != null) {
-			Player attacker = Bukkit.getPlayer(request.getAttackerString());
+			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
 			if (attacker.isOnline()) {
 				p.sendMessage(Message.REQUEST_DENY.getF(attacker.getName()));
 				attacker.sendMessage(Message.REQUEST_DENIED.getF(p.getName()));

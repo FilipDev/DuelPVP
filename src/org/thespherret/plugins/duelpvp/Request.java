@@ -4,18 +4,20 @@ import org.bukkit.Bukkit;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.RequestManager;
 
+import java.util.UUID;
+
 public class Request {
 
-	private String defenderString, attackerString;
+	private UUID defenderUUID, attackerUUID;
 	private Arena arena;
 	private RequestManager rm;
 
-	public Request(RequestManager rm, Arena arena, String defenderString, String attackerString)
+	public Request(RequestManager rm, Arena arena, UUID defenderUUID, UUID attackerUUID)
 	{
 		this.rm = rm;
 		this.arena = arena;
-		this.attackerString = attackerString;
-		this.defenderString = defenderString;
+		this.attackerUUID = attackerUUID;
+		this.defenderUUID = defenderUUID;
 	}
 
 	public Arena getArena()
@@ -23,20 +25,20 @@ public class Request {
 		return arena;
 	}
 
-	public String getDefenderString()
+	public UUID getDefenderUUID()
 	{
-		return defenderString;
+		return defenderUUID;
 	}
 
-	public String getAttackerString()
+	public UUID getAttackerUUID()
 	{
-		return attackerString;
+		return attackerUUID;
 	}
 
 	public void cancel()
 	{
 		rm.pendingRequests.remove(this);
-		Bukkit.getPlayer(defenderString).sendMessage(Message.REQUEST_TIMEDOUT.get());
-		Bukkit.getPlayer(attackerString).sendMessage(Message.REQUEST_TIMEDOUT.get());
+		Bukkit.getPlayer(defenderUUID).sendMessage(Message.REQUEST_TIMEDOUT.get());
+		Bukkit.getPlayer(attackerUUID).sendMessage(Message.REQUEST_TIMEDOUT.get());
 	}
 }
