@@ -1,5 +1,3 @@
-
-
 package org.thespherret.plugins.duelpvp;
 
 import org.bukkit.Bukkit;

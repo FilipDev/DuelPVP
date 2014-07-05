@@ -1,8 +1,6 @@
-
 package org.thespherret.plugins.duelpvp;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.RequestManager;
 

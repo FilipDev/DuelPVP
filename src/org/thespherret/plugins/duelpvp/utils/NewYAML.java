@@ -1,4 +1,3 @@
-
 package org.thespherret.plugins.duelpvp.utils;
 
 import org.bukkit.configuration.ConfigurationSection;
