@@ -15,8 +15,8 @@ public class DenyCommand implements Command {
 		if (request != null) {
 			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
 			if (attacker.isOnline()) {
-				p.sendMessage(Message.REQUEST_DENY.getF(attacker.getName()));
-				attacker.sendMessage(Message.REQUEST_DENIED.getF(p.getName()));
+				p.sendMessage(Message.REQUEST_DENY.getFormatted(attacker.getName()));
+				attacker.sendMessage(Message.REQUEST_DENIED.getFormatted(p.getName()));
 			}
 			cm.getMain().getRM().pendingRequests.remove(request);
 			return true;

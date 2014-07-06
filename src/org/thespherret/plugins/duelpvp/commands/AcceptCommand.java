@@ -15,8 +15,8 @@ public class AcceptCommand implements Command {
 		if (request != null){
 			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
 			if (attacker.isOnline()){
-				p.sendMessage(Message.REQUEST_ACCEPT.getF(attacker.getName()));
-				attacker.sendMessage(Message.REQUEST_ACCEPTED.getF(p.getName()));
+				p.sendMessage(Message.REQUEST_ACCEPT.getFormattedormatted(attacker.getName()));
+				attacker.sendMessage(Message.REQUEST_ACCEPTED.getFormattedormatted(p.getName()));
 				request.getArena().addPlayers(p, attacker);
 			}
 			else

@@ -32,10 +32,10 @@ public class DuelCommand implements Command {
 							int rtd = cm.getMain().getRM().getRequestTimeoutDelay();
 							final Request request = new Request(cm.getMain().getRM(), arena, dueled.getUniqueId(), p.getUniqueId());
 							cm.getMain().getRM().pendingRequests.add(request);
-							dueled.sendMessage(Message.RECIEVED_DUEL_REQUEST.getF(p.getName()));
-							p.sendMessage(Message.REQUEST_SENT.getF(dueled.getName()));
-							p.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd));
-							dueled.sendMessage(Message.REQUEST_TIMEOUT.getF(rtd));
+							dueled.sendMessage(Message.RECIEVED_DUEL_REQUEST.getFormatted(p.getName()));
+							p.sendMessage(Message.REQUEST_SENT.getFormatted(dueled.getName()));
+							p.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(rtd));
+							dueled.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(rtd));
 							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable() {
 								public void run() {
 									try {
@@ -56,7 +56,7 @@ public class DuelCommand implements Command {
 					p.sendMessage(Error.CANNOT_DUEL_YOURSELF.get());
 			}
 			else
-				p.sendMessage(Error.CANNOT_FIND_PLAYER.getF(args[0]));
+				p.sendMessage(Error.CANNOT_FIND_PLAYER.getFormatted(args[0]));
 		}
 		else
 			p.sendMessage(Error.INCORRECT_USAGE.get());

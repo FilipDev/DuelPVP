@@ -65,7 +65,7 @@ public class PlayerManager {
 			e.printStackTrace();
 		}
 		try {
-			main.playerData.save(main.playerData1.getFile());
+			main.playerData.save(main.playerData1.getFormattedile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -75,9 +75,9 @@ public class ArenaManager {
 		main.arenas.set("arenas." + arenaName + "." + locNumber + ".yaw", location.getYaw());
 		main.arenas.set("arenas." + arenaName + "." + locNumber + ".pitch", location.getPitch());
 		try {
-			if (!main.arenas1.getFile().exists())
-				if (main.arenas1.getFile().createNewFile())
-					main.arenas.save(main.arenas1.getFile());
+			if (!main.arenas1.getFormattedile().exists())
+				if (main.arenas1.getFormattedile().createNewFile())
+					main.arenas.save(main.arenas1.getFormattedile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -90,7 +90,7 @@ public class ArenaManager {
 			for (Arena arena : activeArenas.values())
 				if (arena.hasStarted())
 					arena.endGame(EndReason.SERVER_CLOSE);
-			main.arenas.save(main.arenas1.getFile());
+			main.arenas.save(main.arenas1.getFormattedile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

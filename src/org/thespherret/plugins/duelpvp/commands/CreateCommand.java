@@ -27,7 +27,7 @@ public class CreateCommand implements Command {
 				if (args.length == 2){
 					int pos;
 					if ((pos = Integer.parseInt(args[1])) <= 2){
-						p.sendMessage(Message.SET_ARENA_POS.getF(pos, arena));
+						p.sendMessage(Message.SET_ARENA_POS.getFormatted(pos, arena));
 						cm.getMain().getAM().createArenaPoint(arena, pos, p.getLocation());
 						if (cm.getMain().arenas.get("arenas." + arena + ".enabled") == null)
 							cm.getMain().arenas.set("arenas." + arena + ".enabled", false);

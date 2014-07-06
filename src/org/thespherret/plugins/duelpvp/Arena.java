@@ -81,7 +81,7 @@ public class Arena implements Runnable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			p.sendMessage(Message.MATCH_STARTING.getF(am.getMatchStartDelay()));
+			p.sendMessage(Message.MATCH_STARTING.getFormattedormatted(am.getMatchStartDelay()));
 		}
 		this.occupied = true;
 		startGame();
@@ -100,7 +100,7 @@ public class Arena implements Runnable {
 		}else if (player2.getName().equals(player.getName())){
 			return player1;
 		}else{
-			Bukkit.getConsoleSender().sendMessage(Error.CANNOT_FIND_PLAYER.getF(arenaName));
+			Bukkit.getConsoleSender().sendMessage(Error.CANNOT_FIND_PLAYER.getFormattedormatted(arenaName));
 			return null;
 		}
 	}
@@ -120,12 +120,12 @@ public class Arena implements Runnable {
 		if (this.requestsToEnd.get(player1.getName()) && this.requestsToEnd.get(player2.getName())){
 			endGame(EndReason.END);
 		}else if (this.requestsToEnd.get(player.getName())){
-			player1.sendMessage(Message.END_MATCH_REQUEST.getF(player.getName()));
-			player2.sendMessage(Message.END_MATCH_REQUEST.getF(player.getName()));
+			player1.sendMessage(Message.END_MATCH_REQUEST.getFormattedormatted(player.getName()));
+			player2.sendMessage(Message.END_MATCH_REQUEST.getFormattedormatted(player.getName()));
 			getOtherPlayer(player).sendMessage(Message.END_MATCH_TIP.get());
 		}else{
-			player1.sendMessage(Message.END_MATCH_REVOCATION.getF(player.getName()));
-			player2.sendMessage(Message.END_MATCH_REVOCATION.getF(player.getName()));
+			player1.sendMessage(Message.END_MATCH_REVOCATION.getFormattedormatted(player.getName()));
+			player2.sendMessage(Message.END_MATCH_REVOCATION.getFormattedormatted(player.getName()));
 		}
 	}
 
@@ -170,7 +170,7 @@ public class Arena implements Runnable {
 						Bukkit.getScheduler().cancelTask(id);
 					}
 				}else
-					player.sendMessage(Message.MATCH_STARTING.getF(getSecondsLeft()));
+					player.sendMessage(Message.MATCH_STARTING.getFormattedormatted(getSecondsLeft()));
 			}
 		}
 		setSecondsLeft(getSecondsLeft() - 1);
@@ -193,8 +193,8 @@ public class Arena implements Runnable {
 				revertPlayer(player2);
 			case DEATH:
 				revertPlayer(winner);
-				winner.sendMessage(Message.END_MATCH_DEATH.getF("won", loser.getName()));
-				loser.sendMessage(Message.END_MATCH_DEATH.getF("lost", winner.getName()));
+				winner.sendMessage(Message.END_MATCH_DEATH.getFormattedormatted("won", loser.getName()));
+				loser.sendMessage(Message.END_MATCH_DEATH.getFormattedormatted("lost", winner.getName()));
 				broadcastWon();
 			case DISCONNECT:
 				revertPlayer(winner);
@@ -226,11 +226,11 @@ public class Arena implements Runnable {
 		for (int x = 0; x <= 1; x++)
 			tempPlayerArray[x].teleport(spawns[x], PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
 		try {
-			am.getMain().playerData.save(am.getMain().playerData1.getFile());
+			am.getMain().playerData.save(am.getMain().playerData1.getFormattedormattedile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Bukkit.broadcastMessage(Message.BROADCAST_MATCH_START.getF(player1.getName(), player2.getName()));
+		Bukkit.broadcastMessage(Message.BROADCAST_MATCH_START.getFormattedormatted(player1.getName(), player2.getName()));
 		this.started = true;
 	}
 
@@ -260,7 +260,7 @@ public class Arena implements Runnable {
 	{
 		am.getMain().arenas.set("arenas." + arenaName + ".enabled", b);
 		try {
-			am.getMain().arenas.save(am.getMain().arenas1.getFile());
+			am.getMain().arenas.save(am.getMain().arenas1.getFormattedormattedile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

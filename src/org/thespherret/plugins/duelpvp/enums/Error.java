@@ -38,7 +38,7 @@ public enum Error {
 		return ChatColor.RED + "Error: " + ChatColor.DARK_RED + this.s;
 	}
 
-	public String getF(String... strings)
+	public String getFormatted(String... strings)
 	{
 		String s1 = get();
 		for (String s2 : strings)

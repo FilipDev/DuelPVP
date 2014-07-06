@@ -34,12 +34,11 @@ public enum Message {
 		return ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.messages.getString(this.name()));
 	}
 
-	public String getF(Object... strings)
+	public String getFormatted(Object... strings)
 	{
 		String s1 = get();
 		for (Object s2 : strings)
 			s1 = s1.replaceFirst("%v", s2.toString());
 		return s1;
 	}
-
 }

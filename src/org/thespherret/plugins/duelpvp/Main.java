@@ -61,7 +61,7 @@ public class Main extends JavaPlugin {
 		this.saveConfig();
 		this.getAM().saveArenas();
 		try {
-			this.playerData.save(this.playerData1.getFile());
+			this.playerData.save(this.playerData1.getFormattedormattedile());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,7 +97,7 @@ public class Main extends JavaPlugin {
 			try {
 				while ((line = input.readLine()) != null)
 					messages.set(line.split(": ")[0], line.split(": ")[1]);
-				messages.save(messages1.getFile());
+				messages.save(messages1.getFormattedormattedile());
 				input.close();
 			} catch (IOException e) {
 				e.printStackTrace();
