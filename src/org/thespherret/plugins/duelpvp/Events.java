@@ -135,7 +135,7 @@ public class Events implements Listener {
 						if (lastClicked == null || System.currentTimeMillis() - lastClicked > 1000){
 							if (b == 1){
 								if (saveKit(p, Integer.parseInt(sign.getLine(1))))
-									p.sendMessage(Message.SAVED_KIT.getFormattedormatted(sign.getLine(1)));
+									p.sendMessage(Message.SAVED_KIT.getFormatted(sign.getLine(1)));
 								else
 									p.sendMessage(Error.COULD_NOT_SAVE_KIT.get());
 							}
@@ -143,7 +143,7 @@ public class Events implements Listener {
 								if (main.getAM().getArena(p) != null || p.isOp()){
 									try {
 										loadKit(p, Integer.parseInt(sign.getLine(1)));
-										p.sendMessage(Message.LOADED_KIT.getFormattedormatted(sign.getLine(1)));
+										p.sendMessage(Message.LOADED_KIT.getFormatted(sign.getLine(1)));
 									} catch (Exception e1) {
 										e1.printStackTrace();
 										p.sendMessage(Error.DO_NOT_HAVE_KIT.get());
@@ -188,7 +188,7 @@ public class Events implements Listener {
 		try {
 			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents().clone());
 			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".armor", p.getInventory().getArmorContents().clone());
-			main.kits.save(main.kits1.getFormattedormattedile());
+			main.kits.save(main.kits1.getFile());
 			return true;
 		} catch (Exception e) {
 			Bukkit.getConsoleSender().sendMessage(Error.COULD_NOT_SAVE_KIT.get());

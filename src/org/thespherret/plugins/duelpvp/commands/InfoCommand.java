@@ -19,7 +19,7 @@ public class InfoCommand implements Command {
 			p.sendMessage(ChatColor.GREEN + "Reloaded config.");
 			try {
 				p.sendMessage(ChatColor.GREEN + "Reloading messages.");
-				Main.messages.load(Main.messages1.getFormattedile());
+				Main.messages.load(Main.messages1.getFile());
 				p.sendMessage(ChatColor.GREEN + "Reloaded messages.");
 			} catch (IOException | InvalidConfigurationException e) {
 				e.printStackTrace();

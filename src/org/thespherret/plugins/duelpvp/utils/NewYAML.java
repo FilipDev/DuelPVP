@@ -29,7 +29,7 @@ public class NewYAML {
 		return yamlFile;
 	}
 
-	public File getFormattedile()
+	public File getFile()
 	{
 		return this.file;
 	}
