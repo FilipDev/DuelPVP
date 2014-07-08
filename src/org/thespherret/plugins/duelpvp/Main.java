@@ -1,24 +1,30 @@
 package org.thespherret.plugins.duelpvp;
 
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.ArenaManager;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 import org.thespherret.plugins.duelpvp.managers.PlayerManager;
 import org.thespherret.plugins.duelpvp.managers.RequestManager;
+import org.thespherret.plugins.duelpvp.tracker.ScoreTracker;
 import org.thespherret.plugins.duelpvp.utils.NewYAML;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 public class Main extends JavaPlugin {
 
 	public NewYAML arenas1, playerData1, kits1;
 	public YamlConfiguration arenas, playerData, kits;
+
+	ScoreTracker scoreTracker;
 
 	public static NewYAML messages1;
 	public static YamlConfiguration messages;
@@ -42,11 +48,11 @@ public class Main extends JavaPlugin {
 		this.rm = new RequestManager(this);
 
 		generateMessages();
+		this.saveDefaultConfig();
 
 		for (String command : getDescription().getCommands().keySet())
 			getCommand(command).setExecutor(cm);
 
-		this.saveDefaultConfig();
 		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.get());
 
 		this.arenas = (this.arenas1 = new NewYAML(new File(getDataFolder() + File.separator + "arenas.dat"))).newYaml();
@@ -54,6 +60,16 @@ public class Main extends JavaPlugin {
 		this.playerData = (this.playerData1 = new NewYAML(new File(getDataFolder() + File.separator + "players.dat"))).newYaml();
 		this.am.initArenas();
 		getServer().getPluginManager().registerEvents(events, this);
+
+		if (getConfig().getBoolean("tracker.shoulduse")){
+			try{
+				this.scoreTracker = new ScoreTracker(this);
+				Bukkit.broadcastMessage(PREFIX + ChatColor.GREEN + "Successfully connected to the MySQL database!");
+			}catch (SQLException e){
+				Bukkit.broadcastMessage(PREFIX + ChatColor.RED + "Unsuccessfully connected to the MySQL database!");
+				this.scoreTracker = null;
+			}
+		}
 	}
 	
 	public void onDisable()
@@ -89,9 +105,9 @@ public class Main extends JavaPlugin {
 
 	private void generateMessages(){
 		messagesFile = new File(getDataFolder() + File.separator + "messages.yml");
-		messages = (messages1 = new NewYAML(messagesFile)).newYaml();
 
 		if (!messagesFile.exists()){
+			messages = (messages1 = new NewYAML(messagesFile)).newYaml();
 			BufferedReader input = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("messages.yml")));
 			String line;
 			try {
@@ -102,6 +118,12 @@ public class Main extends JavaPlugin {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}else
+			messages = (messages1 = new NewYAML(messagesFile)).newYaml1();
+	}
+
+	public boolean isPlayerAdmin(Player p)
+	{
+		return p.hasPermission("DuelPVP.admin");
 	}
 }

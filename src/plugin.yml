@@ -16,9 +16,9 @@ commands:
  forcestart:
  arenatoggle:
 permissions:
-  DuelPvP.admin:
+  DuelPVP.admin:
     default: op
     description: Allows players to create arenas.
-  DuelPvP.force:
+  DuelPVP.force:
     default: op
     description: Allows force starting arena matches.

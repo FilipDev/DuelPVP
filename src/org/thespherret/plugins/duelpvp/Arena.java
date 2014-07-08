@@ -4,11 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffect;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
-import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.enums.Error;
+import org.thespherret.plugins.duelpvp.enums.Message;
+import org.thespherret.plugins.duelpvp.events.ArenaEndEvent;
+import org.thespherret.plugins.duelpvp.events.ArenaPreStartEvent;
+import org.thespherret.plugins.duelpvp.events.ArenaStartEvent;
 import org.thespherret.plugins.duelpvp.managers.ArenaManager;
 
 import java.io.IOException;
@@ -25,6 +27,8 @@ public class Arena implements Runnable {
 	private int id;
 	private boolean enabled;
 
+	Main main;
+
 	private Player winner, loser;
 
 	private boolean started = false, occupied = false;
@@ -38,6 +42,7 @@ public class Arena implements Runnable {
 		this.spawns[0] = am.getSpawnPoint(arenaName, 0);
 		this.spawns[1] = am.getSpawnPoint(arenaName, 1);
 		this.am = am;
+		this.main = am.getMain();
 	}
 
 	public String getArenaName()
@@ -60,31 +65,35 @@ public class Arena implements Runnable {
 
 	public void addPlayers(Player player1, Player player2)
 	{
-		this.player1 = player1;
-		this.player2 = player2;
-		this.requestsToEnd.put(player1.getName(), false);
-		this.requestsToEnd.put(player2.getName(), false);
-		Main main = am.getMain();
-		setSecondsLeft(am.getMatchStartDelay());
-		for (Player p : new Player[]{player1, player2}){
-			am.playersInArenas.put(p.getName(), getArenaName());
-			try {
-				main.playerData.set(p.getUniqueId().toString() + ".world", p.getLocation().getWorld().getName());
-				main.playerData.set(p.getUniqueId().toString() + ".x", p.getLocation().getX());
-				main.playerData.set(p.getUniqueId().toString() + ".y", p.getLocation().getY());
-				main.playerData.set(p.getUniqueId().toString() + ".z", p.getLocation().getZ());
-				main.playerData.set(p.getUniqueId().toString() + ".pitch", p.getLocation().getPitch());
-				main.playerData.set(p.getUniqueId().toString() + ".yaw", p.getLocation().getYaw());
-				p.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getDouble("lobby.x"), main.getConfig().getDouble("lobby.y"), main.getConfig().getDouble("lobby.z"), main.getConfig().getInt("lobby.yaw"), main.getConfig().getInt("lobby.pitch")), PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
-				for (PotionEffect pe : p.getActivePotionEffects())
-					p.removePotionEffect(pe.getType());
-			} catch (Exception e) {
-				e.printStackTrace();
+		ArenaPreStartEvent preStartEvent = new ArenaPreStartEvent(this, player1, player2);
+		Bukkit.getPluginManager().callEvent(preStartEvent);
+
+		if (!preStartEvent.isCancelled()){
+			this.player1 = player1;
+			this.player2 = player2;
+			this.requestsToEnd.put(player1.getName(), false);
+			this.requestsToEnd.put(player2.getName(), false);
+			setSecondsLeft(am.getMatchStartDelay());
+			for (Player p : new Player[]{player1, player2}){
+				am.playersInArenas.put(p.getName(), getArenaName());
+				try {
+					main.playerData.set(p.getUniqueId().toString() + ".world", p.getLocation().getWorld().getName());
+					main.playerData.set(p.getUniqueId().toString() + ".x", p.getLocation().getX());
+					main.playerData.set(p.getUniqueId().toString() + ".y", p.getLocation().getY());
+					main.playerData.set(p.getUniqueId().toString() + ".z", p.getLocation().getZ());
+					main.playerData.set(p.getUniqueId().toString() + ".pitch", p.getLocation().getPitch());
+					main.playerData.set(p.getUniqueId().toString() + ".yaw", p.getLocation().getYaw());
+					am.lobbyTeleport(p);
+					for (PotionEffect pe : p.getActivePotionEffects())
+						p.removePotionEffect(pe.getType());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				p.sendMessage(Message.MATCH_STARTING.getFormatted(am.getMatchStartDelay()));
 			}
-			p.sendMessage(Message.MATCH_STARTING.getFormatted(am.getMatchStartDelay()));
+			this.occupied = true;
+			startGame();
 		}
-		this.occupied = true;
-		startGame();
 	}
 
 	public void setLoser(Player player)
@@ -166,7 +175,12 @@ public class Arena implements Runnable {
 			if (getSecondsLeft() == 15 || getSecondsLeft() == 10 || getSecondsLeft() <= 5){
 				if (getSecondsLeft() == 0){
 					if (!this.started){
-						gameStart();
+						ArenaStartEvent arenaStartEvent = new ArenaStartEvent(this, player1, player2);
+						Bukkit.getPluginManager().callEvent(arenaStartEvent);
+						if (!arenaStartEvent.isCancelled())
+							gameStart();
+						else
+							endGame(EndReason.CANCELLED);
 						Bukkit.getScheduler().cancelTask(id);
 					}
 				}else
@@ -185,23 +199,36 @@ public class Arena implements Runnable {
 				revertPlayer(player2);
 				player1.sendMessage(Message.END_MATCH.get());
 				player2.sendMessage(Message.END_MATCH.get());
+				break;
 			case SERVER_CLOSE:
 				revertPlayer(player1);
 				revertPlayer(player2);
+				break;
 			case DISABLE:
 				revertPlayer(player1);
 				revertPlayer(player2);
+				break;
 			case DEATH:
 				revertPlayer(winner);
 				winner.sendMessage(Message.END_MATCH_DEATH.getFormatted("won", loser.getName()));
 				loser.sendMessage(Message.END_MATCH_DEATH.getFormatted("lost", winner.getName()));
 				broadcastWon();
+				break;
 			case DISCONNECT:
 				revertPlayer(winner);
 				revertPlayer(loser);
 				getWinner().sendMessage(Message.PARTNER_DISCONNECTED.get());
+				break;
+			case CANCELLED:
+				revertPlayer(winner);
+				revertPlayer(loser);
+				winner.sendMessage(ChatColor.RED + "Game start has been cancelled.");
+				loser.sendMessage(ChatColor.RED + "Game start has been cancelled.");
+				break;
+			default:
 		}
 		Bukkit.getScheduler().cancelTask(id);
+		Bukkit.getPluginManager().callEvent(new ArenaEndEvent(this, winner, loser));
 		this.winner = null;
 		this.loser = null;
 		this.player1 = null;
@@ -224,7 +251,7 @@ public class Arena implements Runnable {
 	{
 		Player[] tempPlayerArray = new Player[]{player1, player2};
 		for (int x = 0; x <= 1; x++)
-			tempPlayerArray[x].teleport(spawns[x], PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
+			am.teleportNoChecks(spawns[x], tempPlayerArray[x]);
 		try {
 			am.getMain().playerData.save(am.getMain().playerData1.getFile());
 		} catch (IOException e) {
@@ -276,5 +303,4 @@ public class Arena implements Runnable {
 	{
 		return spawns[i];
 	}
-
 }

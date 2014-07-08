@@ -16,8 +16,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.thespherret.plugins.duelpvp.enums.EndReason;
-import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.enums.Error;
+import org.thespherret.plugins.duelpvp.enums.Message;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +45,7 @@ public class Events implements Listener {
 	@EventHandler
 	public void onCommandPreprocess(PlayerCommandPreprocessEvent e)
 	{
-		if (!e.getPlayer().hasPermission("DuelPVP.admin"))
+		if (!main.isPlayerAdmin(e.getPlayer()))
 			if (main.getAM().getArena(e.getPlayer()) != null){
 				List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
 				if (!(allowedCommands.contains(e.getMessage().split(" ")[0].replaceFirst("/", "")))){
@@ -174,7 +174,7 @@ public class Events implements Listener {
 	{
 		String line = e.getLine(0);
 		if (equalsAny(line, "Load Kit", "Save Kit", ChatColor.BLUE + "Load Kit§f", ChatColor.BLUE + "Save Kit§f"))
-			if (e.getPlayer().hasPermission("DuelPvP.admin"))
+			if (main.isPlayerAdmin(e.getPlayer()))
 				if (e.getLine(1).equals("\\d+"))
 					e.setLine(0, ChatColor.BLUE + line + "§f");
 				else

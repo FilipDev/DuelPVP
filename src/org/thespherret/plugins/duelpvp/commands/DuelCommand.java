@@ -1,12 +1,14 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
-import org.thespherret.plugins.duelpvp.enums.Message;
-import org.thespherret.plugins.duelpvp.enums.Error;
-import org.thespherret.plugins.duelpvp.managers.CommandManager;
 import org.thespherret.plugins.duelpvp.Request;
+import org.thespherret.plugins.duelpvp.enums.Error;
+import org.thespherret.plugins.duelpvp.enums.Message;
+import org.thespherret.plugins.duelpvp.events.RequestSendEvent;
+import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
 import java.util.ConcurrentModificationException;
 
@@ -29,22 +31,27 @@ public class DuelCommand implements Command {
 						Arena arena = cm.getMain().getAM().getRandomArena();
 						if (arena != null)
 						{
-							int rtd = cm.getMain().getRM().getRequestTimeoutDelay();
-							final Request request = new Request(cm.getMain().getRM(), arena, dueled.getUniqueId(), p.getUniqueId());
-							cm.getMain().getRM().pendingRequests.add(request);
-							dueled.sendMessage(Message.RECIEVED_DUEL_REQUEST.getFormatted(p.getName()));
-							p.sendMessage(Message.REQUEST_SENT.getFormatted(dueled.getName()));
-							p.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(rtd));
-							dueled.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(rtd));
-							Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable() {
-								public void run() {
-									try {
-										for (Request r : cm.getMain().getRM().pendingRequests)
-											if (r.equals(request))
-												request.cancel();
-									} catch (ConcurrentModificationException ignored) {}
-								}
-							}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
+							RequestSendEvent requestSendEvent = new RequestSendEvent(arena, p, dueled);
+							Bukkit.getPluginManager().callEvent(requestSendEvent);
+							if (!requestSendEvent.isCancelled()){
+								int rtd = cm.getMain().getRM().getRequestTimeoutDelay();
+								final Request request = new Request(cm.getMain().getRM(), arena, dueled.getUniqueId(), p.getUniqueId());
+								cm.getMain().getRM().pendingRequests.add(request);
+								dueled.sendMessage(Message.RECIEVED_DUEL_REQUEST.getFormatted(p.getName()));
+								p.sendMessage(Message.REQUEST_SENT.getFormatted(dueled.getName()));
+								p.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(rtd));
+								dueled.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(rtd));
+								Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable() {
+									public void run() {
+										try {
+											for (Request r : cm.getMain().getRM().pendingRequests)
+												if (r.equals(request))
+													request.cancel();
+										} catch (ConcurrentModificationException ignored) {}
+									}
+								}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
+							}else
+								p.sendMessage(ChatColor.RED + "Request send cancelled.");
 						}
 						else
 							p.sendMessage(Error.ARENA_OCCUPIED.get());

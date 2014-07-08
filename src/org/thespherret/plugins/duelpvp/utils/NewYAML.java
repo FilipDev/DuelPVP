@@ -26,7 +26,13 @@ public class NewYAML {
 			}
 		}
 		this.yamlFile = YamlConfiguration.loadConfiguration(file);
-		return yamlFile;
+		return this.yamlFile;
+	}
+
+	public YamlConfiguration newYaml1()
+	{
+		this.yamlFile = YamlConfiguration.loadConfiguration(file);
+		return this.yamlFile;
 	}
 
 	public File getFile()

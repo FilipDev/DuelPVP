@@ -1,8 +1,8 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.entity.Player;
-import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.enums.Error;
+import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
 public class CreateCommand implements Command {
@@ -10,7 +10,7 @@ public class CreateCommand implements Command {
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		if (p.hasPermission("DuelPvP.admin")){
+		if (cm.getMain().isPlayerAdmin(p)){
 			if (args.length < 1)
 				return false;
 			String arena = args[0];

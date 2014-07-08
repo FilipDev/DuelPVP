@@ -3,16 +3,16 @@ package org.thespherret.plugins.duelpvp.commands;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
+import org.thespherret.plugins.duelpvp.enums.Error;
 import org.thespherret.plugins.duelpvp.managers.ArenaManager;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
-import org.thespherret.plugins.duelpvp.enums.Error;
 
 public class ArenaTPCommand implements Command {
 
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		if (p.hasPermission("DuelPVP.admin")){
+		if (cm.getMain().isPlayerAdmin(p)){
 			if (args.length == 2){
 				ArenaManager am = cm.getMain().getAM();
 				Arena a;

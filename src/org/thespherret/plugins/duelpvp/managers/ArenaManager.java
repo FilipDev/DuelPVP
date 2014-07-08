@@ -5,10 +5,12 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
-import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.Main;
+import org.thespherret.plugins.duelpvp.enums.EndReason;
+import org.thespherret.plugins.duelpvp.utils.NMSandOBC;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -48,11 +50,9 @@ public class ArenaManager {
 		try{
 			for (String arenaString : main.arenas.getConfigurationSection("arenas").getKeys(false)){
 				Bukkit.getConsoleSender().sendMessage("Initializing arena " + arenaString + ".");
-				addArena(new Arena(this, arenaString));
+				this.addArena(new Arena(this, arenaString));
 			}
-		}catch (NullPointerException e){
-			e.printStackTrace();
-		}
+		}catch (NullPointerException ignored){}
 	}
 
 	public World getWorld(String arenaName)
@@ -101,6 +101,11 @@ public class ArenaManager {
 		return this.main;
 	}
 
+	public void lobbyTeleport(Player p)
+	{
+		teleportNoChecks(new Location(Bukkit.getWorld(main.getConfig().getString("lobby.world")), main.getConfig().getDouble("lobby.x"), main.getConfig().getDouble("lobby.y"), main.getConfig().getDouble("lobby.z"), main.getConfig().getInt("lobby.yaw"), main.getConfig().getInt("lobby.pitch")), p);
+	}
+
 	public Integer getMatchStartDelay()
 	{
 		return this.matchDelay;
@@ -115,6 +120,19 @@ public class ArenaManager {
 		if (unoccupiedArenas.isEmpty())
 			return null;
 		return getArena(unoccupiedArenas.get(new Random().nextInt(unoccupiedArenas.size())));
+	}
+
+	public void teleportNoChecks(Location loc, Player p)
+	{
+		try {
+			Object craftPlayer = NMSandOBC.getOBCClass("entity.CraftEntity").cast(p);
+			Object entityPlayer = craftPlayer.getClass().getMethod("getHandle").invoke(craftPlayer);
+
+			entityPlayer.getClass().getMethod("setPositionRotation", double.class, double.class, double.class, float.class, float.class).invoke(entityPlayer, loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+
+		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

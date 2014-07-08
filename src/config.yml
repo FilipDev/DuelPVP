@@ -11,3 +11,11 @@ allowedcommands:
   - p
   - r
   - m
+tracker:
+  shoulduse: true
+  mysql:
+    host: www.thespherret.org
+    port: 3306
+    name: spherre2_new
+    user: spherre2_testu
+    pass: testpass
