@@ -3,8 +3,8 @@ package org.thespherret.plugins.duelpvp.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Request;
-import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.enums.Error;
+import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
 public class AcceptCommand implements Command {

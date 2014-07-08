@@ -65,7 +65,7 @@ public class Main extends JavaPlugin {
 			try{
 				this.scoreTracker = new ScoreTracker(this);
 				Bukkit.broadcastMessage(PREFIX + ChatColor.GREEN + "Successfully connected to the MySQL database!");
-			}catch (SQLException e){
+			}catch (Exception e){
 				Bukkit.broadcastMessage(PREFIX + ChatColor.RED + "Unsuccessfully connected to the MySQL database!");
 				this.scoreTracker = null;
 			}
