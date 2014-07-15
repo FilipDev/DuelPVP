@@ -10,14 +10,12 @@ import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.events.RequestSendEvent;
 import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
-import java.util.ConcurrentModificationException;
-
 public class DuelCommand implements Command {
 
 	@Override
 	public boolean execute(final CommandManager cm, Player p, String[] args)
 	{
-		if (args.length == 1)
+		if (args.length > 1)
 		{
 			Player dueled;
 			if ((dueled = Bukkit.getPlayer(args[0])) != null)
@@ -28,7 +26,11 @@ public class DuelCommand implements Command {
 					Request request01 = cm.getMain().getRM().getRequest(dueled);
 					if ((request0 == null) && (request01 == null) && (cm.getMain().getAM().getArena(dueled) == null))
 					{
-						Arena arena = cm.getMain().getAM().getRandomArena();
+						Arena arena;
+						if (args.length == 1)
+							arena = cm.getMain().getAM().getRandomArena();
+						else
+							arena = cm.getMain().getAM().getArena(args[1]);
 						if (arena != null)
 						{
 							RequestSendEvent requestSendEvent = new RequestSendEvent(arena, p, dueled);
@@ -43,11 +45,8 @@ public class DuelCommand implements Command {
 								dueled.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(rtd));
 								Bukkit.getScheduler().scheduleSyncDelayedTask(cm.getMain(), new Runnable() {
 									public void run() {
-										try {
-											for (Request r : cm.getMain().getRM().pendingRequests)
-												if (r.equals(request))
-													request.cancel();
-										} catch (ConcurrentModificationException ignored) {}
+										if (cm.getMain().getRM().pendingRequests.contains(request))
+											request.cancel();
 									}
 								}, cm.getMain().getRM().getRequestTimeoutDelay() * 20);
 							}else

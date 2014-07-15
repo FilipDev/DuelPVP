@@ -4,17 +4,18 @@ version: 1.0
 author: Spherret.
 description: DuelPVP.
 commands:
- duel:
- accept:
- deny:
- arenas:
- create:
- duelpvp:
- end:
- arenatp:
- lobbytp:
- forcestart:
- arenatoggle:
+  duel:
+  accept:
+  deny:
+  arenas:
+  create:
+  duelpvp:
+  end:
+  arenatp:
+  lobbytp:
+  forcestart:
+  arenatoggle:
+  selectkit:
 permissions:
   DuelPVP.admin:
     default: op

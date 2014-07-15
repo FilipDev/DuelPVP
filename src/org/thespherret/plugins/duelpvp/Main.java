@@ -17,7 +17,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 
 public class Main extends JavaPlugin {
 
@@ -36,7 +35,7 @@ public class Main extends JavaPlugin {
 	private PlayerManager pm;
 	private RequestManager rm;
 
-	Events events = new Events(this);
+	public Events events = new Events(this);
 
 	public final static String PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
 	
@@ -64,9 +63,9 @@ public class Main extends JavaPlugin {
 		if (getConfig().getBoolean("tracker.shoulduse")){
 			try{
 				this.scoreTracker = new ScoreTracker(this);
-				Bukkit.broadcastMessage(PREFIX + ChatColor.GREEN + "Successfully connected to the MySQL database!");
+				Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.GREEN + "Successfully connected to the MySQL database!");
 			}catch (Exception e){
-				Bukkit.broadcastMessage(PREFIX + ChatColor.RED + "Unsuccessfully connected to the MySQL database!");
+				Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Unsuccessfully connected to the MySQL database!");
 				this.scoreTracker = null;
 			}
 		}

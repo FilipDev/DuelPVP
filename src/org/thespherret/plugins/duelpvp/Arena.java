@@ -225,7 +225,6 @@ public class Arena implements Runnable {
 				winner.sendMessage(ChatColor.RED + "Game start has been cancelled.");
 				loser.sendMessage(ChatColor.RED + "Game start has been cancelled.");
 				break;
-			default:
 		}
 		Bukkit.getScheduler().cancelTask(id);
 		Bukkit.getPluginManager().callEvent(new ArenaEndEvent(this, winner, loser));

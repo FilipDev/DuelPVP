@@ -11,6 +11,7 @@ public class Request {
 	private UUID defenderUUID, attackerUUID;
 	private Arena arena;
 	private RequestManager rm;
+	private boolean cancelled;
 
 	public Request(RequestManager rm, Arena arena, UUID defenderUUID, UUID attackerUUID)
 	{
@@ -18,6 +19,7 @@ public class Request {
 		this.arena = arena;
 		this.attackerUUID = attackerUUID;
 		this.defenderUUID = defenderUUID;
+		this.cancelled = false;
 	}
 
 	public Arena getArena()
@@ -38,7 +40,18 @@ public class Request {
 	public void cancel()
 	{
 		rm.pendingRequests.remove(this);
+		setCancelled(true);
 		Bukkit.getPlayer(defenderUUID).sendMessage(Message.REQUEST_TIMEDOUT.get());
 		Bukkit.getPlayer(attackerUUID).sendMessage(Message.REQUEST_TIMEDOUT.get());
+	}
+
+	private void setCancelled(boolean b)
+	{
+		this.cancelled = b;
+	}
+
+	public boolean isCancelled()
+	{
+		return this.cancelled;
 	}
 }

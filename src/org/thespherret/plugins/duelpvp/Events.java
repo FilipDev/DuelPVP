@@ -134,7 +134,7 @@ public class Events implements Listener {
 						Long lastClicked = clickedSign.get(p.getName());
 						if (lastClicked == null || System.currentTimeMillis() - lastClicked > 1000){
 							if (b == 1){
-								if (saveKit(p, Integer.parseInt(sign.getLine(1))))
+								if (main.getPM().saveKit(p, Integer.parseInt(sign.getLine(1))))
 									p.sendMessage(Message.SAVED_KIT.getFormatted(sign.getLine(1)));
 								else
 									p.sendMessage(Error.COULD_NOT_SAVE_KIT.get());
@@ -142,7 +142,7 @@ public class Events implements Listener {
 							else{
 								if (main.getAM().getArena(p) != null || p.isOp()){
 									try {
-										loadKit(p, Integer.parseInt(sign.getLine(1)));
+										main.getPM().loadKit(p, Integer.parseInt(sign.getLine(1)));
 										p.sendMessage(Message.LOADED_KIT.getFormatted(sign.getLine(1)));
 									} catch (Exception e1) {
 										e1.printStackTrace();
@@ -181,33 +181,6 @@ public class Events implements Listener {
 					e.getPlayer().sendMessage(Error.KIT_NUMBER_MUST_BE_SPECIFIED.get());
 			else
 				e.setCancelled(true);
-	}
-
-	public boolean saveKit(Player p, Integer kitNumber)
-	{
-		try {
-			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents().clone());
-			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".armor", p.getInventory().getArmorContents().clone());
-			main.kits.save(main.kits1.getFile());
-			return true;
-		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage(Error.COULD_NOT_SAVE_KIT.get());
-			return false;
-		}
-	}
-
-	public void loadKit(Player p, Integer kitNumber)
-		throws Exception
-	{
-		ItemStack[] invContents, armContents;
-		Object oInv, oArm;
-		
-		invContents = (oInv = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main")) instanceof ItemStack[] ? (ItemStack[]) oInv : (ItemStack[]) ((List) oInv).toArray(new ItemStack[4]);
-		armContents = (oArm = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor")) instanceof ItemStack[] ? (ItemStack[]) oArm : (ItemStack[]) ((List) oArm).toArray(new ItemStack[4]);
-
-		p.getInventory().setContents(invContents);
-		p.getInventory().setArmorContents(armContents);
-		p.updateInventory();
 	}
 
 	public boolean equalsAny(String s1, String... s2)

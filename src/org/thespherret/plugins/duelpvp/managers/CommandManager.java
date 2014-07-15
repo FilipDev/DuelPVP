@@ -28,6 +28,7 @@ public class CommandManager implements CommandExecutor {
 		commandMap.put("lobbytp", new LobbyTPCommand());
 		commandMap.put("forcestart", new ForceStartCommand());
 		commandMap.put("arenatoggle", new ArenaToggleCommand());
+		commandMap.put("selectkit", new SelectKitCommand());
 	}
 
 	@Override

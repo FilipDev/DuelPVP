@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.thespherret.plugins.duelpvp.Main;
 
 import java.io.IOException;
+import java.util.List;
 
 public class PlayerManager {
 
@@ -70,6 +71,34 @@ public class PlayerManager {
 		}
 		main.getAM().teleportNoChecks(location, p);
 		main.getAM().playersInArenas.remove(p.getName());
+	}
+
+
+	public boolean saveKit(Player p, Integer kitNumber)
+	{
+		try {
+			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".main", p.getInventory().getContents().clone());
+			main.kits.set(p.getUniqueId().toString() + "." + kitNumber + ".armor", p.getInventory().getArmorContents().clone());
+			main.kits.save(main.kits1.getFile());
+			return true;
+		} catch (Exception e) {
+			Bukkit.getConsoleSender().sendMessage(org.thespherret.plugins.duelpvp.enums.Error.COULD_NOT_SAVE_KIT.get());
+			return false;
+		}
+	}
+
+	public void loadKit(Player p, Integer kitNumber)
+			throws Exception
+	{
+		ItemStack[] invContents, armContents;
+		Object oInv, oArm;
+
+		invContents = (oInv = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".main")) instanceof ItemStack[] ? (ItemStack[]) oInv : (ItemStack[]) ((List) oInv).toArray(new ItemStack[4]);
+		armContents = (oArm = main.kits.get(p.getUniqueId().toString() + "." + kitNumber + ".armor")) instanceof ItemStack[] ? (ItemStack[]) oArm : (ItemStack[]) ((List) oArm).toArray(new ItemStack[4]);
+
+		p.getInventory().setContents(invContents);
+		p.getInventory().setArmorContents(armContents);
+		p.updateInventory();
 	}
 
 }

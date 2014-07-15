@@ -11,6 +11,7 @@ public class AcceptCommand implements Command {
 
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args){
+
 		Request request = cm.getMain().getRM().getRequest(p);
 		if (request != null){
 			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
