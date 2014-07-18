@@ -15,19 +15,19 @@ public class DuelCommand implements Command {
 	@Override
 	public boolean execute(final CommandManager cm, Player p, String[] args)
 	{
-		if (args.length > 1)
+		if (args.length != 0)
 		{
 			Player dueled;
 			if ((dueled = Bukkit.getPlayer(args[0])) != null)
 			{
-				if (!dueled.getName().equals(p.getName()))
+				if (!dueled.getName().equals(p.getName()) || true)
 				{
 					Request request0 = cm.getMain().getRM().getRequest(p);
 					Request request01 = cm.getMain().getRM().getRequest(dueled);
 					if ((request0 == null) && (request01 == null) && (cm.getMain().getAM().getArena(dueled) == null))
 					{
 						Arena arena;
-						if (args.length == 1)
+						if (args.length == 1 && p.hasPermission("DuelPVP.SelectArena"))
 							arena = cm.getMain().getAM().getRandomArena();
 						else
 							arena = cm.getMain().getAM().getArena(args[1]);

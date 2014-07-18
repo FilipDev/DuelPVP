@@ -18,8 +18,6 @@ public class ScoreTracker implements Listener {
 	private MySQL mySQL;
 	Connection c;
 
-	public static boolean works = false;
-
 	public ScoreTracker(Main main) throws SQLException {
 		this.main = main;
 		this.setupMySQL();
@@ -28,7 +26,7 @@ public class ScoreTracker implements Listener {
 	@EventHandler
 	public void onArenaEnd(ArenaEndEvent e){
 		Player p = e.getWinner();
-
+		System.out.println(p.getName() + " has won");
 	}
 
 	public void setupMySQL() throws SQLException {

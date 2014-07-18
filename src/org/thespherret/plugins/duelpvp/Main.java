@@ -63,6 +63,7 @@ public class Main extends JavaPlugin {
 		if (getConfig().getBoolean("tracker.shoulduse")){
 			try{
 				this.scoreTracker = new ScoreTracker(this);
+				getServer().getPluginManager().registerEvents(this.scoreTracker, this);
 				Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.GREEN + "Successfully connected to the MySQL database!");
 			}catch (Exception e){
 				Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Unsuccessfully connected to the MySQL database!");
@@ -81,7 +82,7 @@ public class Main extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public CommandManager getCM()
 	{
 		return this.cm;
@@ -123,6 +124,6 @@ public class Main extends JavaPlugin {
 
 	public boolean isPlayerAdmin(Player p)
 	{
-		return p.hasPermission("DuelPVP.admin");
+		return p.hasPermission("DuelPVP.Admin");
 	}
 }

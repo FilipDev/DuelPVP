@@ -12,7 +12,7 @@ public class ForceStartCommand implements Command {
 	@Override
 	public boolean execute(CommandManager cm, Player p, String[] args)
 	{
-		if (p.hasPermission("DuelPVP.force")){
+		if (p.hasPermission("DuelPVP.Force")){
 			Arena a;
 			if ((a = cm.getMain().getAM().getArena(p)) != null){
 				if (!a.hasStarted()){

@@ -227,7 +227,8 @@ public class Arena implements Runnable {
 				break;
 		}
 		Bukkit.getScheduler().cancelTask(id);
-		Bukkit.getPluginManager().callEvent(new ArenaEndEvent(this, winner, loser));
+		ArenaEndEvent arenaEndEvent = new ArenaEndEvent(this, endReason, winner, loser);
+		Bukkit.getPluginManager().callEvent(arenaEndEvent);
 		this.winner = null;
 		this.loser = null;
 		this.player1 = null;

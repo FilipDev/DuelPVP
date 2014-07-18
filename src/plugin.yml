@@ -17,9 +17,12 @@ commands:
   arenatoggle:
   selectkit:
 permissions:
-  DuelPVP.admin:
+  DuelPVP.Admin:
     default: op
     description: Allows players to create arenas.
-  DuelPVP.force:
+  DuelPVP.Force:
+    default: op
+    description: Allows force starting arena matches.
+  DuelPVP.SelectArena:
     default: op
     description: Allows force starting arena matches.
