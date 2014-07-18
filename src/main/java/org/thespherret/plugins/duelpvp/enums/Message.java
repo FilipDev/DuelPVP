@@ -31,7 +31,7 @@ public enum Message {
 
 	public String get()
 	{
-		return ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.messages.getString(this.name()));
+		return ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.getMain().messages.getString(this.name()));
 	}
 
 	public String getFormatted(Object... strings)

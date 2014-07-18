@@ -20,20 +20,26 @@ import java.io.InputStreamReader;
 
 public class Main extends JavaPlugin {
 
-	public NewYAML arenas1, playerData1, kits1;
-	public YamlConfiguration arenas, playerData, kits;
+	public NewYAML arenas1, playerData1, kits1, messages1;
+	public YamlConfiguration arenas, playerData, kits, messages;
 
-	ScoreTracker scoreTracker;
+	private ScoreTracker scoreTracker;
 
-	public static NewYAML messages1;
-	public static YamlConfiguration messages;
-
-	File messagesFile;
+	private File messagesFile;
 
 	private CommandManager cm;
 	private ArenaManager am;
 	private PlayerManager pm;
 	private RequestManager rm;
+
+	private static Main main;
+
+	public static Main getMain()
+	{
+		if (Main.main == null)
+			Main.main = new Main();
+		return Main.main;
+	}
 
 	public final Events events = new Events(this);
 
