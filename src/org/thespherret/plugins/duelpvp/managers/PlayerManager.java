@@ -12,7 +12,7 @@ import java.util.List;
 
 public class PlayerManager {
 
-	Main main;
+	final Main main;
 
 	public PlayerManager(Main main)
 	{

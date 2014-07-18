@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class ArenaManager {
 
-	Main main;
-	private int matchDelay;
+	final Main main;
+	private final int matchDelay;
 
 	public HashMap<String, Arena> activeArenas = new HashMap<>();
 

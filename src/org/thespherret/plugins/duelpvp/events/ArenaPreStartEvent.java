@@ -9,8 +9,8 @@ import org.thespherret.plugins.duelpvp.Arena;
 public class ArenaPreStartEvent extends Event implements Cancellable {
 
 	private static final HandlerList handlers = new HandlerList();
-	private Player player1, player2;
-	private Arena arena;
+	private final Player player1, player2;
+	private final Arena arena;
 	private boolean cancelled;
 
 	public ArenaPreStartEvent(Arena arena, Player player1, Player player2) {

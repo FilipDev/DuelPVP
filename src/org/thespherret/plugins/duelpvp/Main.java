@@ -35,7 +35,7 @@ public class Main extends JavaPlugin {
 	private PlayerManager pm;
 	private RequestManager rm;
 
-	public Events events = new Events(this);
+	public final Events events = new Events(this);
 
 	public final static String PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
 	

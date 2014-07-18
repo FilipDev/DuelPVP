@@ -9,8 +9,8 @@ import org.thespherret.plugins.duelpvp.Arena;
 public class RequestSendEvent extends Event implements Cancellable {
 
 	private static final HandlerList handlers = new HandlerList();
-	private Player attacker, defender;
-	private Arena arena;
+	private final Player attacker, defender;
+	private final Arena arena;
 	private boolean cancelled;
 
 	public RequestSendEvent(Arena arena, Player attacker, Player defender) {

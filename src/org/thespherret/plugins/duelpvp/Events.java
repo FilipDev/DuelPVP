@@ -24,8 +24,8 @@ import java.util.List;
 
 public class Events implements Listener {
 
-	private Main main;
-	private HashMap<String, Long> clickedSign = new HashMap<>();
+	private final Main main;
+	private final HashMap<String, Long> clickedSign = new HashMap<>();
 
     public Events(Main main)
     {

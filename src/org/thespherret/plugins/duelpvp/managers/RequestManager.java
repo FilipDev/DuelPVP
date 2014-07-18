@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class RequestManager {
 
-	public ArrayList<Request> pendingRequests = new ArrayList<>();
-	private int requestTimeoutDelay;
+	public final ArrayList<Request> pendingRequests = new ArrayList<>();
+	private final int requestTimeoutDelay;
 
 	Main main;
 

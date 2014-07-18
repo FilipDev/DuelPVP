@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class Request {
 
-	private UUID defenderUUID, attackerUUID;
-	private Arena arena;
-	private RequestManager rm;
+	private final UUID defenderUUID, attackerUUID;
+	private final Arena arena;
+	private final RequestManager rm;
 	private boolean cancelled;
 
 	public Request(RequestManager rm, Arena arena, UUID defenderUUID, UUID attackerUUID)

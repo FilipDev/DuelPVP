@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 public class CommandManager implements CommandExecutor {
 
-	Main main;
-	HashMap<String, org.thespherret.plugins.duelpvp.commands.Command> commandMap = new HashMap<>();
+	final Main main;
+	final HashMap<String, org.thespherret.plugins.duelpvp.commands.Command> commandMap = new HashMap<>();
 
 	public CommandManager(Main main)
 	{

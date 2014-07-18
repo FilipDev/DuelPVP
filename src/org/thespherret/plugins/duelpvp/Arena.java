@@ -20,14 +20,14 @@ public class Arena implements Runnable {
 
 	ArenaManager am;
 
-	private String arenaName;
-	private Location[] spawns = new Location[2];
+	private final String arenaName;
+	private final Location[] spawns = new Location[2];
 	private Player player1, player2;
 	private HashMap<String, Boolean> requestsToEnd = new HashMap<>();
 	private int id;
 	private boolean enabled;
 
-	Main main;
+	private final Main main;
 
 	private Player winner, loser;
 

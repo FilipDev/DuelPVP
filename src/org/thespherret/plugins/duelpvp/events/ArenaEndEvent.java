@@ -9,9 +9,9 @@ import org.thespherret.plugins.duelpvp.enums.EndReason;
 public class ArenaEndEvent extends Event {
 
 	private static final HandlerList handlers = new HandlerList();
-	private Player winner, loser;
-	private EndReason reason;
-	private Arena arena;
+	private final Player winner, loser;
+	private final EndReason reason;
+	private final Arena arena;
 
 	public ArenaEndEvent(Arena arena, EndReason endReason, Player winner, Player loser) {
 		this.winner = winner;
