@@ -14,7 +14,7 @@ public class EndCommand implements Command {
 		if (((arena = cm.getMain().getAM().getArena(p)) != null) && (arena.hasStarted()))
 			arena.toggleRequestEnd(p);
 		else
-			p.sendMessage(Error.NOT_IN_STARTED_ARENA.get());
+			p.sendMessage(Error.NOT_IN_STARTED_ARENA.toString());
 		return true;
 	}
 }

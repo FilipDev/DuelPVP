@@ -22,7 +22,7 @@ public class CreateCommand implements Command {
 				cm.getMain().getConfig().set("lobby.z", p.getLocation().getZ());
 				cm.getMain().getConfig().set("lobby.yaw", p.getLocation().getYaw());
 				cm.getMain().getConfig().set("lobby.pitch", p.getLocation().getPitch());
-				p.sendMessage(Message.SET_LOBBY_POS.get());
+				p.sendMessage(Message.SET_LOBBY_POS.toString());
 			}else{
 				if (args.length == 2){
 					int pos;
@@ -32,12 +32,12 @@ public class CreateCommand implements Command {
 						if (cm.getMain().arenas.get("arenas." + arena + ".enabled") == null)
 							cm.getMain().arenas.set("arenas." + arena + ".enabled", false);
 					}else
-						p.sendMessage(Error.TOO_MANY_SPAWN_POINTS.get());
+						p.sendMessage(Error.TOO_MANY_SPAWN_POINTS.toString());
 				}else
-					p.sendMessage(Error.INCORRECT_USAGE.get());
+					p.sendMessage(Error.INCORRECT_USAGE.toString());
 			}
 		}else
-			p.sendMessage(Error.NO_COMMAND_PERMISSION.get());
+			p.sendMessage(Error.NO_COMMAND_PERMISSION.toString());
 		return true;
 	}
 }

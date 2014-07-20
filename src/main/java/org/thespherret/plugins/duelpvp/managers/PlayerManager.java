@@ -82,7 +82,7 @@ public class PlayerManager {
 			main.kits.save(main.kits1.getFile());
 			return true;
 		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage(org.thespherret.plugins.duelpvp.enums.Error.COULD_NOT_SAVE_KIT.get());
+			Bukkit.getConsoleSender().sendMessage(org.thespherret.plugins.duelpvp.enums.Error.COULD_NOT_SAVE_KIT.toString());
 			return false;
 		}
 	}

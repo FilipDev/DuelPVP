@@ -20,14 +20,16 @@ public class ArenaTPCommand implements Command {
 					try{
 						Location loc = am.getSpawnPoint(a.getArenaName(), Integer.parseInt(args[1]) - 1);
 						p.teleport(loc);
+					}catch (NumberFormatException e){
+						p.sendMessage(Error.SPAWN_POINT_NOT_SET.toString());
 					}catch (NullPointerException e){
-						p.sendMessage(Error.SPAWN_POINT_NOT_SET.get());
+						p.sendMessage(Error.SPAWN_POINT_NOT_SET.toString());
 					}
 				}
 			}else
-				p.sendMessage(Error.INCORRECT_USAGE.get());
+				p.sendMessage(Error.INCORRECT_USAGE.toString());
 		}else
-			p.sendMessage(Error.NO_COMMAND_PERMISSION.get());
+			p.sendMessage(Error.NO_COMMAND_PERMISSION.toString());
 		return true;
 	}
 }

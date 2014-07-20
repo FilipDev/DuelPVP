@@ -12,10 +12,9 @@ public class SelectKitCommand implements Command {
 
 			try{
 				Integer kitNumber = Integer.parseInt(args[0]);
-
 				cm.getMain().getPM().loadKit(p, kitNumber);
 			}catch (Exception e){
-				p.sendMessage(Error.DO_NOT_HAVE_KIT.get());
+				p.sendMessage(Error.DO_NOT_HAVE_KIT.toString());
 			}
 		}
 

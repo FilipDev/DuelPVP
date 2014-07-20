@@ -18,11 +18,11 @@ public class ForceStartCommand implements Command {
 				if (!a.hasStarted()){
 					a.gameStart();
 					Bukkit.getScheduler().cancelTask(a.getScheduledTask());
-					p.sendMessage(Message.FORCE_STARTED_MATCH.get());
+					p.sendMessage(Message.FORCE_STARTED_MATCH.toString());
 				}else
-					p.sendMessage(Error.ARENA_NOT_STARTED.get());
+					p.sendMessage(Error.ARENA_NOT_STARTED.toString());
 			}else
-				p.sendMessage(Error.NOT_IN_ARENA.get());
+				p.sendMessage(Error.NOT_IN_ARENA.toString());
 		}
 		return true;
 	}

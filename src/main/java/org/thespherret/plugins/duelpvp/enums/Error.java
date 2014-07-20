@@ -26,21 +26,21 @@ public enum Error {
 	CANNOT_USE_COMMAND_IN_MATCH("Cannot use this command while in a match."),
 	;
 
-	private String s;
+	private String error;
 
-	Error(String s)
+	Error(String error)
 	{
-		this.s = s;
+		this.error = error;
 	}
 
-	public String get()
+	public String toString()
 	{
-		return ChatColor.RED + "Error: " + ChatColor.DARK_RED + this.s;
+		return ChatColor.RED + "Error: " + ChatColor.DARK_RED + this.error;
 	}
 
 	public String getFormatted(String... strings)
 	{
-		String s1 = get();
+		String s1 = toString();
 		for (String s2 : strings)
 			s1 = s1.replaceFirst("%v", ChatColor.RED + s2 + ChatColor.DARK_RED);
 		return s1;

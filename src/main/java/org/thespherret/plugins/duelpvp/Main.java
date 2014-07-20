@@ -25,8 +25,6 @@ public class Main extends JavaPlugin {
 
 	private ScoreTracker scoreTracker;
 
-	private File messagesFile;
-
 	private CommandManager cm;
 	private ArenaManager am;
 	private PlayerManager pm;
@@ -58,7 +56,7 @@ public class Main extends JavaPlugin {
 		for (String command : getDescription().getCommands().keySet())
 			getCommand(command).setExecutor(cm);
 
-		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.get());
+		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.toString());
 
 		this.arenas = (this.arenas1 = new NewYAML(new File(getDataFolder() + File.separator + "arenas.dat"))).newYaml();
 		this.kits = (this.kits1 = new NewYAML(new File(getDataFolder() + File.separator + "kits.dat"))).newYaml();
@@ -110,7 +108,7 @@ public class Main extends JavaPlugin {
 	}
 
 	private void generateMessages(){
-		messagesFile = new File(getDataFolder() + File.separator + "messages.yml");
+		File messagesFile = new File(getDataFolder() + File.separator + "messages.yml");
 
 		if (!messagesFile.exists()){
 			messages = (messages1 = new NewYAML(messagesFile)).newYaml();

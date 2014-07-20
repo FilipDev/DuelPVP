@@ -41,8 +41,8 @@ public class Request {
 	{
 		rm.pendingRequests.remove(this);
 		setCancelled(true);
-		Bukkit.getPlayer(defenderUUID).sendMessage(Message.REQUEST_TIMEDOUT.get());
-		Bukkit.getPlayer(attackerUUID).sendMessage(Message.REQUEST_TIMEDOUT.get());
+		Bukkit.getPlayer(defenderUUID).sendMessage(Message.REQUEST_TIMEDOUT.toString());
+		Bukkit.getPlayer(attackerUUID).sendMessage(Message.REQUEST_TIMEDOUT.toString());
 	}
 
 	private void setCancelled(boolean b)

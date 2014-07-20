@@ -131,7 +131,7 @@ public class Arena implements Runnable {
 		}else if (this.requestsToEnd.get(player.getName())){
 			player1.sendMessage(Message.END_MATCH_REQUEST.getFormatted(player.getName()));
 			player2.sendMessage(Message.END_MATCH_REQUEST.getFormatted(player.getName()));
-			getOtherPlayer(player).sendMessage(Message.END_MATCH_TIP.get());
+			getOtherPlayer(player).sendMessage(Message.END_MATCH_TIP.toString());
 		}else{
 			player1.sendMessage(Message.END_MATCH_REVOCATION.getFormatted(player.getName()));
 			player2.sendMessage(Message.END_MATCH_REVOCATION.getFormatted(player.getName()));
@@ -197,8 +197,8 @@ public class Arena implements Runnable {
 			case END:
 				revertPlayer(player1);
 				revertPlayer(player2);
-				player1.sendMessage(Message.END_MATCH.get());
-				player2.sendMessage(Message.END_MATCH.get());
+				player1.sendMessage(Message.END_MATCH.toString());
+				player2.sendMessage(Message.END_MATCH.toString());
 				break;
 			case SERVER_CLOSE:
 				revertPlayer(player1);
@@ -217,7 +217,7 @@ public class Arena implements Runnable {
 			case DISCONNECT:
 				revertPlayer(winner);
 				revertPlayer(loser);
-				getWinner().sendMessage(Message.PARTNER_DISCONNECTED.get());
+				getWinner().sendMessage(Message.PARTNER_DISCONNECTED.toString());
 				break;
 			case CANCELLED:
 				revertPlayer(winner);
@@ -286,6 +286,8 @@ public class Arena implements Runnable {
 	public boolean setEnabled(boolean b)
 	{
 		am.getMain().arenas.set("arenas." + arenaName + ".enabled", b);
+		if (this.started)
+			endGame(EndReason.DISABLE);
 		try {
 			am.getMain().arenas.save(am.getMain().arenas1.getFile());
 		} catch (IOException e) {

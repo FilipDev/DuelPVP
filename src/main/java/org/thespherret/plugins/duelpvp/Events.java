@@ -38,7 +38,7 @@ public class Events implements Listener {
 		if (main.getAM().getArena(e.getPlayer()) != null)
 			if (!e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)){
 				e.setCancelled(true);
-				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.get());
+				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.toString());
 			}
 	}
 
@@ -50,7 +50,7 @@ public class Events implements Listener {
 				List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
 				if (!(allowedCommands.contains(e.getMessage().split(" ")[0].replaceFirst("/", "")))){
 					e.setCancelled(true);
-					e.getPlayer().sendMessage(Error.CANNOT_USE_COMMAND_IN_MATCH.get());
+					e.getPlayer().sendMessage(Error.CANNOT_USE_COMMAND_IN_MATCH.toString());
 				}
 			}
 	}
@@ -83,7 +83,7 @@ public class Events implements Listener {
 	public void onBlockBreak(BlockBreakEvent e)
 	{
 		if (main.getAM().getArena(e.getPlayer()) != null){
-			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
+			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.toString());
 			e.setCancelled(true);
 		}
 	}
@@ -92,7 +92,7 @@ public class Events implements Listener {
 	public void onBlockPlace(BlockPlaceEvent e)
 	{
 		if (main.getAM().getArena(e.getPlayer()) != null){
-			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.get());
+			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.toString());
 			e.setCancelled(true);
 		}
 	}
@@ -137,7 +137,7 @@ public class Events implements Listener {
 								if (main.getPM().saveKit(p, Integer.parseInt(sign.getLine(1))))
 									p.sendMessage(Message.SAVED_KIT.getFormatted(sign.getLine(1)));
 								else
-									p.sendMessage(Error.COULD_NOT_SAVE_KIT.get());
+									p.sendMessage(Error.COULD_NOT_SAVE_KIT.toString());
 							}
 							else{
 								if (main.getAM().getArena(p) != null || p.isOp()){
@@ -146,16 +146,16 @@ public class Events implements Listener {
 										p.sendMessage(Message.LOADED_KIT.getFormatted(sign.getLine(1)));
 									} catch (Exception e1) {
 										e1.printStackTrace();
-										p.sendMessage(Error.DO_NOT_HAVE_KIT.get());
+										p.sendMessage(Error.DO_NOT_HAVE_KIT.toString());
 									}
 								}else{
 									e.setCancelled(true);
-									p.sendMessage(Error.LOAD_KIT_NOT_IN_MATCH.get());
+									p.sendMessage(Error.LOAD_KIT_NOT_IN_MATCH.toString());
 								}
 							}
 						}else{
 							e.setCancelled(true);
-							p.sendMessage(Error.WAIT_BETWEEN_SIGN_CLICK.get());
+							p.sendMessage(Error.WAIT_BETWEEN_SIGN_CLICK.toString());
 						}
 						e.setCancelled(true);
 						clickedSign.put(p.getName(), System.currentTimeMillis());
@@ -178,7 +178,7 @@ public class Events implements Listener {
 				if (e.getLine(1).equals("\\d+"))
 					e.setLine(0, ChatColor.BLUE + line + "§f");
 				else
-					e.getPlayer().sendMessage(Error.KIT_NUMBER_MUST_BE_SPECIFIED.get());
+					e.getPlayer().sendMessage(Error.KIT_NUMBER_MUST_BE_SPECIFIED.toString());
 			else
 				e.setCancelled(true);
 	}

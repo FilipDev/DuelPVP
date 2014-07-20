@@ -29,16 +29,25 @@ public enum Message {
 	REQUEST_TIMEDOUT,
 	;
 
-	public String get()
+	private String message;
+
+	private Message()
 	{
-		return ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.getMain().messages.getString(this.name()));
+		this.message = ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.getMain().messages.getString(name()));
+	}
+
+	@Override
+	public String toString()
+	{
+		return message;
 	}
 
 	public String getFormatted(Object... strings)
 	{
-		String s1 = get();
+		String s1 = toString();
 		for (Object s2 : strings)
 			s1 = s1.replaceFirst("%v", s2.toString());
 		return s1;
 	}
+
 }

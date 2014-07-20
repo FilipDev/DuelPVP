@@ -14,14 +14,14 @@ public class DenyCommand implements Command {
 		Request request = cm.getMain().getRM().getRequest(p);
 		if (request != null) {
 			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
-			if (attacker.isOnline()) {
+			if (!(attacker == null)) {
 				p.sendMessage(Message.REQUEST_DENY.getFormatted(attacker.getName()));
 				attacker.sendMessage(Message.REQUEST_DENIED.getFormatted(p.getName()));
 			}
 			cm.getMain().getRM().pendingRequests.remove(request);
 			return true;
 		}
-		p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.get());
+		p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.toString());
 		return true;
 	}
 }

@@ -1,8 +1,10 @@
 package org.thespherret.plugins.duelpvp.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Main;
 import org.thespherret.plugins.duelpvp.Request;
+import org.thespherret.plugins.duelpvp.enums.Message;
 
 import java.util.ArrayList;
 
@@ -33,5 +35,22 @@ public class RequestManager {
 	public int getRequestTimeoutDelay()
 	{
 		return requestTimeoutDelay;
+	}
+
+	public void sendRequest(final Request request)
+	{
+		Player sender = Bukkit.getPlayer(request.getDefenderUUID());
+		Player reciever = Bukkit.getPlayer(request.getAttackerUUID());
+		pendingRequests.add(request);
+		reciever.sendMessage(Message.RECIEVED_DUEL_REQUEST.getFormatted(sender.getName()));
+		sender.sendMessage(Message.REQUEST_SENT.getFormatted(reciever.getName()));
+		sender.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(getRequestTimeoutDelay()));
+		sender.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(getRequestTimeoutDelay()));
+		Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
+			public void run() {
+				if (pendingRequests.contains(request))
+					request.cancel();
+			}
+		}, getRequestTimeoutDelay() * 20);
 	}
 }

@@ -12,7 +12,7 @@ public class LobbyTPCommand implements Command {
 		if (cm.getMain().isPlayerAdmin(p))
 			cm.getMain().getAM().lobbyTeleport(p);
 		else
-			p.sendMessage(Error.NO_COMMAND_PERMISSION.get());
+			p.sendMessage(Error.NO_COMMAND_PERMISSION.toString());
 		return true;
 	}
 }
