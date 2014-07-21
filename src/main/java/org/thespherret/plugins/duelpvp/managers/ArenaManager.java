@@ -20,9 +20,9 @@ public class ArenaManager {
 	final Main main;
 	private final int matchDelay;
 
-	public HashMap<String, Arena> activeArenas = new HashMap<>();
+	public final HashMap<String, Arena> activeArenas = new HashMap<>();
 
-	public HashMap<String, String> playersInArenas = new HashMap<>();
+	public final HashMap<String, String> playersInArenas = new HashMap<>();
 
 	public ArenaManager(Main main)
 	{

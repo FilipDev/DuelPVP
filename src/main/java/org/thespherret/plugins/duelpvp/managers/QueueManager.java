@@ -6,7 +6,7 @@ import org.thespherret.plugins.duelpvp.Request;
 
 public class QueueManager {
 
-	Main main;
+	final Main main;
 
 	Player player1;
 

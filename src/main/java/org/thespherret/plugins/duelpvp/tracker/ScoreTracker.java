@@ -14,7 +14,7 @@ import java.sql.Statement;
 
 public class ScoreTracker implements Listener {
 
-	Main main;
+	final Main main;
 	private MySQL mySQL;
 	Connection c;
 

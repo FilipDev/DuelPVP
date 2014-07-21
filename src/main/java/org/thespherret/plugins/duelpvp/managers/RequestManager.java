@@ -13,7 +13,7 @@ public class RequestManager {
 	public final ArrayList<Request> pendingRequests = new ArrayList<>();
 	private final int requestTimeoutDelay;
 
-	Main main;
+	final Main main;
 
 	public RequestManager(Main main)
 	{

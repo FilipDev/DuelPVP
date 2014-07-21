@@ -38,7 +38,6 @@ public class CommandManager implements CommandExecutor {
 	{
 		if (commandSender instanceof Player)
 		{
-			//commandMap.get(command.getName()).execute();
 			commandMap.get(command.getName()).execute(this, (Player) commandSender, strings);
 			return true;
 		}
