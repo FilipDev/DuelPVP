@@ -20,3 +20,4 @@ REQUEST_ACCEPTED: &b%v has accepted the duel request!
 REQUEST_DENY: &cDenied duel request from %v.
 REQUEST_DENIED: &c%v denied your duel request!
 REQUEST_TIMEDOUT: &9Duel request timed out.
+ADDED_TO_QUEUE: &bYou have been added to the queue.

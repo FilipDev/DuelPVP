@@ -1,11 +1,13 @@
 package org.thespherret.plugins.duelpvp.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Main;
 import org.thespherret.plugins.duelpvp.commands.*;
+import org.thespherret.plugins.duelpvp.enums.Error;
 
 import java.util.HashMap;
 
@@ -34,7 +36,17 @@ public class CommandManager implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings)
 	{
-		return commandSender instanceof Player && commandMap.get(command.getName()).execute(this, (Player) commandSender, strings);
+		if (commandSender instanceof Player)
+		{
+			//commandMap.get(command.getName()).execute();
+			commandMap.get(command.getName()).execute(this, (Player) commandSender, strings);
+			return true;
+		}
+		else
+		{
+			Bukkit.getConsoleSender().sendMessage(Error.CONSOLE_CANNOT_SEND.toString());
+			return false;
+		}
 	}
 
 	public Main getMain()

@@ -6,13 +6,12 @@ import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
 import org.thespherret.plugins.duelpvp.Request;
 import org.thespherret.plugins.duelpvp.enums.Error;
+import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.events.RequestSendEvent;
-import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
-public class DuelCommand implements Command {
+public class DuelCommand extends Command {
 
-	@Override
-	public boolean execute(final CommandManager cm, Player p, String[] args)
+	public void execute()
 	{
 		if (args.length != 0)
 		{
@@ -49,11 +48,33 @@ public class DuelCommand implements Command {
 				else
 					p.sendMessage(Error.CANNOT_DUEL_YOURSELF.toString());
 			}
+			else if (args[0].equalsIgnoreCase("random"))
+			{
+				createRequest();
+			}
 			else
 				p.sendMessage(Error.CANNOT_FIND_PLAYER.getFormatted(args[0]));
 		}
 		else
 			p.sendMessage(Error.INCORRECT_USAGE.toString());
-		return true;
+	}
+
+	public void createRequest()
+	{
+		Arena arena;
+		if (args.length == 1 && p.hasPermission("DuelPVP.SelectArena"))
+			arena = cm.getMain().getAM().getRandomArena();
+		else
+			arena = cm.getMain().getAM().getArena(args[1]);
+		if (arena != null)
+		{
+			Request request = cm.getMain().getQM().createRequest(p);
+			if (request != null)
+				cm.getMain().getRM().sendRequest(request);
+			else
+				p.sendMessage(Message.ADDED_TO_QUEUE.toString());
+		}
+		else
+			p.sendMessage(Error.ARENA_OCCUPIED.toString());
 	}
 }

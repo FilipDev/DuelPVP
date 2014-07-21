@@ -39,13 +39,13 @@ public class RequestManager {
 
 	public void sendRequest(final Request request)
 	{
-		Player sender = Bukkit.getPlayer(request.getDefenderUUID());
-		Player reciever = Bukkit.getPlayer(request.getAttackerUUID());
+		Player sender = Bukkit.getPlayer(request.getAttackerUUID());
+		Player reciever = Bukkit.getPlayer(request.getDefenderUUID());
 		pendingRequests.add(request);
 		reciever.sendMessage(Message.RECIEVED_DUEL_REQUEST.getFormatted(sender.getName()));
 		sender.sendMessage(Message.REQUEST_SENT.getFormatted(reciever.getName()));
 		sender.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(getRequestTimeoutDelay()));
-		sender.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(getRequestTimeoutDelay()));
+		reciever.sendMessage(Message.REQUEST_TIMEOUT.getFormatted(getRequestTimeoutDelay()));
 		Bukkit.getScheduler().scheduleSyncDelayedTask(main, new Runnable() {
 			public void run() {
 				if (pendingRequests.contains(request))

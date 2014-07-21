@@ -2,15 +2,12 @@ package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.entity.Player;
-import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
 import java.io.IOException;
 
-public class InfoCommand implements Command {
+public class InfoCommand extends Command {
 
-	@Override
-	public boolean execute(CommandManager cm, Player p, String[] args)
+	public void execute()
 	{
 		if (args[0].equalsIgnoreCase("reload") && cm.getMain().isPlayerAdmin(p)){
 			p.sendMessage(ChatColor.GREEN + "Reloading config.");
@@ -27,6 +24,5 @@ public class InfoCommand implements Command {
 				e.printStackTrace();
 			}
 		}
-		return true;
 	}
 }

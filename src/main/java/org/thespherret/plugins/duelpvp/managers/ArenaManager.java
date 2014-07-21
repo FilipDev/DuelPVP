@@ -127,10 +127,11 @@ public class ArenaManager {
 		try {
 			Object craftPlayer = NMSandOBC.getOBCClass("entity.CraftEntity").cast(p);
 			Object entityPlayer = craftPlayer.getClass().getMethod("getHandle").invoke(craftPlayer);
+			Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
 
-			entityPlayer.getClass().getMethod("setPositionRotation", double.class, double.class, double.class, float.class, float.class).invoke(entityPlayer, loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+			playerConnection.getClass().getMethod("teleport", Location.class).invoke(playerConnection, loc);
 
-		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
 			e.printStackTrace();
 		}
 	}

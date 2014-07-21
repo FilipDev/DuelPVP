@@ -5,13 +5,11 @@ import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Request;
 import org.thespherret.plugins.duelpvp.enums.Error;
 import org.thespherret.plugins.duelpvp.enums.Message;
-import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
-public class AcceptCommand implements Command {
+public class AcceptCommand extends Command {
 
-	@Override
-	public boolean execute(CommandManager cm, Player p, String[] args){
-
+	public void execute()
+	{
 		Request request = cm.getMain().getRM().getRequest(p);
 		if (request != null){
 			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
@@ -23,9 +21,7 @@ public class AcceptCommand implements Command {
 			else
 				p.sendMessage(Message.PARTNER_DISCONNECTED.toString());
 			cm.getMain().getRM().pendingRequests.remove(request);
-			return true;
-		}
-		p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.toString());
-		return true;
+		}else
+			p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.toString());
 	}
 }

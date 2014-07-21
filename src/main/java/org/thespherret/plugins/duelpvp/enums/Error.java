@@ -24,6 +24,7 @@ public enum Error {
 	ARENA_OCCUPIED("All arenas are currently occupied."),
 	CANNOT_TELEPORT_IN_ARENA("Cannot teleport when inside a started arena."),
 	CANNOT_USE_COMMAND_IN_MATCH("Cannot use this command while in a match."),
+	CONSOLE_CANNOT_SEND("Console cannot use DuelPVP commands."),
 	;
 
 	private String error;

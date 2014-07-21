@@ -1,14 +1,11 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.enums.Error;
-import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
-public class ArenaToggleCommand implements Command {
+public class ArenaToggleCommand extends Command {
 
-	@Override
-	public boolean execute(CommandManager cm, Player p, String[] args)
+	public void execute()
 	{
 		if (cm.getMain().isPlayerAdmin(p)){
 			if (args.length == 1){
@@ -18,6 +15,5 @@ public class ArenaToggleCommand implements Command {
 				p.sendMessage(Error.INCORRECT_USAGE.toString());
 		}else
 			p.sendMessage(Error.NO_COMMAND_PERMISSION.toString());
-		return true;
 	}
 }

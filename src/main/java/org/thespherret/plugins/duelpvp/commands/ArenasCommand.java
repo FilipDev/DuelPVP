@@ -1,16 +1,13 @@
 package org.thespherret.plugins.duelpvp.commands;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Arena;
-import org.thespherret.plugins.duelpvp.managers.CommandManager;
 
 import java.util.HashMap;
 
-public class ArenasCommand implements Command {
+public class ArenasCommand extends Command {
 
-	@Override
-	public boolean execute(CommandManager cm, Player p, String[] args)
+	public void execute()
 	{
 		p.sendMessage(ChatColor.DARK_GRAY + "===" + ChatColor.AQUA + "1v1 Arenas" + ChatColor.DARK_GRAY + "===");
 		HashMap<Integer, String> stringGroups = new HashMap<>();
@@ -33,6 +30,5 @@ public class ArenasCommand implements Command {
 			if (!(z == stringGroups.size() - 1))
 				p.sendMessage("");
 		}
-		return true;
 	}
 }

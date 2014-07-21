@@ -1,5 +1,6 @@
 package org.thespherret.plugins.duelpvp.enums;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.thespherret.plugins.duelpvp.Main;
 
@@ -27,13 +28,14 @@ public enum Message {
 	REQUEST_DENY,
 	REQUEST_DENIED,
 	REQUEST_TIMEDOUT,
+	ADDED_TO_QUEUE,
 	;
 
 	private String message;
 
 	private Message()
 	{
-		this.message = ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.getMain().messages.getString(name()));
+		this.message = ChatColor.translateAlternateColorCodes('&', Main.PREFIX + ((Main) Bukkit.getPluginManager().getPlugin("DuelPVP")).messages.getString(name()));
 	}
 
 	@Override
