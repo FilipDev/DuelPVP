@@ -17,7 +17,8 @@ public class NewYAML {
 
 	public YamlConfiguration newYaml()
 	{
-		if (!file.exists()){
+		if (!file.exists())
+		{
 			try{
 				file.createNewFile();
 			}catch (IOException e){

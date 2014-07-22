@@ -11,7 +11,8 @@ public class AcceptCommand extends Command {
 	public void execute()
 	{
 		Request request = cm.getMain().getRM().getRequest(p);
-		if (request != null){
+		if (request != null)
+		{
 			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
 			if (!(attacker == null)){
 				p.sendMessage(Message.REQUEST_ACCEPT.getFormatted(attacker.getName()));
@@ -21,7 +22,8 @@ public class AcceptCommand extends Command {
 			else
 				p.sendMessage(Message.PARTNER_DISCONNECTED.toString());
 			cm.getMain().getRM().pendingRequests.remove(request);
-		}else
+		}
+		else
 			p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.toString());
 	}
 }

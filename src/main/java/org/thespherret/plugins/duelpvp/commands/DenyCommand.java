@@ -11,9 +11,11 @@ public class DenyCommand extends Command {
 	public void execute()
 	{
 		Request request = cm.getMain().getRM().getRequest(p);
-		if (request != null) {
+		if (request != null)
+		{
 			Player attacker = Bukkit.getPlayer(request.getAttackerUUID());
-			if (!(attacker == null)) {
+			if (!(attacker == null))
+			{
 				p.sendMessage(Message.REQUEST_DENY.getFormatted(attacker.getName()));
 				attacker.sendMessage(Message.REQUEST_DENIED.getFormatted(p.getName()));
 			}

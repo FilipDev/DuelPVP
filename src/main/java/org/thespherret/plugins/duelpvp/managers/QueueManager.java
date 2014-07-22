@@ -17,10 +17,13 @@ public class QueueManager {
 
 	public Request createRequest(Player player)
 	{
-		if (this.player1 == null){
+		if (this.player1 == null)
+		{
 			this.player1 = player;
 			return null;
-		}else{
+		}
+		else
+		{
 			this.player1 = null;
 			return new Request(main.getRM(), main.getAM().getRandomArena(), player.getUniqueId(), this.player1.getUniqueId());
 		}

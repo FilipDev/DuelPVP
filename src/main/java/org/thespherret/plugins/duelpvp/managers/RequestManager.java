@@ -25,7 +25,8 @@ public class RequestManager {
 	{
 		Request request = null;
 		for (Request request0 : pendingRequests)
-			if (request0.getDefenderUUID().equals(player.getUniqueId())){
+			if (request0.getDefenderUUID().equals(player.getUniqueId()))
+			{
 				request = request0;
 				break;
 			}

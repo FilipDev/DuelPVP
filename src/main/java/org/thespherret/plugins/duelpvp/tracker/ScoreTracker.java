@@ -18,18 +18,21 @@ public class ScoreTracker implements Listener {
 	private MySQL mySQL;
 	Connection c;
 
-	public ScoreTracker(Main main) throws SQLException {
+	public ScoreTracker(Main main) throws SQLException
+	{
 		this.main = main;
 		this.setupMySQL();
 	}
 
 	@EventHandler
-	public void onArenaEnd(ArenaEndEvent e){
+	public void onArenaEnd(ArenaEndEvent e)
+	{
 		Player p = e.getWinner();
 		System.out.println(p.getName() + " has won");
 	}
 
-	public void setupMySQL() throws SQLException {
+	public void setupMySQL() throws SQLException
+	{
 		//this.mySQL = new MySQL(main, main.getConfig().getString("host"), main.getConfig().getString("port"), main.getConfig().getString("name"), main.getConfig().getString("user"), main.getConfig().getString("pass"));
 		//this.mySQL = new MySQL(main, "thespherret.org", "3306", "spherre2_new", "spherre2_testu", "testpass");
 		this.mySQL = new MySQL(main, "localhost", "3306", "test", "test", "password");
@@ -39,7 +42,8 @@ public class ScoreTracker implements Listener {
 		statement.close();
 	}
 
-	public void setLosses(Player p) throws SQLException {
+	public void setLosses(Player p) throws SQLException
+	{
 		if (!this.mySQL.checkConnection())
 			this.mySQL.openConnection();
 		String name = p.getName().toLowerCase();
@@ -53,7 +57,8 @@ public class ScoreTracker implements Listener {
 		statement.close();
 	}
 
-	public void setWins(Player p) throws SQLException {
+	public void setWins(Player p) throws SQLException
+	{
 		if (!this.mySQL.checkConnection())
 			this.mySQL.openConnection();
 		String name = p.getName().toLowerCase();
@@ -67,7 +72,8 @@ public class ScoreTracker implements Listener {
 		statement.close();
 	}
 
-	public int getWins(Player p) throws SQLException {
+	public int getWins(Player p) throws SQLException
+	{
 		if (!this.mySQL.checkConnection())
 			this.mySQL.openConnection();
 		String name = p.getName().toLowerCase();
@@ -81,7 +87,8 @@ public class ScoreTracker implements Listener {
 		return resultSet.getInt("wins");
 	}
 
-	public int getLosses(Player p) throws SQLException {
+	public int getLosses(Player p) throws SQLException
+	{
 		if (!this.mySQL.checkConnection())
 			this.mySQL.openConnection();
 		String name = p.getName().toLowerCase();
@@ -95,7 +102,8 @@ public class ScoreTracker implements Listener {
 		return resultSet.getInt("losses");
 	}
 
-	public void closeMySQL() {
+	public void closeMySQL()
+	{
 		this.mySQL.closeConnection();
 	}
 

@@ -4,7 +4,8 @@ import org.bukkit.Bukkit;
 
 public class NMSandOBC {
 
-	public static Class getNMSClass(String s){
+	public static Class getNMSClass(String s)
+	{
 		String path = "net.minecraft.server.v";
 		String version = Bukkit.getBukkitVersion();
 		String moddedVersion = version.replaceAll("\\.", "_");
@@ -27,7 +28,8 @@ public class NMSandOBC {
 		return null;
 	}
 
-	public static Class getOBCClass(String s){
+	public static Class getOBCClass(String s)
+	{
 		String path = "org.bukkit.craftbukkit.v";
 		String version = Bukkit.getBukkitVersion();
 		String moddedVersion = version.replaceAll("\\.", "_");

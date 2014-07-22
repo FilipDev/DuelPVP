@@ -48,7 +48,8 @@ public class ArenaManager {
 	public void initArenas()
 	{
 		try{
-			for (String arenaString : main.arenas.getConfigurationSection("arenas").getKeys(false)){
+			for (String arenaString : main.arenas.getConfigurationSection("arenas").getKeys(false))
+			{
 				Bukkit.getConsoleSender().sendMessage("Initializing arena " + arenaString + ".");
 				this.addArena(new Arena(this, arenaString));
 			}

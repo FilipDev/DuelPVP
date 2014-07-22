@@ -13,33 +13,40 @@ public class ArenaEndEvent extends Event {
 	private final EndReason reason;
 	private final Arena arena;
 
-	public ArenaEndEvent(Arena arena, EndReason endReason, Player winner, Player loser) {
+	public ArenaEndEvent(Arena arena, EndReason endReason, Player winner, Player loser)
+	{
 		this.winner = winner;
 		this.reason = endReason;
 		this.loser = loser;
 		this.arena = arena;
 	}
 
-	public Arena getArena() {
+	public Arena getArena()
+	{
 		return arena;
 	}
-	public EndReason getReason() {
+	public EndReason getReason()
+	{
 		return reason;
 	}
 
-	public Player getWinner() {
+	public Player getWinner()
+	{
 		return winner;
 	}
 
-	public Player getLoser() {
+	public Player getLoser()
+	{
 		return loser;
 	}
 
-	public HandlerList getHandlers() {
+	public HandlerList getHandlers()
+	{
 		return handlers;
 	}
 
-	public static HandlerList getHandlerList() {
+	public static HandlerList getHandlerList()
+	{
 		return handlers;
 	}
 }

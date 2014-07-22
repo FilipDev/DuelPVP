@@ -7,13 +7,17 @@ public class ArenaToggleCommand extends Command {
 
 	public void execute()
 	{
-		if (cm.getMain().isPlayerAdmin(p)){
-			if (args.length == 1){
+		if (cm.getMain().isPlayerAdmin(p))
+		{
+			if (args.length == 1)
+			{
 				boolean enabled = cm.getMain().getAM().getArena(args[0]).toggleEnabled();
 				p.sendMessage(ChatColor.GRAY + "Arena " + ChatColor.RED + args[0] + ChatColor.GRAY + " has been: " + (enabled ? ChatColor.RED + "Disabled" : ChatColor.GREEN + "Enabled") + ".");
-			}else
+			}
+			else
 				p.sendMessage(Error.INCORRECT_USAGE.toString());
-		}else
+		}
+		else
 			p.sendMessage(Error.NO_COMMAND_PERMISSION.toString());
 	}
 }

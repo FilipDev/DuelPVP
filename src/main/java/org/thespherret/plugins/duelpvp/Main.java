@@ -111,7 +111,8 @@ public class Main extends JavaPlugin {
 	private void generateMessages(){
 		File messagesFile = new File(getDataFolder() + File.separator + "messages.yml");
 
-		if (!messagesFile.exists()){
+		if (!messagesFile.exists())
+		{
 			messages = (messages1 = new NewYAML(messagesFile)).newYaml();
 			BufferedReader input = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("src/main/resources/messages.yml")));
 			String line;

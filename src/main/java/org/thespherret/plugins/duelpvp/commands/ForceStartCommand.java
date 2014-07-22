@@ -9,16 +9,21 @@ public class ForceStartCommand extends Command {
 
 	public void execute()
 	{
-		if (p.hasPermission("DuelPVP.Force")){
+		if (p.hasPermission("DuelPVP.Force"))
+		{
 			Arena a;
-			if ((a = cm.getMain().getAM().getArena(p)) != null){
-				if (!a.hasStarted()){
+			if ((a = cm.getMain().getAM().getArena(p)) != null)
+			{
+				if (!a.hasStarted())
+				{
 					a.gameStart();
 					Bukkit.getScheduler().cancelTask(a.getScheduledTask());
 					p.sendMessage(Message.FORCE_STARTED_MATCH.toString());
-				}else
+				}
+				else
 					p.sendMessage(Error.ARENA_NOT_STARTED.toString());
-			}else
+			}
+			else
 				p.sendMessage(Error.NOT_IN_ARENA.toString());
 		}
 	}

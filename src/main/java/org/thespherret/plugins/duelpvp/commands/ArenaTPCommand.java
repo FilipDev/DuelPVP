@@ -9,11 +9,14 @@ public class ArenaTPCommand extends Command {
 
 	public void execute()
 	{
-		if (cm.getMain().isPlayerAdmin(p)){
-			if (args.length == 2){
+		if (cm.getMain().isPlayerAdmin(p))
+		{
+			if (args.length == 2)
+			{
 				ArenaManager am = cm.getMain().getAM();
 				Arena a;
-				if ((a = am.getArena(args[0])) != null){
+				if ((a = am.getArena(args[0])) != null)
+				{
 					try{
 						Location loc = am.getSpawnPoint(a.getArenaName(), Integer.parseInt(args[1]) - 1);
 						p.teleport(loc);
@@ -21,9 +24,11 @@ public class ArenaTPCommand extends Command {
 						p.sendMessage(Error.SPAWN_POINT_NOT_SET.toString());
 					}
 				}
-			}else
+			}
+			else
 				p.sendMessage(Error.INCORRECT_USAGE.toString());
-		}else
+		}
+		else
 			p.sendMessage(Error.NO_COMMAND_PERMISSION.toString());
 	}
 }

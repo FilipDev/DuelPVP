@@ -9,7 +9,8 @@ public class InfoCommand extends Command {
 
 	public void execute()
 	{
-		if (args[0].equalsIgnoreCase("reload") && cm.getMain().isPlayerAdmin(p)){
+		if (args[0].equalsIgnoreCase("reload") && cm.getMain().isPlayerAdmin(p))
+		{
 			p.sendMessage(ChatColor.GREEN + "Reloading config.");
 			cm.getMain().reloadConfig();
 			p.sendMessage(ChatColor.GREEN + "Reloaded config.");

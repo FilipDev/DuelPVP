@@ -105,11 +105,12 @@ public class Arena implements Runnable {
 
 	public Player getOtherPlayer(Player player)
 	{
-		if (player1.getName().equals(player.getName())){
+		if (player1.getName().equals(player.getName()))
 			return player2;
-		}else if (player2.getName().equals(player.getName())){
+		else if (player2.getName().equals(player.getName()))
 			return player1;
-		}else{
+		else
+		{
 			Bukkit.getConsoleSender().sendMessage(Error.CANNOT_FIND_PLAYER.getFormatted(arenaName));
 			return null;
 		}
@@ -127,13 +128,16 @@ public class Arena implements Runnable {
 	{
 		this.requestsToEnd.put(player.getName(), !this.requestsToEnd.get(player.getName()));
 
-		if (this.requestsToEnd.get(player1.getName()) && this.requestsToEnd.get(player2.getName())){
+		if (this.requestsToEnd.get(player1.getName()) && this.requestsToEnd.get(player2.getName()))
 			endGame(EndReason.END);
-		}else if (this.requestsToEnd.get(player.getName())){
+		else if (this.requestsToEnd.get(player.getName()))
+		{
 			player1.sendMessage(Message.END_MATCH_REQUEST.getFormatted(player.getName()));
 			player2.sendMessage(Message.END_MATCH_REQUEST.getFormatted(player.getName()));
 			getOtherPlayer(player).sendMessage(Message.END_MATCH_TIP.toString());
-		}else{
+		}
+		else
+		{
 			player1.sendMessage(Message.END_MATCH_REVOCATION.getFormatted(player.getName()));
 			player2.sendMessage(Message.END_MATCH_REVOCATION.getFormatted(player.getName()));
 		}
@@ -167,15 +171,20 @@ public class Arena implements Runnable {
 	@Override
 	public void run()
 	{
-		for (Player player : new Player[]{player1, player2}){
-			if (!player.isOnline()){
+		for (Player player : new Player[]{player1, player2})
+		{
+			if (!player.isOnline())
+			{
 				this.setLoser(player);
 				endGame(EndReason.DISCONNECT);
 				return;
 			}
-			if (getSecondsLeft() == 15 || getSecondsLeft() == 10 || getSecondsLeft() <= 5){
-				if (getSecondsLeft() == 0){
-					if (!this.started){
+			if (getSecondsLeft() == 15 || getSecondsLeft() == 10 || getSecondsLeft() <= 5)
+			{
+				if (getSecondsLeft() == 0)
+				{
+					if (!this.started)
+					{
 						ArenaStartEvent arenaStartEvent = new ArenaStartEvent(this, player1, player2);
 						Bukkit.getPluginManager().callEvent(arenaStartEvent);
 						if (!arenaStartEvent.isCancelled())
@@ -194,7 +203,8 @@ public class Arena implements Runnable {
 	public void endGame(EndReason endReason)
 	{
 		this.started = false;
-		switch (endReason){
+		switch (endReason)
+		{
 			case END:
 				revertPlayer(player1);
 				revertPlayer(player2);
