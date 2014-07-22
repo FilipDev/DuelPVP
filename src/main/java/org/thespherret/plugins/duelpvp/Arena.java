@@ -47,14 +47,14 @@ public class Arena implements Runnable {
 
 	public String getArenaName()
 	{
-		return arenaName;
+		return this.arenaName;
 	}
 
 	public void startGame()
 	{
-		saveAndClear(player1);
-		saveAndClear(player2);
-		id = Bukkit.getScheduler().scheduleSyncRepeatingTask(am.getMain(), this, 20, 20);
+		this.saveAndClear(player1);
+		this.saveAndClear(player2);
+		this.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(am.getMain(), this, 20, 20);
 	}
 
 	public void saveAndClear(Player p)
@@ -68,7 +68,8 @@ public class Arena implements Runnable {
 		ArenaPreStartEvent preStartEvent = new ArenaPreStartEvent(this, player1, player2);
 		Bukkit.getPluginManager().callEvent(preStartEvent);
 
-		if (!preStartEvent.isCancelled()){
+		if (!preStartEvent.isCancelled())
+		{
 			this.player1 = player1;
 			this.player2 = player2;
 			this.requestsToEnd.put(player1.getName(), false);

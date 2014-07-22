@@ -36,7 +36,8 @@ public class Events implements Listener {
 	public void onPlayerTeleport(PlayerTeleportEvent e)
 	{
 		if (main.getAM().getArena(e.getPlayer()) != null)
-			if (!e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)){
+			if (!e.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL))
+			{
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(Error.CANNOT_TELEPORT_IN_ARENA.toString());
 			}
@@ -46,9 +47,11 @@ public class Events implements Listener {
 	public void onCommandPreprocess(PlayerCommandPreprocessEvent e)
 	{
 		if (!main.isPlayerAdmin(e.getPlayer()))
-			if (main.getAM().getArena(e.getPlayer()) != null){
+			if (main.getAM().getArena(e.getPlayer()) != null)
+			{
 				List<String> allowedCommands = main.getConfig().getStringList("allowedcommands");
-				if (!(allowedCommands.contains(e.getMessage().split(" ")[0].replaceFirst("/", "")))){
+				if (!(allowedCommands.contains(e.getMessage().split(" ")[0].replaceFirst("/", ""))))
+				{
 					e.setCancelled(true);
 					e.getPlayer().sendMessage(Error.CANNOT_USE_COMMAND_IN_MATCH.toString());
 				}
@@ -72,7 +75,8 @@ public class Events implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent e)
 	{
 		Arena arena;
-		if ((arena = main.getAM().getArena(e.getEntity().getPlayer())) != null){
+		if ((arena = main.getAM().getArena(e.getEntity().getPlayer())) != null)
+		{
 			arena.setLoser(e.getEntity());
 			arena.endGame(EndReason.DEATH);
 			e.getDrops().clear();
@@ -82,7 +86,8 @@ public class Events implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e)
 	{
-		if (main.getAM().getArena(e.getPlayer()) != null){
+		if (main.getAM().getArena(e.getPlayer()) != null)
+		{
 			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.toString());
 			e.setCancelled(true);
 		}
@@ -91,7 +96,8 @@ public class Events implements Listener {
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e)
 	{
-		if (main.getAM().getArena(e.getPlayer()) != null){
+		if (main.getAM().getArena(e.getPlayer()) != null)
+		{
 			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.toString());
 			e.setCancelled(true);
 		}
@@ -101,7 +107,8 @@ public class Events implements Listener {
 	public void onDropItem(PlayerDropItemEvent e)
 	{
 		Arena a;
-		if ((a = main.getAM().getArena(e.getPlayer())) != null){
+		if ((a = main.getAM().getArena(e.getPlayer())) != null)
+		{
 			if (a.isOccupied() && !a.hasStarted())
 				e.setCancelled(true);
 			else
@@ -113,7 +120,8 @@ public class Events implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent e)
 	{
 		Arena arena;
-		if ((arena = main.getAM().getArena(e.getPlayer())) != null){
+		if ((arena = main.getAM().getArena(e.getPlayer())) != null)
+		{
 			arena.setLoser(e.getPlayer());
 			arena.endGame(EndReason.DISCONNECT);
 		}
@@ -123,24 +131,32 @@ public class Events implements Listener {
 	public void onPlayerInteract(PlayerInteractEvent e)
 	{
 		Block block;
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-			if ((block = e.getClickedBlock()).getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN){
+		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+		{
+			if ((block = e.getClickedBlock()).getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN)
+			{
 				Sign sign = (Sign) block.getState();
 				String line = sign.getLine(0);
 				Player p = e.getPlayer();
-				if (line != null){
+				if (line != null)
+				{
 					Byte b = line.equals(ChatColor.BLUE + "Save Kit§f") ? 1 : line.equals(ChatColor.BLUE + "Load Kit§f") ? 2 : (byte) 0;
-					if (b == 1 || b == 2 && sign.getLine(1) != null){
+					if (b == 1 || b == 2 && sign.getLine(1) != null)
+					{
 						Long lastClicked = clickedSign.get(p.getName());
-						if (lastClicked == null || System.currentTimeMillis() - lastClicked > 1000){
-							if (b == 1){
+						if (lastClicked == null || System.currentTimeMillis() - lastClicked > 1000)
+						{
+							if (b == 1)
+							{
 								if (main.getPM().saveKit(p, Integer.parseInt(sign.getLine(1))))
 									p.sendMessage(Message.SAVED_KIT.getFormatted(sign.getLine(1)));
 								else
 									p.sendMessage(Error.COULD_NOT_SAVE_KIT.toString());
 							}
-							else{
-								if (main.getAM().getArena(p) != null || p.isOp()){
+							else
+							{
+								if (main.getAM().getArena(p) != null || p.isOp())
+								{
 									try {
 										main.getPM().loadKit(p, Integer.parseInt(sign.getLine(1)));
 										p.sendMessage(Message.LOADED_KIT.getFormatted(sign.getLine(1)));
@@ -148,12 +164,16 @@ public class Events implements Listener {
 										e1.printStackTrace();
 										p.sendMessage(Error.DO_NOT_HAVE_KIT.toString());
 									}
-								}else{
+								}
+								else
+								{
 									e.setCancelled(true);
 									p.sendMessage(Error.LOAD_KIT_NOT_IN_MATCH.toString());
 								}
 							}
-						}else{
+						}
+						else
+						{
 							e.setCancelled(true);
 							p.sendMessage(Error.WAIT_BETWEEN_SIGN_CLICK.toString());
 						}
