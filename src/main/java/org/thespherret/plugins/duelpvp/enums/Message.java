@@ -1,6 +1,5 @@
 package org.thespherret.plugins.duelpvp.enums;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.thespherret.plugins.duelpvp.Main;
 
@@ -35,7 +34,7 @@ public enum Message {
 
 	private Message()
 	{
-		this.message = ChatColor.translateAlternateColorCodes('&', Main.PREFIX + ((Main) Bukkit.getPluginManager().getPlugin("DuelPVP")).messages.getString(name()));
+		this.message = ChatColor.translateAlternateColorCodes('&', Main.PREFIX + Main.getMain().messages.getString(name()));
 	}
 
 	@Override

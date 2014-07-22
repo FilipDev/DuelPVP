@@ -28,21 +28,20 @@ public class Main extends JavaPlugin {
 	private QueueManager qm;
 	private RequestManager rm;
 
-	private static Main main;
+	private static String pluginName;
 
 	public static Main getMain()
 	{
-		if (Main.main == null)
-			Main.main = new Main();
-		return Main.main;
+		return ((Main) Bukkit.getPluginManager().getPlugin(Main.pluginName));
 	}
 
 	public final Events events = new Events(this);
 
-	public final static String PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + "DuelPVP" + ChatColor.WHITE + "] ";
+	public final static String PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + Main.pluginName + ChatColor.WHITE + "] ";
 	
 	public void onEnable()
 	{
+		Main.pluginName = getDescription().getName();
 		this.cm = new CommandManager(this);
 		this.am = new ArenaManager(this);
 		this.pm = new PlayerManager(this);
