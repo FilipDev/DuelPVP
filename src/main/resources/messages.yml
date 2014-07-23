@@ -21,3 +21,4 @@ REQUEST_DENY: &cDenied duel request from %v.
 REQUEST_DENIED: &c%v denied your duel request!
 REQUEST_TIMEDOUT: &9Duel request timed out.
 ADDED_TO_QUEUE: &bYou have been added to the queue.
+KICKED_FROM_PARTY: &4You have been kicked from the party!

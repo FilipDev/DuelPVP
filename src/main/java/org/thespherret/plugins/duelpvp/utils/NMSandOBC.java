@@ -2,50 +2,31 @@ package org.thespherret.plugins.duelpvp.utils;
 
 import org.bukkit.Bukkit;
 
+/*
+ * Created by TheSpherret. (www.thespherret.org)
+ * Taken from https://bitbucket.org/_Filip_/utilities/src/
+ */
+
 public class NMSandOBC {
 
-	public static Class getNMSClass(String s)
+	private static String version;
+
+	public static Class getNMSClass(String className)
 	{
-		String path = "net.minecraft.server.v";
-		String version = Bukkit.getBukkitVersion();
-		String moddedVersion = version.replaceAll("\\.", "_");
-		String releaseVersion = "";
-
-		String[] vrs = moddedVersion.split("-");
-
-		String[] versionArgs = vrs[0].split("_");
-		vrs[0] = versionArgs[0] + "_" + versionArgs[1] + "_";
-
-		if (vrs.length > 1){
-			releaseVersion = vrs[1].replaceAll("0_", "");
-		}
-		releaseVersion = vrs[0] + releaseVersion;
-		try {
-			return Class.forName(path + releaseVersion + "." + s);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return getTheClass("net.minecraft.server.", className);
 	}
 
-	public static Class getOBCClass(String s)
+	public static Class getOBCClass(String className)
 	{
-		String path = "org.bukkit.craftbukkit.v";
-		String version = Bukkit.getBukkitVersion();
-		String moddedVersion = version.replaceAll("\\.", "_");
-		String releaseVersion = "";
+		return getTheClass("org.bukkit.craftbukkit.", className);
+	}
 
-		String[] vrs = moddedVersion.split("-");
-
-		String[] versionArgs = vrs[0].split("_");
-		vrs[0] = versionArgs[0] + "_" + versionArgs[1] + "_";
-
-		if (vrs.length > 1){
-			releaseVersion = vrs[1].replaceAll("0_", "");
-		}
-		releaseVersion = vrs[0] + releaseVersion;
+	public static Class getTheClass(String path, String className)
+	{
+		if (NMSandOBC.version == null)
+			NMSandOBC.version = Bukkit.getServer().getClass().getName().split("\\.")[3];
 		try {
-			return Class.forName(path + releaseVersion + "." + s);
+			return Class.forName(path + NMSandOBC.version + "." + className);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

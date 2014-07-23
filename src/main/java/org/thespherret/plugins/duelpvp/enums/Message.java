@@ -28,6 +28,7 @@ public enum Message {
 	REQUEST_DENIED,
 	REQUEST_TIMEDOUT,
 	ADDED_TO_QUEUE,
+	KICKED_FROM_PARTY,
 	;
 
 	private String message;
