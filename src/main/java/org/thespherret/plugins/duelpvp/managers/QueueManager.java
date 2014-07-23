@@ -4,11 +4,13 @@ import org.bukkit.entity.Player;
 import org.thespherret.plugins.duelpvp.Main;
 import org.thespherret.plugins.duelpvp.Request;
 
+import java.util.ArrayList;
+
 public class QueueManager {
 
 	final Main main;
 
-	Player player1;
+	ArrayList<String> players = new ArrayList<>();
 
 	public QueueManager(Main main)
 	{
@@ -17,7 +19,7 @@ public class QueueManager {
 
 	public Request createRequest(Player player)
 	{
-		if (this.player1 == null)
+		/*if (this.player1 == null)
 		{
 			this.player1 = player;
 			return null;
@@ -26,7 +28,8 @@ public class QueueManager {
 		{
 			this.player1 = null;
 			return new Request(main.getRM(), main.getAM().getRandomArena(), player.getUniqueId(), this.player1.getUniqueId());
-		}
+		}*/
+		return null;
 	}
 
 }

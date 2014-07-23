@@ -50,7 +50,8 @@ public class DuelCommand extends Command {
 			}
 			else if (args[0].equalsIgnoreCase("random"))
 			{
-				createRequest();
+				//if (cm.getMain().getQM().g)
+				//addToQueue();
 			}
 			else
 				p.sendMessage(Error.CANNOT_FIND_PLAYER.getFormatted(args[0]));
@@ -59,7 +60,7 @@ public class DuelCommand extends Command {
 			p.sendMessage(Error.INCORRECT_USAGE.toString());
 	}
 
-	public void createRequest()
+	public void addToQueue()
 	{
 		Arena arena;
 		if (args.length == 1 && p.hasPermission("DuelPVP.SelectArena"))

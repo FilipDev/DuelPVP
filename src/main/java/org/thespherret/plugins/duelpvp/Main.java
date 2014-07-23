@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.*;
-import org.thespherret.plugins.duelpvp.tracker.ScoreTracker;
 import org.thespherret.plugins.duelpvp.utils.NewYAML;
 
 import java.io.BufferedReader;
@@ -19,8 +18,6 @@ public class Main extends JavaPlugin {
 
 	public NewYAML arenas1, playerData1, kits1, messages1;
 	public YamlConfiguration arenas, playerData, kits, messages;
-
-	private ScoreTracker scoreTracker;
 
 	private CommandManager cm;
 	private ArenaManager am;
@@ -50,6 +47,8 @@ public class Main extends JavaPlugin {
 		generateMessages();
 		this.saveDefaultConfig();
 
+		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.toString());
+
 		for (String command : getDescription().getCommands().keySet())
 			getCommand(command).setExecutor(cm);
 
@@ -58,20 +57,8 @@ public class Main extends JavaPlugin {
 		this.playerData = (this.playerData1 = new NewYAML(new File(getDataFolder() + File.separator + "players.dat"))).newYaml();
 		this.am.initArenas();
 		getServer().getPluginManager().registerEvents(events, this);
-
-		if (getConfig().getBoolean("tracker.shoulduse"))
-			try{
-				this.scoreTracker = new ScoreTracker(this);
-				getServer().getPluginManager().registerEvents(this.scoreTracker, this);
-				Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.GREEN + "Successfully connected to the MySQL database!");
-			}catch (Exception e){
-				Bukkit.getConsoleSender().sendMessage(PREFIX + ChatColor.RED + "Unsuccessfully connected to the MySQL database!");
-				this.scoreTracker = null;
-			}
-
-		Bukkit.getConsoleSender().sendMessage(Message.INITIALIZING.toString());
 	}
-	
+
 	public void onDisable()
 	{
 		this.saveConfig();
@@ -108,7 +95,8 @@ public class Main extends JavaPlugin {
 		return this.qm;
 	}
 
-	private void generateMessages(){
+	private void generateMessages()
+	{
 		File messagesFile = new File(getDataFolder() + File.separator + "messages.yml");
 
 		if (!messagesFile.exists())
