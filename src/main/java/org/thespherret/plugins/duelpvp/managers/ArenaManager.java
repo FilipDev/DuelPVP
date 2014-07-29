@@ -10,7 +10,9 @@ import org.thespherret.plugins.duelpvp.enums.EndReason;
 import org.thespherret.plugins.duelpvp.utils.NMSandOBC;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -123,14 +125,40 @@ public class ArenaManager {
 		return getArena(unoccupiedArenas.get(new Random().nextInt(unoccupiedArenas.size())));
 	}
 
+	Class craftEntity = NMSandOBC.getOBCClass("entity.CraftEntity");
+	Class craftPlayer = NMSandOBC.getOBCClass("entity.CraftPlayer");
+	Method getHandle;
+	Field playerConnectionField;
+	Method teleport;
+
 	public void teleportNoChecks(Location loc, Player p)
 	{
 		try {
-			Object craftPlayer = NMSandOBC.getOBCClass("entity.CraftEntity").cast(p);
-			Object entityPlayer = craftPlayer.getClass().getMethod("getHandle").invoke(craftPlayer);
-			Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
+			Object craftPlayer2 = craftEntity.cast(p);
 
-			playerConnection.getClass().getMethod("teleport", Location.class).invoke(playerConnection, loc);
+			if (getHandle == null)
+			{
+				getHandle = craftPlayer.getMethod("getHandle");
+				getHandle.setAccessible(true);
+			}
+
+			Object entityPlayer = getHandle.invoke(craftPlayer2);
+
+			if (playerConnectionField == null)
+			{
+				playerConnectionField = entityPlayer.getClass().getField("playerConnection");
+				playerConnectionField.setAccessible(true);
+			}
+
+			Object playerConnection = playerConnectionField.get(entityPlayer);
+
+			if (teleport == null)
+			{
+				teleport = playerConnection.getClass().getMethod("teleport", Location.class);
+				teleport.setAccessible(true);
+			}
+
+			teleport.invoke(playerConnection, loc);
 
 		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
 			e.printStackTrace();

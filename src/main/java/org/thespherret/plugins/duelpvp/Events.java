@@ -1,10 +1,12 @@
 package org.thespherret.plugins.duelpvp;
 
+import net.minecraft.server.v1_7_R4.GenericAttributes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -94,13 +96,13 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onBlockPlace(BlockPlaceEvent e)
-	{
+	public void onBlockPlace(BlockPlaceEvent e) throws NoSuchFieldException, IllegalAccessException {
 		if (main.getAM().getArena(e.getPlayer()) != null)
 		{
 			e.getPlayer().sendMessage(Error.CANNOT_MODIFY_BLOCKS.toString());
 			e.setCancelled(true);
 		}
+
 	}
 
 	@EventHandler
@@ -119,6 +121,7 @@ public class Events implements Listener {
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e)
 	{
+		setMaxHealth(e.getPlayer(), 20);
 		Arena arena;
 		if ((arena = main.getAM().getArena(e.getPlayer())) != null)
 		{
@@ -209,6 +212,11 @@ public class Events implements Listener {
 			if (s1.equals(testingString))
 				return true;
 		return false;
+	}
+
+	public void setMaxHealth(Player player, double amount)
+	{
+		((CraftPlayer) player).getHandle().getAttributeInstance(GenericAttributes.maxHealth).setValue(amount);
 	}
 
 }

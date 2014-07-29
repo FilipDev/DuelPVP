@@ -20,7 +20,9 @@ public class NewYAML {
 		if (!file.exists())
 		{
 			try{
-				file.createNewFile();
+				boolean worked1 = file.getParentFile().mkdirs();
+				boolean worked2 = file.createNewFile();
+				if (worked1 || worked2) throw new IOException("Could not create the new file.");
 			}catch (IOException e){
 				e.printStackTrace();
 				return null;

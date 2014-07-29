@@ -14,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 
 public class Main extends JavaPlugin {
 
@@ -39,15 +38,22 @@ public class Main extends JavaPlugin {
 
 	public final Events events = new Events(this);
 
-	public final static String PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + Main.pluginName + ChatColor.WHITE + "] ";
-	
-	public void onEnable()
+	public static String PREFIX;
+
+	public Main()
 	{
 		Main.pluginName = getDescription().getName();
+		Main.PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + Main.pluginName + ChatColor.WHITE + "] ";
+	}
+
+	public void onEnable()
+	{
 		this.cm = new CommandManager(this);
 		this.am = new ArenaManager(this);
 		this.pm = new PlayerManager(this);
 		this.rm = new RequestManager(this);
+		this.pam = new PartyManager(this);
+		this.qm = new QueueManager(this);
 
 		generateMessages();
 		this.saveDefaultConfig();
@@ -62,14 +68,6 @@ public class Main extends JavaPlugin {
 		this.playerData = (this.playerData1 = new NewYAML(new File(getDataFolder() + File.separator + "players.dat"))).newYaml();
 		this.am.initArenas();
 		getServer().getPluginManager().registerEvents(events, this);
-
-		try {
-			Field theUnsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-			theUnsafeField.setAccessible(true);
-			this.unsafe = (Unsafe) theUnsafeField.get(null);
-		} catch (NoSuchFieldException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void onDisable()
@@ -120,7 +118,7 @@ public class Main extends JavaPlugin {
 		if (!messagesFile.exists())
 		{
 			messages = (messages1 = new NewYAML(messagesFile)).newYaml();
-			BufferedReader input = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("src/main/resources/messages.yml")));
+			BufferedReader input = new BufferedReader(new InputStreamReader(getClassLoader().getResourceAsStream("messages.yml")));
 			String line;
 			try {
 				while ((line = input.readLine()) != null)
@@ -138,4 +136,5 @@ public class Main extends JavaPlugin {
 	{
 		return p.hasPermission("DuelPVP.Admin");
 	}
+
 }
