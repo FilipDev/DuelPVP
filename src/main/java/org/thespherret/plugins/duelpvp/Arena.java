@@ -10,13 +10,12 @@ import org.thespherret.plugins.duelpvp.enums.Error;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.events.ArenaEndEvent;
 import org.thespherret.plugins.duelpvp.events.ArenaPreStartEvent;
-import org.thespherret.plugins.duelpvp.events.ArenaStartEvent;
 import org.thespherret.plugins.duelpvp.managers.ArenaManager;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-public class Arena implements Runnable {
+public class Arena {
 
 	ArenaManager am;
 
@@ -24,21 +23,20 @@ public class Arena implements Runnable {
 	private final Location[] spawns = new Location[2];
 	private Player player1, player2;
 	private HashMap<String, Boolean> requestsToEnd = new HashMap<>();
-	private int id;
 	private boolean enabled;
+
+	private Countdown countdown;
 
 	private final Main main;
 
 	private Player winner, loser;
 
 	private boolean started = false, occupied = false;
-	private int secondsLeft;
 
 	public Arena(ArenaManager am, String arenaName)
 	{
 		this.enabled = am.getMain().arenas.getBoolean("arenas." + arenaName + ".enabled");
 		this.arenaName = arenaName;
-		this.secondsLeft = am.getMatchStartDelay();
 		this.spawns[0] = am.getSpawnPoint(arenaName, 0);
 		this.spawns[1] = am.getSpawnPoint(arenaName, 1);
 		this.am = am;
@@ -54,7 +52,6 @@ public class Arena implements Runnable {
 	{
 		this.saveAndClear(player1);
 		this.saveAndClear(player2);
-		this.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(am.getMain(), this, 20, 20);
 	}
 
 	public void saveAndClear(Player p)
@@ -74,7 +71,6 @@ public class Arena implements Runnable {
 			this.player2 = player2;
 			this.requestsToEnd.put(player1.getName(), false);
 			this.requestsToEnd.put(player2.getName(), false);
-			setSecondsLeft(am.getMatchStartDelay());
 			for (Player p : new Player[]{player1, player2}){
 				am.playersInArenas.put(p.getName(), getArenaName());
 				try {
@@ -92,10 +88,12 @@ public class Arena implements Runnable {
 				}
 				p.sendMessage(Message.MATCH_STARTING.getFormatted(am.getMatchStartDelay()));
 			}
+			this.countdown = new Countdown(this);
 			this.occupied = true;
 			startGame();
 		}
 	}
+
 
 	public void setLoser(Player player)
 	{
@@ -143,11 +141,6 @@ public class Arena implements Runnable {
 		}
 	}
 
-	public Integer getScheduledTask()
-	{
-		return this.id;
-	}
-
 	public Player getWinner()
 	{
 		return winner;
@@ -156,48 +149,6 @@ public class Arena implements Runnable {
 	public Player getLoser()
 	{
 		return loser;
-	}
-
-	public synchronized int getSecondsLeft()
-	{
-		return secondsLeft;
-	}
-
-	public synchronized void setSecondsLeft(int secondsLeft)
-	{
-		this.secondsLeft = secondsLeft;
-	}
-
-	@Override
-	public void run()
-	{
-		for (Player player : new Player[]{player1, player2})
-		{
-			if (!player.isOnline())
-			{
-				this.setLoser(player);
-				endGame(EndReason.DISCONNECT);
-				return;
-			}
-			if (getSecondsLeft() == 15 || getSecondsLeft() == 10 || getSecondsLeft() <= 5)
-			{
-				if (getSecondsLeft() == 0)
-				{
-					if (!this.started)
-					{
-						ArenaStartEvent arenaStartEvent = new ArenaStartEvent(this, player1, player2);
-						Bukkit.getPluginManager().callEvent(arenaStartEvent);
-						if (!arenaStartEvent.isCancelled())
-							gameStart();
-						else
-							endGame(EndReason.CANCELLED);
-						Bukkit.getScheduler().cancelTask(id);
-					}
-				}else
-					player.sendMessage(Message.MATCH_STARTING.getFormatted(getSecondsLeft()));
-			}
-		}
-		setSecondsLeft(getSecondsLeft() - 1);
 	}
 
 	public void endGame(EndReason endReason)
@@ -237,7 +188,7 @@ public class Arena implements Runnable {
 				loser.sendMessage(ChatColor.RED + "Game start has been cancelled.");
 				break;
 		}
-		Bukkit.getScheduler().cancelTask(id);
+		Bukkit.getScheduler().cancelTask(countdown.getTaskID());
 		ArenaEndEvent arenaEndEvent = new ArenaEndEvent(this, endReason, winner, loser);
 		Bukkit.getPluginManager().callEvent(arenaEndEvent);
 		this.winner = null;
@@ -315,5 +266,10 @@ public class Arena implements Runnable {
 	public Location getSpawnPoint(Integer i)
 	{
 		return spawns[i];
+	}
+
+	public Countdown getCountdown()
+	{
+		return this.countdown;
 	}
 }

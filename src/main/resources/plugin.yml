@@ -1,4 +1,4 @@
-main: org.thespherret.plugins.duelpvp.Main
+main: org.thespherret.plugins.duelpvp.org.thespherret.plugins.koth.Main
 name: DuelPVP
 version: 1.0
 author: Spherret.

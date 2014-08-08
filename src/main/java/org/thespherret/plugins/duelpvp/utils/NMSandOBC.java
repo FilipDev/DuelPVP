@@ -11,6 +11,9 @@ public class NMSandOBC {
 
 	private static String version;
 
+	private NMSandOBC()
+	{}
+
 	public static Class getNMSClass(String className)
 	{
 		return getTheClass("net.minecraft.server.", className);

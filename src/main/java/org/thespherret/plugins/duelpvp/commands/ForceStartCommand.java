@@ -17,7 +17,7 @@ public class ForceStartCommand extends Command {
 				if (!a.hasStarted())
 				{
 					a.gameStart();
-					Bukkit.getScheduler().cancelTask(a.getScheduledTask());
+					Bukkit.getScheduler().cancelTask(a.getCountdown().getTaskId());
 					p.sendMessage(Message.FORCE_STARTED_MATCH.toString());
 				}
 				else

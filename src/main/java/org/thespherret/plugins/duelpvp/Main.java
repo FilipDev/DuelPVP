@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.thespherret.plugins.duelpvp.enums.Message;
 import org.thespherret.plugins.duelpvp.managers.*;
 import org.thespherret.plugins.duelpvp.utils.NewYAML;
-import sun.misc.Unsafe;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,8 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main extends JavaPlugin {
-
-	public Unsafe unsafe;
 
 	public NewYAML arenas1, playerData1, kits1, messages1;
 	public YamlConfiguration arenas, playerData, kits, messages;
@@ -40,14 +37,11 @@ public class Main extends JavaPlugin {
 
 	public static String PREFIX;
 
-	public Main()
+	public void onEnable()
 	{
 		Main.pluginName = getDescription().getName();
 		Main.PREFIX = ChatColor.WHITE + "[" + ChatColor.DARK_GRAY + Main.pluginName + ChatColor.WHITE + "] ";
-	}
 
-	public void onEnable()
-	{
 		this.cm = new CommandManager(this);
 		this.am = new ArenaManager(this);
 		this.pm = new PlayerManager(this);
@@ -63,9 +57,9 @@ public class Main extends JavaPlugin {
 		for (String command : getDescription().getCommands().keySet())
 			getCommand(command).setExecutor(cm);
 
-		this.arenas = (this.arenas1 = new NewYAML(new File(getDataFolder() + File.separator + "arenas.dat"))).newYaml();
-		this.kits = (this.kits1 = new NewYAML(new File(getDataFolder() + File.separator + "kits.dat"))).newYaml();
-		this.playerData = (this.playerData1 = new NewYAML(new File(getDataFolder() + File.separator + "players.dat"))).newYaml();
+		this.arenas = (this.arenas1 = new NewYAML(new File(getDataFolder(), "arenas.dat"))).newYaml();
+		this.kits = (this.kits1 = new NewYAML(new File(getDataFolder(), "kits.dat"))).newYaml();
+		this.playerData = (this.playerData1 = new NewYAML(new File(getDataFolder(), "players.dat"))).newYaml();
 		this.am.initArenas();
 		getServer().getPluginManager().registerEvents(events, this);
 	}
@@ -113,7 +107,7 @@ public class Main extends JavaPlugin {
 
 	private void generateMessages()
 	{
-		File messagesFile = new File(getDataFolder() + File.separator + "messages.yml");
+		File messagesFile = new File(getDataFolder(), "messages.yml");
 
 		if (!messagesFile.exists())
 		{

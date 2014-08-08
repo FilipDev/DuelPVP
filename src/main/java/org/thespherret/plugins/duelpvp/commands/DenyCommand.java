@@ -21,6 +21,7 @@ public class DenyCommand extends Command {
 			}
 			cm.getMain().getRM().pendingRequests.remove(request);
 		}
-		p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.toString());
+		else
+			p.sendMessage(Error.NO_PENDING_DUEL_REQUEST.toString());
 	}
 }
